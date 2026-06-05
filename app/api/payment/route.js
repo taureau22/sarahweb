@@ -9,11 +9,23 @@ export async function POST(request) {
     if (!items?.length || !customer || !totalAmount) {
       return NextResponse.json({ error: 'Données manquantes' }, { status: 400 })
     }
-    if (!customer.prenom || !customer.nom || !customer.email || !customer.telephone) {
+    if (items.length > 50) {
+      return NextResponse.json({ error: 'Commande invalide' }, { status: 400 })
+    }
+    if (!customer.prenom || !customer.nom || !customer.telephone || !customer.adresse) {
       return NextResponse.json({ error: 'Informations client incomplètes' }, { status: 400 })
     }
-    if (totalAmount < 100) {
+    const MAX = { prenom: 50, nom: 50, telephone: 20, adresse: 200, quartier: 100, note: 500 }
+    for (const [field, max] of Object.entries(MAX)) {
+      if (customer[field] && String(customer[field]).length > max) {
+        return NextResponse.json({ error: `Champ ${field} trop long` }, { status: 400 })
+      }
+    }
+    if (typeof totalAmount !== 'number' || totalAmount < 100 || totalAmount > 5_000_000) {
       return NextResponse.json({ error: 'Montant invalide' }, { status: 400 })
+    }
+    if (customer.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
+      return NextResponse.json({ error: 'Email invalide' }, { status: 400 })
     }
 
     const transactionId = `ELIF-${Date.now()}-${Math.random()
@@ -30,7 +42,7 @@ export async function POST(request) {
       description:          `Commande Le Panier d'Elif — ${items.length} article(s)`,
       customer_name:        customer.nom,
       customer_surname:     customer.prenom,
-      customer_email:       customer.email,
+      customer_email:       customer.email || '',
       customer_phone_number: customer.telephone,
       customer_address:     customer.adresse,
       customer_city:        customer.quartier || 'Abidjan',
@@ -40,7 +52,7 @@ export async function POST(request) {
       notify_url:           `${process.env.NEXT_PUBLIC_SITE_URL}/api/payment/notify`,
       return_url:           `${process.env.NEXT_PUBLIC_SITE_URL}/merci?tx=${transactionId}`,
       cancel_url:           `${process.env.NEXT_PUBLIC_SITE_URL}/annulation`,
-      channels:             'ALL',
+      channels:             'MOBILE_MONEY',
       metadata:             JSON.stringify({ transactionId, itemCount: items.length }),
     }
 

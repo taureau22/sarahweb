@@ -24,6 +24,18 @@ export default function HeroSection() {
         aria-hidden="true"
       />
 
+      {/* Cover image overlay */}
+      <div className="absolute inset-0 z-0" aria-hidden="true">
+        <Image
+          src="/images/cover.jpeg"
+          alt=""
+          fill
+          priority
+          className="object-cover opacity-20"
+          sizes="100vw"
+        />
+      </div>
+
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-[70px] pb-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-screen">
 
         {/* ===== TEXT SIDE ===== */}

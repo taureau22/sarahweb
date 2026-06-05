@@ -6,8 +6,8 @@ import Testimonials   from '@/components/Testimonials'
 import CTASection     from '@/components/CTASection'
 
 export const metadata = {
-  title: "Pastels artisanaux & Jus frais — Livraison Abidjan",
-  description: "Pastels faits main au poulet, viande, poisson et jus frais bissap, ananas. Livraison rapide dans tout Abidjan. Commandez en ligne, payez Mobile Money.",
+  title: "Pastels artisanales & Jus frais — Livraison partout en Côte d'Ivoire",
+  description: "Pastels artisanales faits main au poulet, viande, poisson, jambon et jus frais bissap, ananas. Livraison partout en Côte d'Ivoire. Commandez en ligne, payez Orange Money ou Wave.",
   alternates: { canonical: '/' },
 }
 

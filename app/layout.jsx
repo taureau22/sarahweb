@@ -34,23 +34,46 @@ const pacifico = Pacifico({
 })
 
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://lepanierdelif.ci'),
   title: {
-    default: "Le Panier d'Elif — Pastels artisanaux & Jus frais à Abidjan",
+    default: "Le Panier d'Elif — Pastels artisanales & Jus frais | Livraison partout",
     template: "%s | Le Panier d'Elif",
   },
-  description: "Pastels faits main livrés à Abidjan. Poulet, viande, poisson, jambon. Jus frais bissap, passion, ananas. Paiement MTN MoMo, Orange Money, Wave.",
+  description: "Pastels artisanales faits main livrés partout en Côte d'Ivoire. Poulet, viande, poisson, jambon. Jus frais bissap, passion, ananas. Paiement Orange Money, Wave.",
   keywords: [
-    'pastels artisanaux Abidjan', 'pastels faits main', 'livraison pastels Abidjan',
-    'jus frais Abidjan', 'Le Panier d\'Elif', 'commande pastels en ligne',
-    'Mobile Money Abidjan', 'Cocody', 'Yopougon', 'Marcory',
+    'pastels artisanaux Abidjan', 'pastels faits main Côte d\'Ivoire', 'livraison pastels',
+    'pastels surgelés Abidjan', 'jus frais Abidjan', 'Le Panier d\'Elif',
+    'commande pastels en ligne', 'Orange Money', 'Wave CI',
+    'Cocody', 'Yopougon', 'Marcory', 'Adjamé', 'Plateau',
   ],
   openGraph: {
-    title: "Le Panier d'Elif — Pastels artisanaux Abidjan",
-    description: "Des pastels faits main livrés chez vous à Abidjan. Payez Mobile Money.",
+    title: "Le Panier d'Elif — Pastels artisanales & Jus frais",
+    description: "Pastels faits main livrés partout en Côte d'Ivoire. Paiement Orange Money · Wave.",
     type: 'website',
     locale: 'fr_CI',
+    siteName: "Le Panier d'Elif",
+    images: [{
+      url: '/images/cover.jpeg',
+      width: 1200,
+      height: 630,
+      alt: "Le Panier d'Elif — Pastels artisanales",
+    }],
   },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Le Panier d'Elif — Pastels artisanales & Jus frais",
+    description: "Pastels faits main livrés partout en Côte d'Ivoire.",
+    images: ['/images/cover.jpeg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 }
 
 export default function RootLayout({ children }) {
@@ -60,6 +83,39 @@ export default function RootLayout({ children }) {
       className={`${cormorant.variable} ${fraunces.variable} ${dmSans.variable} ${pacifico.variable}`}
     >
       <body className="font-dm bg-cream text-secondary antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FoodEstablishment",
+            "name": "Le Panier d'Elif",
+            "description": "Pastels artisanales faits main et jus frais, livrés partout en Côte d'Ivoire.",
+            "url": process.env.NEXT_PUBLIC_SITE_URL || "https://lepanierdelif.ci",
+            "telephone": "+2250710669990",
+            "image": "/images/cover.jpeg",
+            "servesCuisine": "Ivoirienne, Street food",
+            "priceRange": "1000–3500 FCFA",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Abidjan",
+              "addressCountry": "CI"
+            },
+            "openingHoursSpecification": [{
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+              "opens": "08:00",
+              "closes": "20:00"
+            }],
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Pastels & Jus frais",
+              "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "FoodService", "name": "Pastels artisanales" }, "price": "3500", "priceCurrency": "XOF" },
+                { "@type": "Offer", "itemOffered": { "@type": "FoodService", "name": "Jus frais" }, "price": "1000", "priceCurrency": "XOF" }
+              ]
+            }
+          })}}
+        />
         <Providers>
           <Navbar />
           <main className="min-h-screen">{children}</main>
