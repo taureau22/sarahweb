@@ -19,3 +19,14 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# Claude Code — outils dev locaux
+.claude/
+
+# Logs divers
+*.log
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/

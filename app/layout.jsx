@@ -1,60 +1,65 @@
-import { Playfair_Display, Poppins } from 'next/font/google'
+import { Cormorant_Garamond, Fraunces, DM_Sans, Pacifico } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-cormorant',
   display: 'swap',
-  weight: ['400', '600', '700', '900'],
+  weight: ['400', '600', '700'],
+  style: ['normal', 'italic'],
 })
 
-const poppins = Poppins({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  variable: '--font-poppins',
+  variable: '--font-fraunces',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '700', '900'],
+})
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+})
+
+const pacifico = Pacifico({
+  subsets: ['latin'],
+  variable: '--font-pacifico',
+  display: 'swap',
+  weight: '400',
 })
 
 export const metadata = {
   title: {
     default: "Le Panier d'Elif — Pastels artisanaux & Jus frais à Abidjan",
-    template: "%s | Le Panier d'Elif — Abidjan",
+    template: "%s | Le Panier d'Elif",
   },
-  description: "Commandez des pastels artisanaux faits main à Abidjan. Livraison rapide Cocody, Yopougon, Marcory, Plateau. Paiement MTN MoMo, Orange Money, Wave.",
+  description: "Pastels faits main livrés à Abidjan. Poulet, viande, poisson, jambon. Jus frais bissap, passion, ananas. Paiement MTN MoMo, Orange Money, Wave.",
   keywords: [
-    'pastels artisanaux Abidjan',
-    'pastels faits main Côte d\'Ivoire',
-    'commande pastels Abidjan',
-    'livraison pastels Abidjan',
-    'pastels Cocody',
-    'pastels Yopougon',
-    'jus frais Abidjan',
-    'Le Panier d\'Elif',
-    'pâtisserie ivoirienne',
-    'snack Abidjan',
-    'Mobile Money Abidjan',
+    'pastels artisanaux Abidjan', 'pastels faits main', 'livraison pastels Abidjan',
+    'jus frais Abidjan', 'Le Panier d\'Elif', 'commande pastels en ligne',
+    'Mobile Money Abidjan', 'Cocody', 'Yopougon', 'Marcory',
   ],
   openGraph: {
     title: "Le Panier d'Elif — Pastels artisanaux Abidjan",
-    description: "Des pastels faits main livrés à Abidjan. MTN MoMo, Orange Money, Wave.",
+    description: "Des pastels faits main livrés chez vous à Abidjan. Payez Mobile Money.",
     type: 'website',
     locale: 'fr_CI',
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true },
-  },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr" className={`${playfair.variable} ${poppins.variable}`}>
-      <body className="font-poppins bg-cream text-dark antialiased">
+    <html
+      lang="fr"
+      className={`${cormorant.variable} ${fraunces.variable} ${dmSans.variable} ${pacifico.variable}`}
+    >
+      <body className="font-dm bg-cream text-secondary antialiased">
         <Providers>
           <Navbar />
           <main className="min-h-screen">{children}</main>
