@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
 import { formatPrice } from '@/data/products'
 
-const INITIAL = { prenom:'', nom:'', email:'', telephone:'', adresse:'', quartier:'', note:'' }
+const INITIAL = { prenom:'', nom:'', telephone:'', adresse:'', quartier:'', note:'' }
 
 /* ===== Floating label input ===== */
 function FloatInput({ id, name, type='text', label, value, onChange, error, autoComplete, required }) {
@@ -257,8 +257,6 @@ export default function PanierPage() {
                 <FloatInput id="telephone" name="telephone" type="tel" label="Téléphone Mobile Money"
                   value={form.telephone} onChange={handleChange} error={errors.telephone} autoComplete="tel" required />
 
-                <FloatInput id="email" name="email" type="email" label="Email (optionnel)"
-                  value={form.email} onChange={handleChange} error={errors.email} autoComplete="email" />
 
                 <FloatTextarea id="adresse" name="adresse" label="Adresse de livraison"
                   value={form.adresse} onChange={handleChange} error={errors.adresse} autoComplete="street-address" required />

@@ -9,7 +9,7 @@ export async function POST(request) {
     if (!items?.length || !customer || !totalAmount) {
       return NextResponse.json({ error: 'Données manquantes' }, { status: 400 })
     }
-    if (items.length > 50) {
+    if (items.length > 20) {
       return NextResponse.json({ error: 'Commande invalide' }, { status: 400 })
     }
     if (!customer.prenom || !customer.nom || !customer.telephone || !customer.adresse) {
@@ -21,11 +21,8 @@ export async function POST(request) {
         return NextResponse.json({ error: `Champ ${field} trop long` }, { status: 400 })
       }
     }
-    if (typeof totalAmount !== 'number' || totalAmount < 100 || totalAmount > 5_000_000) {
+    if (typeof totalAmount !== 'number' || totalAmount < 100 || totalAmount > 100_000) {
       return NextResponse.json({ error: 'Montant invalide' }, { status: 400 })
-    }
-    if (customer.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
-      return NextResponse.json({ error: 'Email invalide' }, { status: 400 })
     }
 
     const transactionId = `ELIF-${Date.now()}-${Math.random()
@@ -42,7 +39,7 @@ export async function POST(request) {
       description:          `Commande Le Panier d'Elif — ${items.length} article(s)`,
       customer_name:        customer.nom,
       customer_surname:     customer.prenom,
-      customer_email:       customer.email || '',
+      customer_email:       '',
       customer_phone_number: customer.telephone,
       customer_address:     customer.adresse,
       customer_city:        customer.quartier || 'Abidjan',
