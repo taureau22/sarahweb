@@ -5,12 +5,12 @@
 /* ===== CSS VARIABLES ===== */
 :root {
   --color-primary:      #E8821A;
-  --color-primary-dark: #C4681A;
-  --color-secondary:    #1A0A00;
+  --color-primary-dark: #C46810;
+  --color-secondary:    #5C3D1E;
   --color-accent:       #F5C842;
-  --color-cream:        #FFF8EE;
-  --color-text:         #1A0A00;
-  --color-text-light:   #6B4C2A;
+  --color-cream:        #FFF8F0;
+  --color-text:         #5C3D1E;
+  --color-text-light:   #8B6340;
 }
 
 /* ===== BASE ===== */
@@ -31,7 +31,7 @@
   }
 
   ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #FFF8EE; }
+  ::-webkit-scrollbar-track { background: #FFF8F0; }
   ::-webkit-scrollbar-thumb { background: #E8821A; border-radius: 4px; }
 
   :focus-visible {
