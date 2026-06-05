@@ -11,7 +11,7 @@ const articles = [
     id: 1,
     title: 'Identification du vendeur',
     content: (
-      <p>Le Panier d'Elif est une activité commerciale exercée à titre individuel par une auto-entrepreneuse basée à Abidjan, Côte d'Ivoire. Contact : <a href="tel:+2250758440009" className="font-bold text-primary hover:underline">+225 07 58 44 00 09</a>.</p>
+      <p>Le Panier d'Elif est une activité commerciale exercée à titre individuel par une auto-entrepreneuse basée à Abidjan, Côte d'Ivoire. Contact : <a href="tel:+2250710669990" className="font-bold text-primary hover:underline">+225 07 10 66 99 90</a>.</p>
     ),
   },
   {
@@ -32,14 +32,14 @@ const articles = [
   {
     id: 5,
     title: 'Paiement',
-    content: <p>Le paiement s'effectue via la plateforme sécurisée <strong>CinetPay</strong> (MTN Mobile Money, Orange Money, Wave, Moov Money). Le paiement doit être complété avant la préparation. Aucune donnée bancaire n'est stockée sur notre site.</p>,
+    content: <p>Le paiement s'effectue via la plateforme sécurisée <strong>CinetPay</strong> (Orange Money, Wave). Le paiement doit être complété avant la préparation. Aucune donnée bancaire n'est stockée sur notre site.</p>,
   },
   {
     id: 6,
     title: 'Livraison',
     content: (
       <ul className="list-disc list-inside space-y-1.5">
-        <li>Livraison assurée dans les communes d'Abidjan.</li>
+        <li>Livraison et expédition partout en Côte d'Ivoire.</li>
         <li>Les frais de livraison sont communiqués avant confirmation.</li>
         <li>Délai généralement de <strong>1 à 3 heures</strong> après confirmation.</li>
         <li>Le Panier d'Elif n'est pas responsable de retards dus à des causes extérieures.</li>
@@ -59,7 +59,7 @@ const articles = [
   {
     id: 8,
     title: 'Réclamations',
-    content: <p>Toute réclamation doit être adressée dans les <strong>2 heures suivant la réception</strong> par WhatsApp au <a href="tel:+2250758440009" className="font-bold text-primary hover:underline">+225 07 58 44 00 09</a>. Une photo du produit pourra être demandée.</p>,
+    content: <p>Toute réclamation doit être adressée dans les <strong>2 heures suivant la réception</strong> par WhatsApp au <a href="tel:+2250710669990" className="font-bold text-primary hover:underline">+225 07 10 66 99 90</a>. Une photo du produit pourra être demandée.</p>,
   },
   {
     id: 9,

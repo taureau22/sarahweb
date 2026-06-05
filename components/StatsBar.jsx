@@ -4,7 +4,7 @@ const stats = [
   { icon: '🧆', value: '5',        label: 'Variétés de pastels' },
   { icon: '✋', value: '100%',     label: 'Fait main, sans conservateurs' },
   { icon: '❄️', value: 'Surgelés', label: 'Disponibles & livrables' },
-  { icon: '🚀', value: 'Express',  label: 'Livraison dans Abidjan' },
+  { icon: '🚀', value: 'Express',  label: 'Livraison & expédition partout' },
 ]
 
 export default function StatsBar() {

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export default function CTASection() {
-  const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'
+  const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
   const waMsg = encodeURIComponent("Bonjour Le Panier d'Elif 🧆 ! Je souhaite passer une commande.")
 
   return (
@@ -43,10 +43,10 @@ export default function CTASection() {
         </h2>
 
         <p className="text-cream/70 font-dm text-lg mb-4 leading-relaxed">
-          Commandez maintenant — livraison rapide dans toute la commune d'Abidjan.
+          Commandez maintenant — livraison et expédition partout en Côte d'Ivoire.
         </p>
         <p className="text-cream/50 font-dm text-sm mb-12">
-          Pastels frais, surgelés, jus frais · Paiement MTN, Orange, Wave, Moov
+          Pastels frais, surgelés, jus frais · Paiement Orange Money · Wave
         </p>
 
         {/* Buttons */}

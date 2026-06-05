@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 
 export default function WhatsAppButton() {
   const pathname = usePathname()
-  const WA      = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'
+  const WA      = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
   const msg     = encodeURIComponent("Bonjour Le Panier d'Elif 🧆 ! Je souhaite passer une commande.")
 
   /* Masqué sur la page panier pour ne pas gêner le formulaire */

@@ -40,7 +40,7 @@ export default function BoutiquePage() {
             <span className="italic text-gradient">Menu</span>
           </h1>
           <p className="text-cream/60 font-dm text-base">
-            Pastels artisanaux faits main · Jus frais du jour
+            Pastels artisanales faites main · Jus frais du jour
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default function BoutiquePage() {
             <RevealSection className="mb-8">
               <div className="flex flex-wrap items-baseline gap-3">
                 <h2 className="font-cormorant font-bold text-secondary text-3xl">
-                  <span aria-hidden="true">🧆</span> Pastels artisanaux
+                  <span aria-hidden="true">🧆</span> Pastels artisanales
                 </h2>
                 <span className="text-text-light text-sm font-dm">— 3 500 FCFA / paquet de 10 pièces</span>
               </div>

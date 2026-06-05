@@ -18,8 +18,8 @@ const reasons = [
   },
   {
     icon: '🏍️',
-    title: 'Livraison rapide Abidjan',
-    text: 'Livraison express dans toutes les communes. Paiement sécurisé MTN MoMo, Orange Money, Wave ou Moov.',
+    title: 'Livraison partout',
+    text: 'Livraison et expédition partout en Côte d\'Ivoire. Paiement sécurisé Orange Money et Wave.',
   },
 ]
 

@@ -83,8 +83,7 @@ export default function PanierPage() {
     const errs = {}
     if (!form.prenom.trim())    errs.prenom    = 'Prénom requis'
     if (!form.nom.trim())       errs.nom       = 'Nom requis'
-    if (!form.email.trim())     errs.email     = 'Email requis'
-    else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Email invalide'
+    if (form.email.trim() && !/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Email invalide'
     if (!form.telephone.trim()) errs.telephone = 'Téléphone requis'
     if (!form.adresse.trim())   errs.adresse   = 'Adresse requise'
     if (!form.quartier.trim())  errs.quartier  = 'Quartier requis'
@@ -122,7 +121,7 @@ export default function PanierPage() {
   }
 
   const handleWhatsApp = () => {
-    const WA   = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'
+    const WA   = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
     const lines = items.map(i => `• ${i.shortName||i.name} × ${i.quantity} = ${formatPrice(i.price*i.quantity)}`).join('\n')
     const msg  = `Bonjour Le Panier d'Elif 🧆 !\n\nJe souhaite commander :\n\n${lines}\n\n*Total : ${formatPrice(totalPrice)}*\n\nMerci 🙏`
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
@@ -258,8 +257,8 @@ export default function PanierPage() {
                 <FloatInput id="telephone" name="telephone" type="tel" label="Téléphone Mobile Money"
                   value={form.telephone} onChange={handleChange} error={errors.telephone} autoComplete="tel" required />
 
-                <FloatInput id="email" name="email" type="email" label="Email (pour la confirmation)"
-                  value={form.email} onChange={handleChange} error={errors.email} autoComplete="email" required />
+                <FloatInput id="email" name="email" type="email" label="Email (optionnel)"
+                  value={form.email} onChange={handleChange} error={errors.email} autoComplete="email" />
 
                 <FloatTextarea id="adresse" name="adresse" label="Adresse de livraison"
                   value={form.adresse} onChange={handleChange} error={errors.adresse} autoComplete="street-address" required />
@@ -274,7 +273,7 @@ export default function PanierPage() {
                 <div className="bg-cream rounded-2xl p-4 text-center">
                   <p className="text-xs font-bold text-text-light uppercase tracking-widest mb-3 font-dm">Paiement sécurisé via</p>
                   <div className="flex flex-wrap gap-2 justify-center" role="list">
-                    {['📱 MTN MoMo', '🟠 Orange Money', '💙 Wave', '🟣 Moov'].map(m => (
+                    {['🟠 Orange Money', '💙 Wave'].map(m => (
                       <span key={m} role="listitem" className="bg-white border border-secondary/12 text-secondary/70 text-xs font-dm font-semibold px-3 py-1.5 rounded-full shadow-sm">
                         {m}
                       </span>

@@ -47,10 +47,10 @@ export default function HeroSection() {
 
           {/* Subtitle */}
           <p className="hero-anim-3 text-cream/70 text-base sm:text-lg font-dm mb-2 tracking-wide">
-            Pastels faits main • Livrés chez vous • Abidjan
+            Pastels faits main • Livrés chez vous • Partout en Côte d'Ivoire
           </p>
           <p className="hero-anim-3 text-cream/50 text-sm font-dm mb-10">
-            Paiement sécurisé MTN MoMo · Orange Money · Wave
+            Paiement sécurisé Orange Money · Wave
           </p>
 
           {/* CTA buttons */}
