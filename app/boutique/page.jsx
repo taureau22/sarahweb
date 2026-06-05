@@ -63,7 +63,7 @@ export default function BoutiquePage() {
         {/* Pastels section */}
         {(activeFilter === 'tous' || activeFilter === 'pastel') && (
           <div className="mb-14">
-            <div className="flex items-baseline gap-3 mb-8">
+            <div className="flex flex-wrap items-baseline gap-2 sm:gap-3 mb-8">
               <h2 className="font-playfair text-2xl font-bold text-secondary">🥟 Pastels artisanaux</h2>
               <span className="text-gray-400 text-sm font-medium">— 3 500 FCFA / paquet de 10 pièces</span>
             </div>
@@ -80,7 +80,7 @@ export default function BoutiquePage() {
         {/* Jus section */}
         {(activeFilter === 'tous' || activeFilter === 'jus') && (
           <div>
-            <div className="flex items-baseline gap-3 mb-8">
+            <div className="flex flex-wrap items-baseline gap-2 sm:gap-3 mb-8">
               <h2 className="font-playfair text-2xl font-bold text-secondary">🧃 Jus frais</h2>
               <span className="text-gray-400 text-sm font-medium">— 1 000 FCFA / bouteille</span>
             </div>

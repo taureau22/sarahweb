@@ -1,7 +1,7 @@
 'use client'
 
 export default function WhatsAppButton() {
-  const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250000000000'
+  const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'
   const message   = "Bonjour Le Panier d'Elif 🥟 ! Je souhaite passer une commande."
 
   const handleClick = () => {

@@ -23,7 +23,7 @@ export default function ProductCard({ product }) {
     <div className="bg-white rounded-2xl shadow-card overflow-hidden hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 flex flex-col">
 
       {/* Image / Placeholder */}
-      <div className="relative h-52 overflow-hidden bg-cream">
+      <div className="relative h-44 sm:h-52 overflow-hidden bg-cream">
         {product.image ? (
           <Image
             src={product.image}

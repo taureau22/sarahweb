@@ -54,7 +54,7 @@ export default function HomePage() {
               🏆 1 an de bonheur depuis 2024 · Abidjan
             </div>
 
-            <h1 className="font-playfair text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-none mb-6">
+            <h1 className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-none mb-6">
               Le Panier<br />
               <span className="text-amber-300">d'Elif</span>
             </h1>
@@ -98,7 +98,7 @@ export default function HomePage() {
           <div className="relative lg:flex items-center justify-center hidden">
             <div className="relative w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl ring-4 ring-white/20">
               <Image
-                src="/images/pastels-handmade.jpg"
+                src="/images/pastels-handmade.png"
                 alt="Pastels artisanaux Le Panier d'Elif"
                 fill
                 priority
@@ -125,16 +125,16 @@ export default function HomePage() {
       {/* ===== CHIFFRES CLÉS ===== */}
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-3 gap-6 text-center">
+          <div className="grid grid-cols-3 gap-3 sm:gap-6 text-center">
             {[
               { emoji: '🥟', value: '5 variétés', label: 'de pastels artisanaux' },
               { emoji: '🤲', value: '100% Fait main', label: 'sans conservateurs' },
               { emoji: '🚀', value: 'Livraison rapide', label: 'dans tout Abidjan' },
             ].map(stat => (
-              <div key={stat.value} className="p-6 rounded-2xl bg-cream border border-primary/10">
-                <div className="text-3xl mb-3">{stat.emoji}</div>
-                <div className="font-playfair font-bold text-lg text-secondary">{stat.value}</div>
-                <div className="text-sm text-gray-500 mt-1">{stat.label}</div>
+              <div key={stat.value} className="p-3 sm:p-6 rounded-2xl bg-cream border border-primary/10">
+                <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">{stat.emoji}</div>
+                <div className="font-playfair font-bold text-xs sm:text-lg text-secondary leading-tight">{stat.value}</div>
+                <div className="text-xs text-gray-500 mt-1 hidden sm:block">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -237,7 +237,7 @@ export default function HomePage() {
               🛒 Commander maintenant
             </Link>
             <a
-              href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250000000000'}?text=${encodeURIComponent("Bonjour Le Panier d'Elif 🥟 ! Je souhaite passer une commande.")}`}
+              href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'}?text=${encodeURIComponent("Bonjour Le Panier d'Elif 🥟 ! Je souhaite passer une commande.")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-bold px-8 py-4 rounded-2xl hover:bg-[#1DA851] transition-all duration-200 hover:shadow-xl hover:-translate-y-0.5 text-base"

@@ -60,7 +60,7 @@ export default function Footer() {
                 <span>📍</span> Abidjan, Côte d'Ivoire
               </li>
               <li className="flex items-start gap-2">
-                <span>📱</span> +225 XX XX XX XX XX
+                <span>📱</span> +225 07 58 44 00 09
               </li>
               <li className="flex items-start gap-2">
                 <span>🕐</span> Lun–Sam · 8h00–20h00

@@ -84,7 +84,7 @@ export default function PanierPage() {
   }
 
   const handleWhatsApp = () => {
-    const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250000000000'
+    const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'
     const lines = items.map(i => `• ${i.shortName || i.name} × ${i.quantity} = ${formatPrice(i.price * i.quantity)}`).join('\n')
     const msg = `Bonjour Le Panier d'Elif 🥟 !\n\nJe souhaite commander :\n\n${lines}\n\n*Total : ${formatPrice(totalPrice)}*\n\nMerci 🙏`
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
@@ -135,67 +135,56 @@ export default function PanierPage() {
 
             {/* Items list */}
             <div className="bg-white rounded-2xl shadow-card overflow-hidden">
-              {/* Header */}
-              <div className="hidden sm:grid grid-cols-[3fr_1fr_1fr_40px] gap-4 px-6 py-4 bg-cream text-xs font-bold uppercase tracking-widest text-gray-400 border-b border-gray-100">
-                <span>Produit</span>
-                <span>Prix</span>
-                <span>Quantité</span>
-                <span />
-              </div>
-
               {/* Items */}
               {items.map((item, idx) => (
                 <div
                   key={item.id}
-                  className={`flex sm:grid sm:grid-cols-[3fr_1fr_1fr_40px] gap-4 items-center px-6 py-5 ${
-                    idx < items.length - 1 ? 'border-b border-gray-50' : ''
-                  } hover:bg-cream/50 transition-colors`}
+                  className={`px-4 sm:px-6 py-4 ${idx < items.length - 1 ? 'border-b border-gray-50' : ''} hover:bg-cream/50 transition-colors`}
                 >
-                  {/* Product info */}
-                  <div className="flex items-center gap-4 min-w-0">
-                    <div className="w-16 h-16 rounded-xl overflow-hidden bg-cream flex-shrink-0">
+                  {/* Row 1 : image + nom + supprimer */}
+                  <div className="flex items-start gap-3">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-cream flex-shrink-0">
                       {item.image ? (
-                        <Image src={item.image} alt={item.name} width={64} height={64} className="w-full h-full object-cover" />
+                        <Image src={item.image} alt={item.name} width={64} height={64} className="w-full h-full object-cover" sizes="64px" />
                       ) : (
                         <div className={`w-full h-full bg-gradient-to-br ${item.color || 'from-orange-300 to-amber-500'} flex items-center justify-center text-2xl`}>
                           {item.emoji || '🥟'}
                         </div>
                       )}
                     </div>
-                    <div className="min-w-0">
-                      <div className="font-semibold text-dark text-sm leading-tight truncate">{item.name}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-dark text-sm leading-snug">{item.name}</div>
                       <div className="text-xs text-gray-400 mt-0.5">{item.unit}</div>
-                      {/* Mobile price */}
-                      <div className="sm:hidden font-bold text-secondary text-sm mt-1">{formatPrice(item.price)}</div>
+                    </div>
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="w-8 h-8 flex-shrink-0 rounded-lg flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 transition-all"
+                      title="Supprimer"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Row 2 : quantité + total ligne */}
+                  <div className="flex items-center justify-between mt-3 pl-[68px] sm:pl-[76px]">
+                    <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-500 hover:text-primary font-bold">
+                        −
+                      </button>
+                      <span className="w-8 text-center font-bold text-dark text-sm">{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-500 hover:text-primary font-bold">
+                        +
+                      </button>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs text-gray-400">{formatPrice(item.price)} × {item.quantity}</div>
+                      <div className="font-bold text-secondary text-sm">{formatPrice(item.price * item.quantity)}</div>
                     </div>
                   </div>
-
-                  {/* Price — desktop */}
-                  <div className="hidden sm:block font-semibold text-secondary">{formatPrice(item.price)}</div>
-
-                  {/* Quantity control */}
-                  <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden w-fit">
-                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-500 hover:text-primary font-bold">
-                      −
-                    </button>
-                    <span className="w-8 text-center font-bold text-dark text-sm">{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-500 hover:text-primary font-bold">
-                      +
-                    </button>
-                  </div>
-
-                  {/* Remove */}
-                  <button
-                    onClick={() => removeFromCart(item.id)}
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-gray-300 hover:text-red-400 hover:bg-red-50 transition-all"
-                    title="Supprimer"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
                 </div>
               ))}
 
@@ -246,7 +235,7 @@ export default function PanierPage() {
                   </label>
                   <input name="telephone" value={form.telephone} onChange={handleChange} type="tel"
                     className={`w-full px-4 py-3 rounded-xl border-2 text-sm bg-cream transition-colors focus:outline-none focus:bg-white ${errors.telephone ? 'border-red-400' : 'border-gray-200 focus:border-primary'}`}
-                    placeholder="+225 07 XX XX XX XX (MTN, Orange, Wave…)" />
+                    placeholder="+225 07 58 44 00 09 (MTN, Orange, Wave…)" />
                   {errors.telephone && <p className="text-red-400 text-xs mt-1">{errors.telephone}</p>}
                 </div>
 

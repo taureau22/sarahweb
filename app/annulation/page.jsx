@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export default function AnnulationPage() {
   const handleWhatsApp = () => {
-    const WA  = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250000000000'
+    const WA  = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'
     const msg = "Bonjour ! Mon paiement en ligne n'a pas abouti. Je voudrais finaliser ma commande via WhatsApp 🙏"
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
   }
@@ -62,7 +62,7 @@ export default function AnnulationPage() {
         {/* Help */}
         <div className="mt-6 bg-blue-50 border border-blue-200 rounded-2xl p-5 text-sm text-blue-700 text-center">
           Besoin d'aide ? Appelez-nous au{' '}
-          <strong>+225 XX XX XX XX XX</strong> ou via WhatsApp.
+          <strong>+225 07 58 44 00 09</strong> ou via WhatsApp.
         </div>
       </div>
     </div>
