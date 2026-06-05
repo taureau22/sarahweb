@@ -42,6 +42,7 @@ export default function Footer() {
                 { href: '/',         label: 'Accueil' },
                 { href: '/boutique', label: 'Boutique' },
                 { href: '/panier',   label: 'Mon panier' },
+                { href: '/cgv',      label: 'CGV' },
               ].map(l => (
                 <li key={l.href}>
                   <Link href={l.href} className="text-white/70 hover:text-primary text-sm transition-colors hover:translate-x-1 inline-block">

@@ -21,16 +21,33 @@ const poppins = Poppins({
 
 export const metadata = {
   title: {
-    default: "Le Panier d'Elif — Pastels artisanaux & Jus frais",
-    template: "%s | Le Panier d'Elif",
+    default: "Le Panier d'Elif — Pastels artisanaux & Jus frais à Abidjan",
+    template: "%s | Le Panier d'Elif — Abidjan",
   },
-  description: "Des pastels faits main, livrés avec amour à Abidjan. Commandez en ligne — paiement Mobile Money.",
-  keywords: ['pastels', 'artisanal', 'Abidjan', 'Côte d\'Ivoire', 'livraison', 'fait maison'],
+  description: "Commandez des pastels artisanaux faits main à Abidjan. Livraison rapide Cocody, Yopougon, Marcory, Plateau. Paiement MTN MoMo, Orange Money, Wave.",
+  keywords: [
+    'pastels artisanaux Abidjan',
+    'pastels faits main Côte d\'Ivoire',
+    'commande pastels Abidjan',
+    'livraison pastels Abidjan',
+    'pastels Cocody',
+    'pastels Yopougon',
+    'jus frais Abidjan',
+    'Le Panier d\'Elif',
+    'pâtisserie ivoirienne',
+    'snack Abidjan',
+    'Mobile Money Abidjan',
+  ],
   openGraph: {
-    title: "Le Panier d'Elif",
-    description: "Des pastels faits main, livrés avec amour.",
+    title: "Le Panier d'Elif — Pastels artisanaux Abidjan",
+    description: "Des pastels faits main livrés à Abidjan. MTN MoMo, Orange Money, Wave.",
     type: 'website',
     locale: 'fr_CI',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
   },
 }
 

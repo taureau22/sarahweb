@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { products } from '@/data/products'
 import ProductCard from '@/components/ProductCard'
+import RevealSection from '@/components/RevealSection'
 
 export default function BoutiquePage() {
   const [activeFilter, setActiveFilter] = useState('tous')
@@ -70,8 +71,10 @@ export default function BoutiquePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {products
                 .filter(p => p.category === 'pastel')
-                .map(product => (
-                  <ProductCard key={product.id} product={product} />
+                .map((product, i) => (
+                  <RevealSection key={product.id} delay={i + 1}>
+                    <ProductCard product={product} />
+                  </RevealSection>
                 ))}
             </div>
           </div>
@@ -87,8 +90,10 @@ export default function BoutiquePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {products
                 .filter(p => p.category === 'jus')
-                .map(product => (
-                  <ProductCard key={product.id} product={product} />
+                .map((product, i) => (
+                  <RevealSection key={product.id} delay={i + 1}>
+                    <ProductCard product={product} />
+                  </RevealSection>
                 ))}
             </div>
           </div>

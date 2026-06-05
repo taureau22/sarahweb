@@ -330,6 +330,13 @@ export default function PanierPage() {
                 >
                   💬 Commander via WhatsApp (alternative)
                 </button>
+
+                <p className="text-center text-xs text-gray-400">
+                  En passant commande, vous acceptez nos{' '}
+                  <Link href="/cgv" className="underline hover:text-primary" target="_blank">
+                    Conditions Générales de Vente
+                  </Link>
+                </p>
               </form>
             </div>
           </div>

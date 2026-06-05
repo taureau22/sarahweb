@@ -2,9 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { products } from '@/data/products'
 import ProductCard from '@/components/ProductCard'
+import RevealSection from '@/components/RevealSection'
 
 export const metadata = {
-  title: "Le Panier d'Elif — Pastels artisanaux & Jus frais",
+  title: "Pastels artisanaux & Jus frais — Livraison Abidjan",
+  description: "Pastels faits main au poulet, viande, poisson et jus frais bissap, ananas. Livraison rapide dans tout Abidjan. Commandez en ligne, payez Mobile Money.",
+  alternates: { canonical: '/' },
 }
 
 const testimonials = [
@@ -130,12 +133,12 @@ export default function HomePage() {
               { emoji: '🥟', value: '5 variétés', label: 'de pastels artisanaux' },
               { emoji: '🤲', value: '100% Fait main', label: 'sans conservateurs' },
               { emoji: '🚀', value: 'Livraison rapide', label: 'dans tout Abidjan' },
-            ].map(stat => (
-              <div key={stat.value} className="p-3 sm:p-6 rounded-2xl bg-cream border border-primary/10">
+            ].map((stat, i) => (
+              <RevealSection key={stat.value} delay={i + 1} className="p-3 sm:p-6 rounded-2xl bg-cream border border-primary/10">
                 <div className="text-2xl sm:text-3xl mb-2 sm:mb-3">{stat.emoji}</div>
                 <div className="font-playfair font-bold text-xs sm:text-lg text-secondary leading-tight">{stat.value}</div>
                 <div className="text-xs text-gray-500 mt-1 hidden sm:block">{stat.label}</div>
-              </div>
+              </RevealSection>
             ))}
           </div>
         </div>
@@ -154,8 +157,10 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-            {featuredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+            {featuredProducts.map((product, i) => (
+              <RevealSection key={product.id} delay={i + 1}>
+                <ProductCard product={product} />
+              </RevealSection>
             ))}
           </div>
 
@@ -180,12 +185,12 @@ export default function HomePage() {
             <p className="text-gray-500">Ce qui nous rend uniques et irrésistibles</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map(f => (
-              <div key={f.title} className="p-6 rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-card transition-all duration-300 group">
+            {features.map((f, i) => (
+              <RevealSection key={f.title} delay={i + 1} className="p-6 rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-card transition-all duration-300 group">
                 <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{f.emoji}</div>
                 <h3 className="font-playfair font-bold text-secondary mb-3">{f.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{f.text}</p>
-              </div>
+              </RevealSection>
             ))}
           </div>
         </div>
@@ -201,8 +206,8 @@ export default function HomePage() {
             <p className="text-gray-500">Des centaines de familles satisfaites à Abidjan</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map(t => (
-              <div key={t.name} className="bg-white rounded-2xl shadow-card p-6">
+            {testimonials.map((t, i) => (
+              <RevealSection key={t.name} delay={i + 1} className="bg-white rounded-2xl shadow-card p-6">
                 <div className="text-yellow-400 text-lg mb-4">★★★★★</div>
                 <p className="text-gray-600 text-sm leading-relaxed mb-6 italic">"{t.text}"</p>
                 <div className="flex items-center gap-3">
@@ -214,7 +219,7 @@ export default function HomePage() {
                     <div className="text-gray-400 text-xs">{t.location}</div>
                   </div>
                 </div>
-              </div>
+              </RevealSection>
             ))}
           </div>
         </div>
