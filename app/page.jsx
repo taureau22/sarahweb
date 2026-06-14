@@ -1,9 +1,10 @@
-import HeroSection    from '@/components/HeroSection'
-import StatsBar       from '@/components/StatsBar'
+import HeroSection     from '@/components/HeroSection'
+import ValueStrip      from '@/components/ValueStrip'
 import FeaturedSection from '@/components/FeaturedSection'
-import WhyUs          from '@/components/WhyUs'
-import Testimonials   from '@/components/Testimonials'
-import CTASection     from '@/components/CTASection'
+import HowItWorks      from '@/components/HowItWorks'
+import WhyUs           from '@/components/WhyUs'
+import Testimonials    from '@/components/Testimonials'
+import CTASection      from '@/components/CTASection'
 
 export const metadata = {
   title: "Pastels artisanales & Jus frais — Livraison partout en Côte d'Ivoire",
@@ -15,8 +16,9 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <StatsBar />
+      <ValueStrip />
       <FeaturedSection />
+      <HowItWorks />
       <WhyUs />
       <Testimonials />
       <CTASection />

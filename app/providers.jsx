@@ -1,7 +1,16 @@
 'use client'
 
 import { CartProvider } from '@/context/CartContext'
+import { ToastProvider } from '@/context/ToastContext'
+import CartDrawer from '@/components/CartDrawer'
 
 export function Providers({ children }) {
-  return <CartProvider>{children}</CartProvider>
+  return (
+    <CartProvider>
+      <ToastProvider>
+        {children}
+        <CartDrawer />
+      </ToastProvider>
+    </CartProvider>
+  )
 }

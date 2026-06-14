@@ -1,37 +1,35 @@
-import { Cormorant_Garamond, Fraunces, DM_Sans, Pacifico } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import { Providers } from './providers'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  variable: '--font-cormorant',
-  display: 'swap',
-  weight: ['400', '600', '700'],
-  style: ['normal', 'italic'],
-})
-
-const fraunces = Fraunces({
-  subsets: ['latin'],
+/* Polices auto-hébergées (next/font/local) — aucune dépendance Google au build.
+   Direction "Artisan Chaud" : Fraunces (serif éditorial, titres) + DM Sans (UI, corps).
+   Variables → une plage de graisses par fichier. */
+const fraunces = localFont({
   variable: '--font-fraunces',
   display: 'swap',
-  weight: ['400', '700', '900'],
+  src: [
+    { path: './fonts/fraunces.woff2',        weight: '400 900', style: 'normal' },
+    { path: './fonts/fraunces-italic.woff2', weight: '400 900', style: 'italic' },
+  ],
 })
 
-const dmSans = DM_Sans({
-  subsets: ['latin'],
+const dmSans = localFont({
   variable: '--font-dm-sans',
   display: 'swap',
+  src: [{ path: './fonts/dm-sans.woff2', weight: '400 700', style: 'normal' }],
 })
 
-const pacifico = Pacifico({
-  subsets: ['latin'],
-  variable: '--font-pacifico',
-  display: 'swap',
-  weight: '400',
-})
+export const viewport = {
+  themeColor: '#B0512E',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  minimumScale: 1,
+}
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://lepanierdelif.ci'),
@@ -46,6 +44,7 @@ export const metadata = {
     'commande pastels en ligne', 'Orange Money', 'Wave CI',
     'Cocody', 'Yopougon', 'Marcory', 'Adjamé', 'Plateau',
   ],
+  manifest: '/manifest.json',
   openGraph: {
     title: "Le Panier d'Elif — Pastels artisanales & Jus frais",
     description: "Pastels faits main livrés partout en Côte d'Ivoire. Paiement Orange Money · Wave.",
@@ -80,9 +79,27 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="fr"
-      className={`${cormorant.variable} ${fraunces.variable} ${dmSans.variable} ${pacifico.variable}`}
+      className={`${fraunces.variable} ${dmSans.variable}`}
     >
-      <body className="font-dm bg-cream text-secondary antialiased">
+      <body className="font-sans bg-cream text-ink antialiased">
+        {/* Révélation au scroll en JS vanilla — TOTALEMENT indépendant de React.
+            Marque .js (sans JS → contenu visible), puis observe les .reveal (rendus côté serveur)
+            et les révèle au scroll. Failsafe + fallback : le contenu apparaît quoi qu'il arrive. */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){
+  var d=document, de=d.documentElement;
+  de.classList.add('js');
+  function show(el){el.classList.add('visible');}
+  function init(){
+    var els=d.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){for(var i=0;i<els.length;i++)show(els[i]);return;}
+    var io=new IntersectionObserver(function(ents){
+      ents.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target);}});
+    },{threshold:0.1, rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el){io.observe(el);});
+    setTimeout(function(){els.forEach(show);},3000);
+  }
+  if(d.readyState==='loading')d.addEventListener('DOMContentLoaded',init);else init();
+})();` }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify({

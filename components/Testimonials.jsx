@@ -1,93 +1,66 @@
 import RevealSection from '@/components/RevealSection'
+import { Icon } from '@/components/icons'
 
 const testimonials = [
-  {
-    name: 'Awa K.',
-    location: 'Cocody',
-    avatar: 'A',
-    color: 'from-primary to-primary-dark',
-    text: 'Les meilleurs pastels d\'Abidjan, sans hésitation ! La pâte est parfaite — croustillante dehors, moelleuse dedans. Ma famille en redemande chaque semaine !',
-  },
-  {
-    name: 'Jean-Baptiste M.',
-    location: 'Marcory',
-    avatar: 'J',
-    color: 'from-secondary to-[#3D1A00]',
-    text: 'J\'ai commandé pour l\'anniversaire de ma femme — 50 pastels disparus en 15 minutes ! Tout le monde était bluffé. La livraison était ultra-rapide aussi.',
-  },
-  {
-    name: 'Fatou D.',
-    location: 'Yopougon',
-    avatar: 'F',
-    color: 'from-accent to-primary',
-    text: 'Les pastels surgelés sont une vraie révélation ! J\'en stocke au congélo et je fris quand j\'ai envie. Pratique, délicieux et vraiment artisanal. Merci Elif !',
-  },
+  { name: 'Awa K.',          location: 'Cocody',   initial: 'A', text: 'Les meilleurs pastels d\'Abidjan, sans hésitation. La pâte est parfaite — croustillante dehors, moelleuse dedans. Ma famille en redemande chaque semaine.' },
+  { name: 'Jean-Baptiste M.', location: 'Marcory',  initial: 'J', text: 'Commandé 50 pastels pour un anniversaire — disparus en 15 minutes. Tout le monde était bluffé, et la livraison ultra-rapide.' },
+  { name: 'Fatou D.',        location: 'Yopougon', initial: 'F', text: 'Les pastels surgelés sont une révélation. J\'en stocke et je fris quand j\'ai envie. Pratique, délicieux, vraiment artisanal.' },
 ]
+
+function Card({ t }) {
+  return (
+    <figure className="bg-surface rounded-3xl border border-border p-7 flex flex-col gap-5 h-full">
+      <div className="flex text-clay" aria-label="Note : 5 sur 5">
+        {[...Array(5)].map((_, i) => <Icon.StarFilled key={i} className="w-4 h-4" />)}
+      </div>
+      <blockquote className="font-display italic text-ink text-lg leading-relaxed flex-1">
+        « {t.text} »
+      </blockquote>
+      <figcaption className="flex items-center gap-3 pt-4 border-t border-border">
+        <span className="w-11 h-11 rounded-full bg-terracotta-tint text-terracotta font-display font-semibold inline-flex items-center justify-center" aria-hidden="true">
+          {t.initial}
+        </span>
+        <span>
+          <span className="block font-medium text-ink text-sm">{t.name}</span>
+          <span className="block text-muted text-xs">{t.location}, Abidjan</span>
+        </span>
+      </figcaption>
+    </figure>
+  )
+}
 
 export default function Testimonials() {
   return (
-    <section
-      className="relative py-24 overflow-hidden"
-      style={{ background: 'linear-gradient(160deg, #FFF8EE 0%, #FFF0D4 50%, #FFF8EE 100%)' }}
-      aria-label="Témoignages de nos clients"
-    >
-      {/* Decorative blob */}
-      <div
-        className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-30 pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(232,130,26,.2), transparent 70%)' }}
-        aria-hidden="true"
-      />
+    <section className="bg-cream-2 py-20 sm:py-28" aria-label="Témoignages clients">
+      <div className="max-w-8xl mx-auto px-5 sm:px-8">
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
-
-        {/* Header */}
-        <RevealSection className="text-center mb-14">
-          <p className="text-primary font-bold text-sm tracking-[0.2em] uppercase mb-3 font-dm">Ils nous font confiance</p>
-          <h2 className="font-cormorant font-bold text-secondary text-4xl sm:text-5xl lg:text-6xl leading-tight mb-4">
-            Ce qu'ils disent{' '}
-            <span className="italic text-gradient">de nous</span>
-          </h2>
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <div className="h-px bg-primary/30 flex-1 max-w-[100px]" />
-            <span className="text-xl text-accent" aria-hidden="true">★★★★★</span>
-            <div className="h-px bg-primary/30 flex-1 max-w-[100px]" />
+        <RevealSection>
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 mb-4">
+              <span className="rule" />
+              <span className="text-xs uppercase tracking-[0.18em] text-terracotta font-semibold">Avis clients</span>
+              <span className="rule" />
+            </div>
+            <h2 className="font-display font-semibold text-ink text-[clamp(2rem,4.5vw,3.2rem)] leading-[1.05] tracking-tightest">
+              Des familles qui <span className="italic text-terracotta">reviennent</span>
+            </h2>
           </div>
-          <p className="text-text-light font-dm text-sm">Des centaines de familles satisfaites à Abidjan</p>
         </RevealSection>
 
-        {/* Testimonial cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Mobile : carrousel swipe */}
+        <div className="md:hidden flex gap-4 overflow-x-auto scrollbar-hide touch-scroll pb-4 -mx-5 px-5">
+          {testimonials.map(t => (
+            <div key={t.name} className="touch-scroll-item flex-shrink-0 w-[82vw] max-w-sm">
+              <Card t={t} />
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop : grille */}
+        <div className="hidden md:grid md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
-            <RevealSection key={t.name} delay={i + 1}>
-              <figure className="bg-white rounded-4xl shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 p-7 flex flex-col gap-5 h-full">
-
-                {/* Stars */}
-                <div className="text-accent text-lg tracking-wider" aria-label="Note : 5 étoiles sur 5">
-                  <span aria-hidden="true">★★★★★</span>
-                </div>
-
-                {/* Quote */}
-                <div className="relative flex-1">
-                  <span className="absolute -top-2 -left-1 text-5xl text-primary/15 font-cormorant font-bold leading-none select-none" aria-hidden="true">"</span>
-                  <blockquote className="font-fraunces italic text-secondary/80 text-sm sm:text-base leading-relaxed pt-2">
-                    {t.text}
-                  </blockquote>
-                </div>
-
-                {/* Author */}
-                <figcaption className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                  <div
-                    className={`w-11 h-11 rounded-full bg-gradient-to-br ${t.color} flex items-center justify-center text-cream font-bold text-base flex-shrink-0 shadow-sm`}
-                    aria-hidden="true"
-                  >
-                    {t.avatar}
-                  </div>
-                  <div>
-                    <div className="font-fraunces font-bold text-secondary text-sm">{t.name}</div>
-                    <div className="text-text-light text-xs font-dm">{t.location}, Abidjan</div>
-                  </div>
-                </figcaption>
-              </figure>
+            <RevealSection key={t.name} delay={i + 1} className="h-full">
+              <Card t={t} />
             </RevealSection>
           ))}
         </div>

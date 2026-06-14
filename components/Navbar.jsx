@@ -4,71 +4,68 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { useCart } from '@/context/CartContext'
+import { Icon } from '@/components/icons'
+
+const navLinks = [
+  { href: '/',         label: 'Accueil' },
+  { href: '/boutique', label: 'Boutique' },
+  { href: '/cgv',      label: 'Infos' },
+]
 
 export default function Navbar() {
-  const pathname      = usePathname()
-  const { totalItems } = useCart()
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const pathname                   = usePathname()
+  const { totalItems, openDrawer } = useCart()
+  const [menuOpen, setMenuOpen]    = useState(false)
+  const [scrolled, setScrolled]    = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30)
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => { setMenuOpen(false) }, [pathname])
 
-  /* lock body scroll when menu open */
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  const navLinks = [
-    { href: '/',         label: 'Accueil' },
-    { href: '/boutique', label: 'Boutique' },
-    { href: '/cgv',      label: 'CGV' },
-  ]
-
-  const isActive = (href) =>
-    href === '/' ? pathname === '/' : pathname.startsWith(href)
+  const isActive = (href) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-secondary/95 backdrop-blur-md shadow-dark py-0'
-            : 'bg-transparent py-2'
+            ? 'bg-cream shadow-soft border-b border-border'
+            : 'bg-cream/0 backdrop-blur-0 border-b border-transparent'
         }`}
       >
-        <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-[70px] flex items-center justify-between gap-4">
+        <nav className="max-w-8xl mx-auto px-5 sm:px-8 h-16 sm:h-[72px] flex items-center justify-between gap-4">
 
-          {/* Logo */}
-          <Link href="/" aria-label="Le Panier d'Elif — Accueil" className="flex items-center gap-2.5 shrink-0 group">
-            <span className="text-3xl group-hover:scale-110 transition-transform duration-200" aria-hidden="true">🧆</span>
-            <div>
-              <span className="font-cormorant font-bold italic text-cream text-xl leading-none block tracking-wide">
-                Le Panier d'Elif
-              </span>
-              <span className="text-[10px] text-primary font-dm font-medium tracking-wider block mt-0.5">
-                Fait maison · Abidjan
-              </span>
-            </div>
+          {/* Wordmark */}
+          <Link href="/" aria-label="Le Panier d'Elif — Accueil" className="group flex items-baseline gap-2 shrink-0">
+            <span className="font-display font-semibold italic text-ink text-2xl sm:text-[1.7rem] leading-none tracking-tightest">
+              elif
+            </span>
+            <span className="hidden sm:block text-[11px] uppercase tracking-[0.18em] text-muted font-medium translate-y-[-2px]">
+              Le Panier
+            </span>
           </Link>
 
-          {/* Desktop nav */}
-          <ul className="hidden md:flex items-center gap-1">
+          {/* Desktop nav — centré */}
+          <ul className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
             {navLinks.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
                   aria-current={isActive(href) ? 'page' : undefined}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200 ${
+                  className={`px-4 py-2 text-sm font-medium rounded-full transition-colors duration-200 ${
                     isActive(href)
-                      ? 'text-primary bg-primary/10'
-                      : 'text-cream/80 hover:text-cream hover:bg-white/8'
+                      ? 'text-terracotta'
+                      : 'text-ink-soft hover:text-ink'
                   }`}
                 >
                   {label}
@@ -77,27 +74,22 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* Right actions */}
-          <div className="flex items-center gap-3">
-            {/* Cart button */}
-            <Link
-              href="/panier"
+          {/* Actions */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Panier */}
+            <button
+              onClick={openDrawer}
               aria-label={`Panier${totalItems > 0 ? ` — ${totalItems} article${totalItems > 1 ? 's' : ''}` : ' vide'}`}
-              className="relative flex items-center gap-2 bg-btn-gradient text-secondary font-bold px-5 py-2.5 rounded-2xl text-sm hover:shadow-orange transition-[box-shadow,transform] duration-200 hover:-translate-y-0.5 min-h-[44px] btn-glow"
+              className="relative inline-flex items-center gap-2 h-11 px-4 rounded-full bg-ink text-cream text-sm font-medium hover:bg-terracotta transition-colors duration-250"
             >
-              <svg className="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
+              <Icon.Bag className="w-[18px] h-[18px]" />
               <span className="hidden sm:inline">Panier</span>
               {totalItems > 0 && (
-                <span
-                  aria-hidden="true"
-                  className="absolute -top-2 -right-2 w-5 h-5 bg-secondary text-cream text-[10px] font-bold rounded-full flex items-center justify-center pulse-orange"
-                >
-                  {totalItems > 9 ? '9+' : totalItems}
+                <span className="min-w-[20px] h-5 px-1 inline-flex items-center justify-center rounded-full bg-clay text-ink text-[11px] font-bold tabular-nums">
+                  {totalItems > 99 ? '99+' : totalItems}
                 </span>
               )}
-            </Link>
+            </button>
 
             {/* Hamburger */}
             <button
@@ -105,83 +97,69 @@ export default function Navbar() {
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
-              className="md:hidden w-11 h-11 flex flex-col items-center justify-center gap-1.5 rounded-xl hover:bg-white/10 transition-colors"
+              className="md:hidden w-11 h-11 inline-flex items-center justify-center rounded-full text-ink hover:bg-ink/5 transition-colors"
             >
-              <span className={`block w-5 h-0.5 bg-cream rounded transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} aria-hidden="true" />
-              <span className={`block w-5 h-0.5 bg-cream rounded transition-all duration-300 ${menuOpen ? 'opacity-0 w-0' : ''}`} aria-hidden="true" />
-              <span className={`block w-5 h-0.5 bg-cream rounded transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} aria-hidden="true" />
+              {menuOpen ? <Icon.X className="w-6 h-6" /> : <Icon.Menu className="w-6 h-6" />}
             </button>
           </div>
         </nav>
       </header>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 z-40 bg-secondary/70 backdrop-blur-sm md:hidden transition-opacity duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setMenuOpen(false)}
         aria-hidden="true"
+        className={`fixed inset-0 z-40 bg-ink/40 backdrop-blur-sm md:hidden transition-opacity duration-300 ${
+          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
       />
 
-      {/* Mobile menu panel — slide from right */}
+      {/* Mobile panel */}
       <div
         id="mobile-menu"
         aria-hidden={!menuOpen}
-        className={`fixed top-0 right-0 bottom-0 z-50 w-72 bg-secondary md:hidden transition-transform duration-350 ease-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed top-0 right-0 bottom-0 z-50 w-[78%] max-w-xs bg-cream md:hidden transition-transform duration-350 ease-out ${
+          menuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
       >
-        <div className="flex flex-col h-full p-6 pt-[86px]">
-          {/* Close */}
-          <button
-            onClick={() => setMenuOpen(false)}
-            aria-label="Fermer le menu"
-            className="absolute top-6 right-4 w-10 h-10 flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-cream"
-          >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          {/* Brand */}
-          <div className="mb-8">
-            <div className="font-cormorant font-bold italic text-cream text-2xl">Le Panier d'Elif</div>
-            <div className="text-xs text-primary/80 font-medium mt-1">Fait maison · Abidjan 🧆</div>
+        <div className="flex flex-col h-full p-6 pt-7">
+          <div className="flex items-center justify-between mb-10">
+            <span className="font-display font-semibold italic text-ink text-2xl">elif</span>
+            <button
+              onClick={() => setMenuOpen(false)}
+              aria-label="Fermer le menu"
+              className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-ink/5 hover:bg-ink/10 text-ink transition-colors"
+            >
+              <Icon.X className="w-5 h-5" />
+            </button>
           </div>
 
-          {/* Links */}
           <nav aria-label="Menu mobile">
-            <ul className="flex flex-col gap-1">
-              {navLinks.map(({ href, label }) => (
-                <li key={href}>
+            <ul className="flex flex-col">
+              {navLinks.map(({ href, label }, i) => (
+                <li key={href} className={i > 0 ? 'border-t border-border' : ''}>
                   <Link
                     href={href}
                     aria-current={isActive(href) ? 'page' : undefined}
-                    className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl text-base font-medium transition-colors ${
-                      isActive(href) ? 'bg-primary text-secondary' : 'text-cream/80 hover:bg-white/10 hover:text-cream'
+                    className={`flex items-center justify-between py-4 text-lg font-display ${
+                      isActive(href) ? 'text-terracotta' : 'text-ink'
                     }`}
                   >
                     {label}
+                    <Icon.ArrowUpRight className="w-5 h-5 text-muted" />
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/panier"
-                  className="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-base font-medium text-cream/80 hover:bg-white/10 hover:text-cream transition-colors mt-1"
-                >
-                  🛒 Mon Panier{totalItems > 0 && ` (${totalItems})`}
-                </Link>
-              </li>
             </ul>
           </nav>
 
-          {/* CTA bottom */}
-          <div className="mt-auto">
-            <Link
-              href="/boutique"
-              className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-btn-gradient text-secondary font-bold text-base"
-            >
-              🧆 Commander maintenant
-            </Link>
-          </div>
+          <Link
+            href="/boutique"
+            className="mt-auto inline-flex items-center justify-center gap-2 w-full h-14 rounded-full bg-terracotta text-cream font-medium hover:bg-terracotta-dark transition-colors"
+          >
+            Commander maintenant
+            <Icon.ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
       </div>
     </>

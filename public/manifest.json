@@ -1,0 +1,19 @@
+{
+  "name": "Le Panier d'Elif",
+  "short_name": "Panier d'Elif",
+  "description": "Pastels artisanales & Jus frais — Livraison partout en Côte d'Ivoire",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FBF5EC",
+  "theme_color": "#B0512E",
+  "orientation": "portrait-primary",
+  "categories": ["food", "shopping"],
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
