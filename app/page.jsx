@@ -1,5 +1,6 @@
 import HeroSection     from '@/components/HeroSection'
 import ValueStrip      from '@/components/ValueStrip'
+import StatsBanner     from '@/components/StatsBanner'
 import FeaturedSection from '@/components/FeaturedSection'
 import HowItWorks      from '@/components/HowItWorks'
 import WhyUs           from '@/components/WhyUs'
@@ -17,6 +18,7 @@ export default function HomePage() {
     <>
       <HeroSection />
       <ValueStrip />
+      <StatsBanner />
       <FeaturedSection />
       <HowItWorks />
       <WhyUs />

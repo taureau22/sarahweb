@@ -2,6 +2,8 @@ import localFont from 'next/font/local'
 import './globals.css'
 import { Providers } from './providers'
 import GsapProvider from '@/components/GsapProvider'
+import LoadingScreen from '@/components/LoadingScreen'
+import CustomCursor from '@/components/CustomCursor'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
@@ -134,6 +136,8 @@ export default function RootLayout({ children }) {
             }
           })}}
         />
+        <LoadingScreen />
+        <CustomCursor />
         <GsapProvider>
           <Providers>
             <Navbar />
