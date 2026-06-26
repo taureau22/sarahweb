@@ -12,6 +12,8 @@ module.exports = {
         cream:      '#FBF5EC',   // fond principal (crème chaud)
         'cream-2':  '#F4E9D8',   // fond section alterné (sable clair)
         surface:    '#FFFFFF',   // cartes
+        void:       '#0D0806',   // fond sections immersives (noir chaud)
+        'void-soft':'#1A1008',   // fond sections alternées sombres
         ink:        '#241A10',   // texte principal (brun quasi-noir)
         'ink-soft': '#5C4B38',   // texte secondaire
         muted:      '#8A7660',   // texte tertiaire / labels

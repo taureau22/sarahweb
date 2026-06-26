@@ -29,11 +29,11 @@ const navCols = [
 
 export default function Footer() {
   return (
-    <footer className="bg-ink text-cream/80">
+    <footer className="bg-void text-cream/70 border-t border-cream/6">
       <div className="max-w-8xl mx-auto px-5 sm:px-8 pt-16 pb-10">
 
         {/* Top */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 pb-12 border-b border-cream/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 pb-12 border-b border-cream/8">
 
           {/* Brand */}
           <div className="lg:col-span-2 max-w-sm">
@@ -41,7 +41,7 @@ export default function Footer() {
               <span className="font-display font-semibold italic text-cream text-3xl">elif</span>
               <span className="text-[11px] uppercase tracking-[0.18em] text-cream/50">Le Panier</span>
             </Link>
-            <p className="text-cream/60 text-sm leading-relaxed mb-6">
+            <p className="text-cream/50 text-sm leading-relaxed mb-6">
               Pastels artisanales pétries et garnies à la main chaque matin, et jus pressés du jour.
               Livrés partout en Côte d'Ivoire depuis 2024.
             </p>
@@ -53,7 +53,7 @@ export default function Footer() {
                   aria-label={label}
                   target={href.startsWith('http') ? '_blank' : undefined}
                   rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="w-10 h-10 inline-flex items-center justify-center rounded-full border border-cream/15 text-cream/70 hover:text-ink hover:bg-cream hover:border-cream transition-colors duration-250"
+                  className="w-10 h-10 inline-flex items-center justify-center rounded-full border border-cream/12 text-cream/55 hover:text-cream hover:border-cream/30 transition-colors duration-250"
                 >
                   <Ico className="w-[18px] h-[18px]" />
                 </a>
@@ -79,7 +79,7 @@ export default function Footer() {
         </div>
 
         {/* Contact row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 py-10 border-b border-cream/10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 py-10 border-b border-cream/8">
           <div className="flex items-start gap-3">
             <Icon.MapPin className="w-5 h-5 text-clay shrink-0 mt-0.5" />
             <div>

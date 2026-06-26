@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useCart } from '@/context/CartContext'
 import { useToast } from '@/context/ToastContext'
 import { formatPrice } from '@/data/products'
@@ -12,6 +12,34 @@ export default function ProductCard({ product }) {
   const [added, setAdded]       = useState(false)
   const { addToCart } = useCart()
   const { addToast }  = useToast()
+  const cardRef = useRef(null)
+
+  /* CSS 3D tilt — souris fine uniquement (pas mobile) */
+  useEffect(() => {
+    const card = cardRef.current
+    if (!card || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+
+    const onMove = (e) => {
+      const rect = card.getBoundingClientRect()
+      const x    = (e.clientX - rect.left)  / rect.width
+      const y    = (e.clientY - rect.top)   / rect.height
+      const rx   = (y - 0.5) * -10
+      const ry   = (x - 0.5) * 12
+      card.style.transition = 'transform .06s ease'
+      card.style.transform  = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.02,1.02,1.02)`
+    }
+    const onLeave = () => {
+      card.style.transition = 'transform .55s cubic-bezier(.22,.61,.36,1)'
+      card.style.transform  = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)'
+    }
+
+    card.addEventListener('mousemove', onMove)
+    card.addEventListener('mouseleave', onLeave)
+    return () => {
+      card.removeEventListener('mousemove', onMove)
+      card.removeEventListener('mouseleave', onLeave)
+    }
+  }, [])
 
   const handleAdd = () => {
     addToCart(product, quantity)
@@ -25,8 +53,10 @@ export default function ProductCard({ product }) {
   const inc = () => setQuantity(q => Math.min(20, q + 1))
 
   return (
-    <article className="group bg-surface rounded-3xl overflow-hidden border border-border hover:shadow-card hover:-translate-y-1 transition-all duration-350 flex flex-col">
-
+    <article
+      ref={cardRef}
+      className="card-3d group bg-surface rounded-3xl overflow-hidden border border-border/60 shadow-soft hover:shadow-card flex flex-col"
+    >
       {/* Visuel */}
       <div className="relative aspect-[4/3] overflow-hidden bg-cream-2">
         {product.image ? (
@@ -34,7 +64,7 @@ export default function ProductCard({ product }) {
             src={product.image}
             alt={product.name}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
         ) : (
@@ -45,16 +75,19 @@ export default function ProductCard({ product }) {
           </div>
         )}
 
-        {/* Catégorie */}
+        {/* Overlay subtil au hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" aria-hidden="true" />
+
+        {/* Badge catégorie */}
         <span className={`absolute top-3 left-3 text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full backdrop-blur-sm ${
           product.category === 'pastel' ? 'bg-terracotta/90 text-cream' : 'bg-olive/90 text-cream'
         }`}>
           {product.category === 'pastel' ? 'Pastel' : 'Jus frais'}
         </span>
 
-        {/* Top vente */}
+        {/* Badge top vente */}
         {product.bestseller && (
-          <span className="absolute top-3 right-3 inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-cream/90 text-ink backdrop-blur-sm">
+          <span className="absolute top-3 right-3 inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-cream/92 text-ink backdrop-blur-sm">
             <Icon.StarFilled className="w-3 h-3 text-clay" /> Top
           </span>
         )}
@@ -75,29 +108,37 @@ export default function ProductCard({ product }) {
           </p>
         )}
 
-        {/* Prix + actions */}
+        {/* Prix + quantité */}
         <div className="flex items-end justify-between mb-4">
           <div>
-            <p className="text-[11px] uppercase tracking-wider text-muted">Prix</p>
+            <p className="text-[11px] uppercase tracking-wider text-muted mb-0.5">Prix</p>
             <p className="font-display font-semibold text-ink text-2xl leading-none tabular-nums">
               {formatPrice(product.price)}
             </p>
           </div>
           <div className="inline-flex items-center border border-border rounded-full" role="group" aria-label={`Quantité de ${product.name}`}>
-            <button onClick={dec} aria-label="Diminuer la quantité" className="w-9 h-9 inline-flex items-center justify-center text-ink-soft hover:text-terracotta transition-colors"><Icon.Minus className="w-4 h-4" /></button>
+            <button onClick={dec} aria-label="Diminuer" className="w-9 h-9 inline-flex items-center justify-center text-ink-soft hover:text-terracotta transition-colors">
+              <Icon.Minus className="w-4 h-4" />
+            </button>
             <span className="w-7 text-center text-sm font-semibold text-ink tabular-nums" aria-live="polite">{quantity}</span>
-            <button onClick={inc} aria-label="Augmenter la quantité" className="w-9 h-9 inline-flex items-center justify-center text-ink-soft hover:text-terracotta transition-colors"><Icon.Plus className="w-4 h-4" /></button>
+            <button onClick={inc} aria-label="Augmenter" className="w-9 h-9 inline-flex items-center justify-center text-ink-soft hover:text-terracotta transition-colors">
+              <Icon.Plus className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
         <button
           onClick={handleAdd}
           aria-label={added ? `${product.name} ajouté` : `Ajouter ${product.name} au panier`}
-          className={`w-full h-12 rounded-full font-medium text-sm inline-flex items-center justify-center gap-2 transition-colors duration-250 ${
-            added ? 'bg-olive text-cream' : 'bg-ink text-cream hover:bg-terracotta'
+          className={`w-full h-12 rounded-full font-medium text-sm inline-flex items-center justify-center gap-2 transition-all duration-300 ${
+            added
+              ? 'bg-olive text-cream scale-[.98]'
+              : 'bg-ink text-cream hover:bg-terracotta hover:shadow-terra btn-shimmer'
           }`}
         >
-          {added ? <><Icon.Check className="w-4 h-4" /> Ajouté</> : <><Icon.Plus className="w-4 h-4" /> Ajouter au panier</>}
+          {added
+            ? <><Icon.Check className="w-4 h-4" /> Ajouté</>
+            : <><Icon.Plus className="w-4 h-4" /> Ajouter au panier</>}
         </button>
       </div>
     </article>
