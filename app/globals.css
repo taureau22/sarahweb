@@ -9,9 +9,9 @@
   --ink:        #1C1208;
   --ink-2:      #4A3520;
   --muted:      #8C7055;
-  --terracotta: #C0552F;
-  --terra-2:    #E8724A;
-  --terra-bg:   #FBE8DF;
+  --terracotta: #EA8A2E;
+  --terra-2:    #F2A24E;
+  --terra-bg:   #FCEBD7;
   --gold:       #C49A3C;
   --dark:       #1C1208;
   --border:     #E8DDD0;
@@ -70,6 +70,14 @@
 @keyframes shimmer {
   0%   { background-position: -200% center; }
   100% { background-position:  200% center; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(120%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 /* ===== UTILITIES ===== */

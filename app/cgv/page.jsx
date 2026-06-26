@@ -174,7 +174,7 @@ export default function CGVPage() {
         <div className="mt-8 text-center">
           <Link
             href="/boutique"
-            className="inline-flex items-center gap-2 h-13 px-8 py-4 rounded-full bg-terracotta text-white font-medium hover:bg-[#A0451F] transition-colors"
+            className="inline-flex items-center gap-2 h-13 px-8 py-4 rounded-full bg-terracotta text-white font-medium hover:bg-[#D2761C] transition-colors"
           >
             Retour à la boutique <Icon.ArrowRight className="w-4 h-4" />
           </Link>

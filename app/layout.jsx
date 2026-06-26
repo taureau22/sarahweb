@@ -1,7 +1,6 @@
 import localFont from 'next/font/local'
 import './globals.css'
 import { Providers } from './providers'
-import GsapProvider from '@/components/GsapProvider'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
@@ -22,7 +21,7 @@ const dmSans = localFont({
 })
 
 export const viewport = {
-  themeColor: '#C0552F',
+  themeColor: '#EA8A2E',
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
@@ -109,14 +108,12 @@ export default function RootLayout({ children }) {
             }],
           })}}
         />
-        <GsapProvider>
-          <Providers>
-            <Navbar />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
-            <WhatsAppButton />
-          </Providers>
-        </GsapProvider>
+        <Providers>
+          <Navbar />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
+          <WhatsAppButton />
+        </Providers>
       </body>
     </html>
   )

@@ -76,7 +76,7 @@ function MerciContent() {
           <div className="flex flex-col gap-3">
             <Link
               href="/boutique"
-              className="w-full h-13 py-4 rounded-full bg-terracotta text-white font-medium inline-flex items-center justify-center gap-2 hover:bg-[#A0451F] transition-colors"
+              className="w-full h-13 py-4 rounded-full bg-terracotta text-white font-medium inline-flex items-center justify-center gap-2 hover:bg-[#D2761C] transition-colors"
             >
               Nouvelle commande <Icon.ArrowRight className="w-4 h-4" />
             </Link>

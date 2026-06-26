@@ -126,7 +126,7 @@ export default function PanierPage() {
         <p className="text-ink-2 mb-8">Ajoutez des pastels ou jus frais pour démarrer votre commande.</p>
         <Link
           href="/boutique"
-          className="inline-flex items-center gap-2 h-13 px-7 py-4 rounded-full bg-terracotta text-white font-medium hover:bg-[#A0451F] transition-colors"
+          className="inline-flex items-center gap-2 h-13 px-7 py-4 rounded-full bg-terracotta text-white font-medium hover:bg-[#D2761C] transition-colors"
         >
           Voir le menu <Icon.ArrowRight className="w-4 h-4" />
         </Link>
@@ -326,7 +326,7 @@ export default function PanierPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full h-14 rounded-full bg-terracotta text-white font-medium inline-flex items-center justify-center gap-2 hover:bg-[#A0451F] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full h-14 rounded-full bg-terracotta text-white font-medium inline-flex items-center justify-center gap-2 hover:bg-[#D2761C] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <>

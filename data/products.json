@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "category": "frais",
+    "name": "Pastel au poulet, crème et fromage",
+    "shortName": "Pastel Poulet",
+    "description": "Poulet tendre assaisonné, crème onctueuse et fromage fondu dans notre pâte maison dorée.",
+    "price": 3500,
+    "unit": "10 pièces / paquet",
+    "image": "/images/03_pastels-frits.png",
+    "badges": ["Fait main", "10 pièces"],
+    "bestseller": true
+  },
+  {
+    "id": 2,
+    "category": "frais",
+    "name": "Pastel à la viande hachée, crème et fromage",
+    "shortName": "Pastel Viande",
+    "description": "Viande hachée généreusement assaisonnée, crème fraîche et fromage fondant.",
+    "price": 3500,
+    "unit": "10 pièces / paquet",
+    "image": "/images/06_pastel-viande-coupe.png",
+    "badges": ["Fait main", "10 pièces"],
+    "bestseller": false
+  },
+  {
+    "id": 3,
+    "category": "frais",
+    "name": "Pastel au jambon de dinde, crème et fromage",
+    "shortName": "Pastel Jambon",
+    "description": "Jambon de dinde délicat, crème fraîche et fromage — une alliance raffinée dans une pâte croustillante.",
+    "price": 3500,
+    "unit": "10 pièces / paquet",
+    "image": "/images/01_pastel-jambon-dinde-creme-fromage.jpg",
+    "badges": ["Fait main", "10 pièces"],
+    "bestseller": false
+  },
+  {
+    "id": 4,
+    "category": "frais",
+    "name": "Pastel au poisson, crème et fromage",
+    "shortName": "Pastel Poisson Crème",
+    "description": "Poisson frais assaisonné avec soin, crème et fromage fondant — un régal de la mer.",
+    "price": 3500,
+    "unit": "10 pièces / paquet",
+    "image": "/images/04_pastels-handmade.png",
+    "badges": ["Fait main", "10 pièces"],
+    "bestseller": false
+  },
+  {
+    "id": 5,
+    "category": "frais",
+    "name": "Pastel au poisson nature",
+    "shortName": "Pastel Poisson Nature",
+    "description": "La recette authentique — poisson frais relevé dans notre pâte maison dorée. Simple et irrésistible.",
+    "price": 3500,
+    "unit": "10 pièces / paquet",
+    "image": "/images/02_pastel-poisson-nature.jpg",
+    "badges": ["Fait main", "10 pièces"],
+    "bestseller": true
+  },
+  {
+    "id": 6,
+    "category": "surgele",
+    "name": "Pastels surgelés — assortiment",
+    "shortName": "Assortiment surgelé",
+    "description": "Un mélange de nos pastels prêts à frire, à garder au congélateur. Croustillants en quelques minutes, à toute heure.",
+    "price": 3500,
+    "unit": "Paquet à congeler",
+    "image": "/images/05_pastel-surgeles-mix.png",
+    "badges": ["À congeler", "Assortiment"],
+    "bestseller": false
+  }
+]

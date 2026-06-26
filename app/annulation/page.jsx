@@ -46,7 +46,7 @@ export default function AnnulationPage() {
           <div className="flex flex-col gap-3">
             <Link
               href="/panier"
-              className="w-full h-13 py-4 rounded-full bg-terracotta text-white font-medium inline-flex items-center justify-center gap-2 hover:bg-[#A0451F] transition-colors"
+              className="w-full h-13 py-4 rounded-full bg-terracotta text-white font-medium inline-flex items-center justify-center gap-2 hover:bg-[#D2761C] transition-colors"
             >
               Réessayer le paiement
             </Link>

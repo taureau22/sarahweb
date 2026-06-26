@@ -3,6 +3,7 @@
 import { CartProvider } from '@/context/CartContext'
 import { ToastProvider } from '@/context/ToastContext'
 import CartDrawer from '@/components/CartDrawer'
+import StickyCartBar from '@/components/StickyCartBar'
 
 export function Providers({ children }) {
   return (
@@ -10,6 +11,7 @@ export function Providers({ children }) {
       <ToastProvider>
         {children}
         <CartDrawer />
+        <StickyCartBar />
       </ToastProvider>
     </CartProvider>
   )

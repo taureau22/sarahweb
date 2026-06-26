@@ -78,7 +78,7 @@ export default function CartDrawer() {
             <Link
               href="/boutique"
               onClick={closeDrawer}
-              className="mt-2 inline-flex items-center gap-2 h-12 px-6 rounded-full bg-terracotta text-white font-medium hover:bg-[#A0451F] transition-colors"
+              className="mt-2 inline-flex items-center gap-2 h-12 px-6 rounded-full bg-terracotta text-white font-medium hover:bg-[#D2761C] transition-colors"
             >
               Voir le menu <Icon.ArrowRight className="w-4 h-4" />
             </Link>
@@ -182,7 +182,7 @@ export default function CartDrawer() {
               <Link
                 href="/panier"
                 onClick={closeDrawer}
-                className="flex items-center justify-center gap-2 w-full py-4 rounded-full bg-terracotta text-white font-medium hover:bg-[#A0451F] transition-colors"
+                className="flex items-center justify-center gap-2 w-full py-4 rounded-full bg-terracotta text-white font-medium hover:bg-[#D2761C] transition-colors"
               >
                 Finaliser la commande <Icon.ArrowRight className="w-4 h-4" />
               </Link>
