@@ -1,100 +1,76 @@
-import Image from 'next/image'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Icon } from '@/components/icons'
 
-const badges = [
-  { Icon: Icon.Truck,       label: 'Livraison partout en CI' },
-  { Icon: Icon.ShieldCheck, label: 'Qualité garantie' },
-  { Icon: Icon.Wallet,      label: 'Orange Money · Wave' },
-]
-
 export default function CTASection() {
-  const WA  = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
-  const msg = encodeURIComponent("Bonjour Le Panier d'Elif ! Je souhaite passer une commande.")
+  const WA    = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
+  const waMsg = encodeURIComponent("Bonjour Le Panier d'Elif ! Je souhaite passer une commande.")
 
   return (
-    <section className="bg-cream py-12 sm:py-16" aria-label="Commander maintenant">
+    <section className="bg-bg py-20 sm:py-28" aria-label="Commander maintenant">
       <div className="max-w-8xl mx-auto px-5 sm:px-8">
-        <div className="relative rounded-4xl overflow-hidden isolate">
+        <div className="relative rounded-3xl overflow-hidden bg-dark isolate">
 
-          {/* Background image */}
+          {/* Background image with heavy overlay */}
           <Image
             src="/images/03_pastels-frits.png"
             alt=""
             fill
-            className="object-cover"
-            sizes="(max-width: 1280px) 100vw, 1280px"
+            className="object-cover opacity-20 mix-blend-luminosity"
+            sizes="100vw"
             aria-hidden="true"
           />
-
-          {/* Gradient overlay */}
           <div
             className="absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(135deg, rgba(12,8,6,0.88) 0%, rgba(12,8,6,0.65) 100%)',
-            }}
+            style={{ background: 'linear-gradient(135deg, rgba(28,18,8,0.92) 0%, rgba(28,18,8,0.85) 100%)' }}
             aria-hidden="true"
           />
 
-          {/* Radial glow */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                'radial-gradient(circle at 70% 50%, rgba(176,81,46,0.18) 0%, transparent 60%)',
-            }}
-            aria-hidden="true"
-          />
+          <div className="relative z-[2] px-6 sm:px-14 py-16 sm:py-20 text-center max-w-2xl mx-auto">
 
-          {/* Content */}
-          <div className="relative z-10 text-center py-20 sm:py-28 px-5 sm:px-16 reveal">
-            <div className="inline-flex items-center gap-2 mb-4">
-              <span className="rule" />
-              <span className="text-xs uppercase tracking-[0.18em] text-terracotta-soft font-semibold">
-                Prêt à commander ?
-              </span>
-              <span className="rule" />
-            </div>
+            <span className="text-xs uppercase tracking-[0.18em] text-white/60 font-semibold">
+              Une petite faim ?
+            </span>
 
-            <h2 className="font-display font-semibold text-cream text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tightest max-w-2xl mx-auto">
-              Commandez vos pastels dès maintenant
+            <h2 className="font-display font-semibold text-white text-[clamp(2.2rem,5vw,4rem)] leading-[1.02] tracking-tightest mt-4 mb-5">
+              Commandez vos pastels<br />
+              <span className="italic text-terra-2">dès maintenant</span>
             </h2>
 
-            <p className="text-cream/60 mt-5 text-lg max-w-lg mx-auto leading-relaxed">
-              Frais ou surgelés, livrés chez vous partout en Côte d'Ivoire.
-              Paiement simple et sécurisé.
+            <p className="text-white/70 text-lg leading-relaxed mb-10">
+              Frais ou surgelés, livrés partout en Côte d'Ivoire.
+              Paiement Orange Money · Wave.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 href="/boutique"
-                className="inline-flex items-center gap-2 h-12 px-8 rounded-full bg-terracotta text-cream font-medium hover:bg-terracotta-dark transition-colors btn-shimmer"
+                className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-full bg-terracotta text-white font-medium hover:bg-[#A0451F] transition-colors duration-200"
               >
-                Voir le menu <Icon.ArrowRight className="w-4 h-4" />
+                Voir le menu <Icon.ArrowRight className="w-5 h-5" />
               </Link>
               <a
-                href={`https://wa.me/${WA}?text=${msg}`}
+                href={`https://wa.me/${WA}?text=${waMsg}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Commander via WhatsApp"
-                className="inline-flex items-center gap-2 h-12 px-8 rounded-full border border-cream/25 text-cream font-medium hover:border-cream/50 transition-colors"
+                className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-full bg-whatsapp text-white font-medium hover:bg-[#1DA851] transition-colors duration-200"
               >
-                <Icon.WhatsApp className="w-4 h-4" /> WhatsApp
+                <Icon.WhatsApp className="w-5 h-5" /> WhatsApp
               </a>
             </div>
 
-            {/* Guarantee badges */}
-            <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-10 mt-10">
-              {badges.map((b, i) => (
-                <div key={i} className="flex items-center gap-2 text-cream/55 text-sm">
-                  <b.Icon className="w-4 h-4 text-terracotta-soft" />
-                  {b.label}
-                </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-10 pt-8 border-t border-white/10">
+              {[
+                { Ico: Icon.ShieldCheck, label: 'Paiement sécurisé' },
+                { Ico: Icon.Smartphone,  label: 'Mobile Money CI' },
+                { Ico: Icon.Truck,       label: 'Livraison express' },
+              ].map(({ Ico, label }) => (
+                <span key={label} className="inline-flex items-center gap-2 text-white/60 text-sm">
+                  <Ico className="w-[18px] h-[18px]" /> {label}
+                </span>
               ))}
             </div>
           </div>
-
         </div>
       </div>
     </section>

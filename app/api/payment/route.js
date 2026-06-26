@@ -5,7 +5,6 @@ export async function POST(request) {
     const body = await request.json()
     const { items, customer, totalAmount } = body
 
-    // Validation serveur
     if (!items?.length || !customer || !totalAmount) {
       return NextResponse.json({ error: 'Données manquantes' }, { status: 400 })
     }
@@ -70,17 +69,15 @@ export async function POST(request) {
     }
 
     return NextResponse.json(
-      { error: 'Erreur CinetPay', details: data.message || 'Réponse inattendue' },
+      { error: 'Erreur de paiement', details: data.message || 'Réponse inattendue' },
       { status: 400 }
     )
 
-  } catch (error) {
-    console.error('[CinetPay] Erreur:', error)
+  } catch {
     return NextResponse.json({ error: 'Erreur serveur interne' }, { status: 500 })
   }
 }
 
-// Webhook CinetPay (notify_url)
 export async function GET() {
   return NextResponse.json({ status: 'ok', service: "Le Panier d'Elif" })
 }

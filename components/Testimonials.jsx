@@ -2,99 +2,86 @@ import { Icon } from '@/components/icons'
 
 const testimonials = [
   {
-    quote: "Les meilleurs pastels d'Abidjan, point final. La pâte est incroyablement croustillante et la farce généreuse. Je commande chaque semaine.",
-    author: 'Aminata K.',
+    name: 'Awa K.',
     location: 'Cocody',
+    initial: 'A',
+    text: "Les meilleurs pastels d'Abidjan, sans hésitation. La pâte est parfaite — croustillante dehors, moelleuse dedans. Ma famille en redemande chaque semaine.",
   },
   {
-    quote: "Service impeccable, livraison rapide et les pastels arrivent encore chauds. Vraiment artisanal, on sent la différence immédiatement.",
-    author: 'Jean-Marc D.',
-    location: 'Plateau',
+    name: 'Jean-Baptiste M.',
+    location: 'Marcory',
+    initial: 'J',
+    text: "Commandé 50 pastels pour un anniversaire — disparus en 15 minutes. Tout le monde était bluffé, et la livraison ultra-rapide.",
   },
   {
-    quote: "J'ai commandé les surgelés pour avoir des pastels maison quand j'en ai envie. C'est parfait — qualité identique à la livraison fraîche.",
-    author: 'Fatoumata C.',
+    name: 'Fatou D.',
     location: 'Yopougon',
+    initial: 'F',
+    text: "Les pastels surgelés sont une révélation. J'en stocke et je fris quand j'ai envie. Pratique, délicieux, vraiment artisanal.",
   },
 ]
 
-function Stars() {
+function Card({ t }) {
   return (
-    <div className="flex items-center gap-0.5 text-clay" aria-label="5 étoiles">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Icon.StarFilled key={i} className="w-4 h-4" />
-      ))}
-    </div>
-  )
-}
-
-function TestimonialCard({ t }) {
-  return (
-    <article className="bg-void-2 border border-cream/8 rounded-3xl p-7 flex flex-col gap-5 h-full hover:border-terracotta/30 transition-colors duration-300">
-      <Stars />
-      <blockquote className="font-display italic text-cream/90 text-lg leading-relaxed flex-1">
-        "{t.quote}"
+    <figure className="bg-surface rounded-3xl border border-border p-7 flex flex-col gap-5 h-full">
+      <div className="flex text-gold" aria-label="Note : 5 sur 5">
+        {[...Array(5)].map((_, i) => <Icon.StarFilled key={i} className="w-4 h-4" />)}
+      </div>
+      <blockquote className="font-display italic text-ink text-lg leading-relaxed flex-1">
+        « {t.text} »
       </blockquote>
-      <div className="flex items-center gap-3">
+      <figcaption className="flex items-center gap-3 pt-4 border-t border-border">
         <span
-          className="w-10 h-10 rounded-full bg-terracotta/20 border border-terracotta/25 inline-flex items-center justify-center font-display font-semibold text-terracotta-soft text-sm shrink-0"
+          className="w-11 h-11 rounded-full bg-terra-bg text-terracotta font-display font-semibold inline-flex items-center justify-center"
           aria-hidden="true"
         >
-          {t.author.charAt(0)}
+          {t.initial}
         </span>
-        <div>
-          <p className="text-cream text-sm font-medium">{t.author}</p>
-          <p className="text-cream/40 text-xs mt-0.5">{t.location}</p>
-        </div>
-      </div>
-    </article>
+        <span>
+          <span className="block font-medium text-ink text-sm">{t.name}</span>
+          <span className="block text-muted text-xs">{t.location}, Abidjan</span>
+        </span>
+      </figcaption>
+    </figure>
   )
 }
 
 export default function Testimonials() {
   return (
-    <section className="bg-void py-16 sm:py-24" aria-label="Témoignages clients">
+    <section className="bg-bg py-20 sm:py-28" aria-label="Témoignages clients">
       <div className="max-w-8xl mx-auto px-5 sm:px-8">
 
-        {/* Header */}
-        <div className="text-center mb-12 reveal">
-          <div className="inline-flex items-center gap-2 mb-3">
+        <div className="reveal text-center max-w-2xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-2.5 mb-4 justify-center">
             <span className="rule" />
-            <span className="text-xs uppercase tracking-[0.18em] text-terracotta-soft font-semibold">
+            <span className="text-xs uppercase tracking-[0.18em] text-terracotta font-semibold">
               Avis clients
             </span>
             <span className="rule" />
           </div>
-          <h2 className="font-display font-semibold text-cream text-[clamp(1.9rem,4.5vw,3rem)] leading-[1.08] tracking-tightest">
-            Ce qu'ils disent
+          <h2 className="font-display font-semibold text-ink text-[clamp(2rem,4.5vw,3.2rem)] leading-[1.05] tracking-tightest">
+            Des familles qui <span className="italic text-terracotta">reviennent</span>
           </h2>
-          <div className="flex items-center justify-center gap-2 mt-4 text-cream/50 text-sm">
-            <div className="flex text-clay" aria-hidden="true">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Icon.StarFilled key={i} className="w-3.5 h-3.5" />
-              ))}
-            </div>
-            <span>500+ clients satisfaits</span>
-          </div>
         </div>
 
-        {/* Mobile carousel */}
-        <div className="flex overflow-x-auto touch-scroll scrollbar-hide gap-4 -mx-5 px-5 pb-4 sm:hidden">
-          {testimonials.map((t, i) => (
-            <div key={i} className="touch-scroll-item shrink-0 min-w-[85%] xs:min-w-[80%]">
-              <TestimonialCard t={t} />
+        {/* Mobile: swipe carousel */}
+        <div className="md:hidden flex gap-4 overflow-x-auto scrollbar-hide snap-x scroll-smooth pb-4 -mx-5 px-5">
+          {testimonials.map(t => (
+            <div key={t.name} className="snap-start flex-shrink-0 w-[82vw] max-w-sm">
+              <Card t={t} />
             </div>
           ))}
         </div>
 
-        {/* Desktop grid */}
-        <div className="hidden sm:grid sm:grid-cols-3 gap-5">
+        {/* Desktop: 3-col grid */}
+        <div className="hidden md:grid md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
-            <div key={i} className={`reveal reveal-delay-${i + 1}`}>
-              <TestimonialCard t={t} />
+            <div key={t.name} className={`reveal reveal-delay-${i + 1} h-full`}>
+              <Card t={t} />
             </div>
           ))}
         </div>
+
       </div>
     </section>
   )

@@ -1,21 +1,46 @@
 'use client'
-import { useEffect } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Lenis from 'lenis'
 
-gsap.registerPlugin(ScrollTrigger)
+import { useEffect } from 'react'
 
 export default function GsapProvider({ children }) {
   useEffect(() => {
-    const lenis = new Lenis({ lerp: 0.09, smoothWheel: true })
-    lenis.on('scroll', ScrollTrigger.update)
-    const raf = (time) => lenis.raf(time * 1000)
-    gsap.ticker.add(raf)
-    gsap.ticker.lagSmoothing(0)
+    let lenis
+    let cleanupScrollTrigger
+
+    async function init() {
+      try {
+        const [{ default: Lenis }, { gsap }, { ScrollTrigger }] = await Promise.all([
+          import('lenis'),
+          import('gsap'),
+          import('gsap/ScrollTrigger'),
+        ])
+
+        gsap.registerPlugin(ScrollTrigger)
+
+        lenis = new Lenis({
+          lerp: 0.09,
+          smoothWheel: true,
+          syncTouch: false,
+        })
+
+        lenis.on('scroll', ScrollTrigger.update)
+
+        gsap.ticker.add((time) => {
+          lenis.raf(time * 1000)
+        })
+        gsap.ticker.lagSmoothing(0)
+
+        cleanupScrollTrigger = () => {
+          ScrollTrigger.getAll().forEach(t => t.kill())
+        }
+      } catch {}
+    }
+
+    init()
+
     return () => {
-      lenis.destroy()
-      gsap.ticker.remove(raf)
+      if (lenis) lenis.destroy()
+      if (cleanupScrollTrigger) cleanupScrollTrigger()
     }
   }, [])
 
