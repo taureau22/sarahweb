@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect, useRef } from 'react'
 
 export default function CustomCursor() {
@@ -12,51 +11,49 @@ export default function CustomCursor() {
 
     const ring = ringRef.current
     const dot  = dotRef.current
+    if (!ring || !dot) return
 
-    let mouseX = -200, mouseY = -200
-    let ringX  = -200, ringY  = -200
-    let rafId  = null
+    let rafId
+    let mouseX = -100, mouseY = -100
+    let ringX  = -100, ringY  = -100
+    const lerpFactor = 0.1
 
     const onMove = (e) => {
       mouseX = e.clientX
       mouseY = e.clientY
       dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`
-      ring.classList.add('is-visible')
-      dot.classList.add('is-visible')
     }
 
-    const onLeave = () => {
-      ring.classList.remove('is-visible')
-      dot.classList.remove('is-visible')
+    const onOver = (e) => {
+      if (e.target && e.target.closest('a, button')) {
+        ring.classList.add('is-hovering')
+      }
+    }
+    const onOut = (e) => {
+      if (e.target && e.target.closest('a, button')) {
+        ring.classList.remove('is-hovering')
+      }
     }
 
-    const onHoverIn  = () => ring.classList.add('is-hovering')
-    const onHoverOut = () => ring.classList.remove('is-hovering')
-
-    document.addEventListener('mousemove', onMove, { passive: true })
-    document.addEventListener('mouseleave', onLeave)
-
-    /* Attache les événements sur les éléments interactifs (y compris futurs) */
-    const attachHover = () => {
-      document.querySelectorAll('a, button, [role="button"], label[for]').forEach(el => {
-        el.addEventListener('mouseenter', onHoverIn)
-        el.addEventListener('mouseleave', onHoverOut)
-      })
-    }
-    attachHover()
-
-    /* Smooth follow pour le ring (lerp) */
-    const loop = () => {
-      ringX += (mouseX - ringX) * 0.1
-      ringY += (mouseY - ringY) * 0.1
+    const animate = () => {
+      ringX += (mouseX - ringX) * lerpFactor
+      ringY += (mouseY - ringY) * lerpFactor
       ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`
-      rafId = requestAnimationFrame(loop)
+      rafId = requestAnimationFrame(animate)
     }
-    loop()
+
+    ring.classList.add('is-visible')
+    dot.classList.add('is-visible')
+
+    window.addEventListener('mousemove', onMove, { passive: true })
+    document.addEventListener('mouseover', onOver)
+    document.addEventListener('mouseout', onOut)
+    rafId = requestAnimationFrame(animate)
 
     return () => {
-      document.removeEventListener('mousemove', onMove)
-      document.removeEventListener('mouseleave', onLeave)
+      window.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseover', onOver)
+      document.removeEventListener('mouseout', onOut)
       cancelAnimationFrame(rafId)
     }
   }, [])

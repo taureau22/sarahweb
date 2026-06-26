@@ -1,21 +1,37 @@
 import ProductCard from '@/components/ProductCard'
 
 /**
- * Affichage produits responsive :
- *  - mobile : carrousel horizontal, ~1 carte visible + aperçu de la suivante (scroll-snap, swipe)
- *  - sm+    : grille classique 2 / 4 colonnes
- * Les cartes sont toujours visibles (pas de reveal) pour éviter toute carte masquée dans le carrousel.
+ * Grille de produits responsive.
+ * Mobile : carrousel horizontal avec scroll-snap.
+ * sm+ : grille classique 2 colonnes, lg+ : 4 colonnes.
  */
 export default function ProductGrid({ products }) {
+  if (!products || products.length === 0) {
+    return (
+      <p className="text-muted text-center py-12">Aucun produit disponible.</p>
+    )
+  }
+
   return (
-    <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6
-                    overflow-x-auto sm:overflow-visible touch-scroll sm:[scroll-snap-type:none]
-                    scrollbar-hide -mx-5 px-5 sm:mx-0 sm:px-0 pb-1 sm:pb-0">
-      {products.map(p => (
-        <div key={p.id} className="touch-scroll-item shrink-0 sm:shrink min-w-[82%] xs:min-w-[78%] sm:min-w-0">
-          <ProductCard product={p} />
-        </div>
-      ))}
-    </div>
+    <>
+      {/* Mobile carousel */}
+      <div className="flex overflow-x-auto touch-scroll scrollbar-hide gap-4 -mx-5 px-5 pb-4 sm:hidden">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="touch-scroll-item shrink-0 min-w-[78%] xs:min-w-[72%]"
+          >
+            <ProductCard product={product} />
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop grid */}
+      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+    </>
   )
 }

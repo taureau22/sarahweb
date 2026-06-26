@@ -8,9 +8,6 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
 
-/* Polices auto-hébergées (next/font/local) — aucune dépendance Google au build.
-   Direction "Artisan Chaud" : Fraunces (serif éditorial, titres) + DM Sans (UI, corps).
-   Variables → une plage de graisses par fichier. */
 const fraunces = localFont({
   variable: '--font-fraunces',
   display: 'swap',
@@ -40,31 +37,26 @@ export const metadata = {
     default: "Le Panier d'Elif — Pastels artisanales & Jus frais | Livraison partout",
     template: "%s | Le Panier d'Elif",
   },
-  description: "Pastels artisanales faits main livrés partout en Côte d'Ivoire. Poulet, viande, poisson, jambon. Jus frais bissap, passion, ananas. Paiement Orange Money, Wave.",
+  description: "Pastels artisanales faites main livrées partout en Côte d'Ivoire. Poulet, viande, poisson, jambon. Jus frais bissap, passion, ananas. Paiement Orange Money, Wave.",
   keywords: [
-    'pastels artisanaux Abidjan', 'pastels faits main Côte d\'Ivoire', 'livraison pastels',
-    'pastels surgelés Abidjan', 'jus frais Abidjan', 'Le Panier d\'Elif',
-    'commande pastels en ligne', 'Orange Money', 'Wave CI',
-    'Cocody', 'Yopougon', 'Marcory', 'Adjamé', 'Plateau',
+    "pastels artisanaux Abidjan", "pastels faits main Côte d'Ivoire", "livraison pastels",
+    "pastels surgelés Abidjan", "jus frais Abidjan", "Le Panier d'Elif",
+    "commande pastels en ligne", "Orange Money", "Wave CI",
+    "Cocody", "Yopougon", "Marcory", "Adjamé", "Plateau",
   ],
   manifest: '/manifest.json',
   openGraph: {
     title: "Le Panier d'Elif — Pastels artisanales & Jus frais",
-    description: "Pastels faits main livrés partout en Côte d'Ivoire. Paiement Orange Money · Wave.",
+    description: "Pastels faites main livrées partout en Côte d'Ivoire. Paiement Orange Money · Wave.",
     type: 'website',
     locale: 'fr_CI',
     siteName: "Le Panier d'Elif",
-    images: [{
-      url: '/images/cover.jpeg',
-      width: 1200,
-      height: 630,
-      alt: "Le Panier d'Elif — Pastels artisanales",
-    }],
+    images: [{ url: '/images/cover.jpeg', width: 1200, height: 630, alt: "Le Panier d'Elif — Pastels artisanales" }],
   },
   twitter: {
     card: 'summary_large_image',
     title: "Le Panier d'Elif — Pastels artisanales & Jus frais",
-    description: "Pastels faits main livrés partout en Côte d'Ivoire.",
+    description: "Pastels faites main livrées partout en Côte d'Ivoire.",
     images: ['/images/cover.jpeg'],
   },
   robots: {
@@ -80,16 +72,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="fr"
-      className={`${fraunces.variable} ${dmSans.variable}`}
-    >
-      <body className="font-sans bg-cream text-ink antialiased">
-        {/* Révélation au scroll en JS vanilla — TOTALEMENT indépendant de React.
-            Marque .js (sans JS → contenu visible), puis observe les .reveal (rendus côté serveur)
-            et les révèle au scroll. Failsafe + fallback : le contenu apparaît quoi qu'il arrive. */}
+    <html lang="fr" className={`${fraunces.variable} ${dmSans.variable}`}>
+      <body className="font-sans bg-void text-cream antialiased">
+        {/* Reveal script — progressive enhancement, independent of React */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){
-  var d=document, de=d.documentElement;
+  var d=document,de=d.documentElement;
   de.classList.add('js');
   function show(el){el.classList.add('visible');}
   function init(){
@@ -97,7 +84,7 @@ export default function RootLayout({ children }) {
     if(!('IntersectionObserver' in window)){for(var i=0;i<els.length;i++)show(els[i]);return;}
     var io=new IntersectionObserver(function(ents){
       ents.forEach(function(e){if(e.isIntersecting){show(e.target);io.unobserve(e.target);}});
-    },{threshold:0.1, rootMargin:'0px 0px -8% 0px'});
+    },{threshold:0.1,rootMargin:'0px 0px -8% 0px'});
     els.forEach(function(el){io.observe(el);});
     setTimeout(function(){els.forEach(show);},3000);
   }
@@ -109,22 +96,17 @@ export default function RootLayout({ children }) {
             "@context": "https://schema.org",
             "@type": "FoodEstablishment",
             "name": "Le Panier d'Elif",
-            "description": "Pastels artisanales faits main et jus frais, livrés partout en Côte d'Ivoire.",
+            "description": "Pastels artisanales faites main et jus frais, livrés partout en Côte d'Ivoire.",
             "url": process.env.NEXT_PUBLIC_SITE_URL || "https://lepanierdelif.ci",
             "telephone": "+2250710669990",
             "image": "/images/cover.jpeg",
             "servesCuisine": "Ivoirienne, Street food",
             "priceRange": "1000–3500 FCFA",
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "Abidjan",
-              "addressCountry": "CI"
-            },
+            "address": { "@type": "PostalAddress", "addressLocality": "Abidjan", "addressCountry": "CI" },
             "openingHoursSpecification": [{
               "@type": "OpeningHoursSpecification",
               "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-              "opens": "08:00",
-              "closes": "20:00"
+              "opens": "08:00", "closes": "20:00"
             }],
             "hasOfferCatalog": {
               "@type": "OfferCatalog",
