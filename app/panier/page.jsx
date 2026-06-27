@@ -276,7 +276,17 @@ export default function PanierPage() {
       `*Livraison*\n${livraison}\n\n` +
       `Paiement à convenir : Orange Money · Wave · carte · espèces.\n\nMerci !`
 
+    // Récap local pour la page de confirmation (référence affichée au client).
+    try {
+      sessionStorage.setItem('elif_last_order', JSON.stringify({
+        transactionId, items, total: orderAmount(), customer: form,
+      }))
+    } catch {}
+
+    // Ouvre WhatsApp (nouvel onglet / app) puis affiche la confirmation sur le site
+    // avec la référence — la commande est déjà enregistrée dans l'admin.
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
+    router.push(`/merci?tx=${transactionId}`)
   }
 
   /* Empty cart */
