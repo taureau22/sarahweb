@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import { formatPrice } from '@/data/products'
 import { Icon } from '@/components/icons'
@@ -16,7 +16,11 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
   const [imageFile, setImageFile] = useState(null)
   const [preview, setPreview]   = useState(null)
   const [submitting, setSubmitting] = useState(false)
+  const [deletingId, setDeletingId] = useState(null)
   const [msg, setMsg]           = useState(null)
+  const formRef                 = useRef(null)
+
+  const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -62,7 +66,13 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
     if (preview && preview.startsWith('blob:')) URL.revokeObjectURL(preview)
     setPreview(p.image || null)
     setMsg(null)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    scrollToForm()
+  }
+
+  const newProduct = () => {
+    resetForm()
+    setMsg(null)
+    scrollToForm()
   }
 
   const handleSubmit = async (e) => {
@@ -101,12 +111,14 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
   }
 
   const handleDelete = async (p) => {
-    if (!confirm(`Supprimer « ${p.shortName || p.name} » ?`)) return
+    if (!confirm(`Supprimer « ${p.shortName || p.name} » ?\n\nCette action est définitive.`)) return
+    setMsg(null)
+    setDeletingId(p.id)
     try {
       const res = await fetch(`/api/admin/products/${p.id}`, { method: 'DELETE', headers: authHeader() })
       if (res.status === 401) { onUnauthorized(); return }
       if (res.ok) {
-        setMsg({ type: 'success', text: 'Produit supprimé.' })
+        setMsg({ type: 'success', text: `« ${p.shortName || p.name} » supprimé.` })
         if (editingId === p.id) resetForm()
         load()
       } else {
@@ -115,6 +127,8 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
       }
     } catch {
       setMsg({ type: 'error', text: 'Erreur réseau.' })
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -122,7 +136,7 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-[360px_1fr] items-start">
       {/* Liste produits */}
       <aside className="space-y-6">
-        <div className="bg-surface border border-border rounded-4xl p-6 shadow-soft lg:sticky lg:top-24">
+        <div className="bg-surface border border-border rounded-4xl p-5 sm:p-6 shadow-soft lg:sticky lg:top-24">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.22em] text-muted mb-2">Produits existants</p>
@@ -131,59 +145,82 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
             </div>
             <button
               type="button"
-              onClick={() => resetForm()}
+              onClick={newProduct}
               className="inline-flex h-11 items-center justify-center rounded-full border border-border px-4 text-sm text-ink-2 hover:border-terracotta hover:text-terracotta transition-colors"
             >
               + Nouveau produit
             </button>
           </div>
 
-          <div className="mt-6 space-y-3 max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
+          <div className="mt-6 space-y-3 lg:max-h-[calc(100vh-16rem)] lg:overflow-y-auto lg:pr-1">
             {loading ? (
               <p className="text-muted text-sm py-8 text-center">Chargement…</p>
             ) : products.length === 0 ? (
               <p className="text-muted text-sm py-8 text-center">Aucun produit. Ajoutez-en un.</p>
             ) : (
               products.map((p) => (
-                <button
+                <div
                   key={p.id}
-                  type="button"
-                  onClick={() => startEdit(p)}
-                  className={`w-full text-left rounded-3xl border p-4 transition-colors hover:border-terracotta ${editingId === p.id ? 'border-terracotta bg-terra-1' : 'border-border bg-surface'}`}
+                  className={`rounded-3xl border overflow-hidden transition-colors ${editingId === p.id ? 'border-terracotta bg-terra-1' : 'border-border bg-surface'}`}
                 >
-                  <div className="flex gap-3 items-start">
-                    <div className="w-16 h-16 rounded-2xl overflow-hidden bg-terra-bg border border-border flex-shrink-0">
-                      {p.image ? (
-                        <Image src={p.image} alt={p.name} width={64} height={64} className="w-full h-full object-cover" sizes="64px" unoptimized />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted"><Icon.Leaf className="w-6 h-6" /></div>
-                      )}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <p className="font-medium text-ink truncate">{p.shortName || p.name}</p>
-                        {p.bestseller && <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">Best-seller</span>}
+                  <button
+                    type="button"
+                    onClick={() => startEdit(p)}
+                    className="w-full text-left p-4 hover:bg-terra-1/40 transition-colors"
+                  >
+                    <div className="flex gap-3 items-start">
+                      <div className="w-16 h-16 rounded-2xl overflow-hidden bg-terra-bg border border-border flex-shrink-0">
+                        {p.image ? (
+                          <Image src={p.image} alt={p.name} width={64} height={64} className="w-full h-full object-cover" sizes="64px" unoptimized />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-muted"><Icon.Leaf className="w-6 h-6" /></div>
+                        )}
                       </div>
-                      <p className="text-muted text-xs truncate mt-1">{p.name}</p>
-                      {p.options && p.options.length > 0 && (
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {p.options.map(o => (
-                            <span key={o.id} className="inline-flex items-center gap-2 bg-bg border border-border rounded-full px-2 py-1 text-xs text-ink-2">
-                              <span className="truncate max-w-[10rem]">{o.label}</span>
-                              {o.attrs && o.attrs.hasCheese === false && (
-                                <span className="ml-1 text-rose-600 text-[11px] font-semibold">Nature</span>
-                              )}
-                            </span>
-                          ))}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <p className="font-medium text-ink truncate">{p.shortName || p.name}</p>
+                          {p.bestseller && <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">Best-seller</span>}
                         </div>
-                      )}
-                      <p className="text-ink-2 text-xs mt-2">
-                        <span className="font-semibold tabular-nums">{formatPrice(p.price)}</span>
-                        {' · '}{p.category === 'surgele' ? 'Surgelé' : 'Frits'}
-                      </p>
+                        <p className="text-muted text-xs truncate mt-1">{p.name}</p>
+                        {p.options && p.options.length > 0 && (
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {p.options.map(o => (
+                              <span key={o.id} className="inline-flex items-center gap-2 bg-bg border border-border rounded-full px-2 py-1 text-xs text-ink-2">
+                                <span className="truncate max-w-[10rem]">{o.label}</span>
+                                {o.attrs && o.attrs.hasCheese === false && (
+                                  <span className="ml-1 text-rose-600 text-[11px] font-semibold">Nature</span>
+                                )}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        <p className="text-ink-2 text-xs mt-2">
+                          <span className="font-semibold tabular-nums">{formatPrice(p.price)}</span>
+                          {' · '}{p.category === 'surgele' ? 'Surgelé' : 'Frits'}
+                        </p>
+                      </div>
                     </div>
+                  </button>
+
+                  {/* Barre d'actions */}
+                  <div className="flex border-t border-border/70 divide-x divide-border/70">
+                    <button
+                      type="button"
+                      onClick={() => startEdit(p)}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 h-11 text-sm font-medium text-ink-2 hover:bg-terra-1 hover:text-terracotta transition-colors"
+                    >
+                      <Icon.Pencil className="w-4 h-4" /> Modifier
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(p)}
+                      disabled={deletingId === p.id}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 h-11 text-sm font-medium text-rose-600 hover:bg-rose-50 disabled:opacity-50 transition-colors"
+                    >
+                      <Icon.Trash2 className="w-4 h-4" /> {deletingId === p.id ? 'Suppression…' : 'Supprimer'}
+                    </button>
                   </div>
-                </button>
+                </div>
               ))
             )}
           </div>
@@ -198,8 +235,8 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
       </aside>
 
       {/* Formulaire ajout / édition */}
-      <section className="space-y-6">
-        <div className="bg-surface border border-border rounded-4xl p-6 shadow-soft">
+      <section ref={formRef} className="space-y-6 scroll-mt-24">
+        <div className="bg-surface border border-border rounded-4xl p-5 sm:p-6 shadow-soft">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between mb-5">
             <div>
               <p className="text-xs uppercase tracking-[0.22em] text-muted mb-2">Fiche produit</p>
