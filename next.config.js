@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const isDev = process.env.NODE_ENV !== 'production'
+
 const securityHeaders = [
   { key: 'X-DNS-Prefetch-Control',   value: 'on' },
   { key: 'X-Frame-Options',          value: 'SAMEORIGIN' },
@@ -13,11 +15,13 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
+      // En dev, Next.js (Fast Refresh) a besoin de 'unsafe-eval'.
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
       "style-src 'self' 'unsafe-inline'",
       "font-src 'self'",
       "img-src 'self' data: blob:",
-      "connect-src 'self' https://api-checkout.cinetpay.com",
+      // En dev, HMR utilise un websocket (ws/wss).
+      `connect-src 'self' https://api-checkout.cinetpay.com${isDev ? ' ws: wss:' : ''}`,
       "frame-src https://api-checkout.cinetpay.com",
     ].join('; '),
   },

@@ -88,9 +88,11 @@ export default function AdminPage() {
         headers: authHeader(),
         body: fd,
       })
-      const data = await res.json()
+      const data = await res.json().catch(() => ({}))
       if (res.ok) {
-        setMsg({ type: 'success', text: `« ${data.product.shortName} » ajouté.` })
+        let message = `« ${data.product.shortName} » ajouté.`
+        if (data.warning) message += ` Attention : ${data.warning}`
+        setMsg({ type: 'success', text: message })
         setForm(EMPTY)
         setImageFile(null)
         if (preview) { URL.revokeObjectURL(preview); setPreview(null) }

@@ -5,7 +5,10 @@ import productsData from './products.json'
 export const products = productsData
 
 export function formatPrice(amount) {
-  return new Intl.NumberFormat('fr-FR').format(amount) + ' FCFA'
+  // Séparateur de milliers déterministe (espace ASCII) — évite les
+  // différences d'Intl entre serveur Node et navigateur (mismatch d'hydratation).
+  const n = Math.round(Number(amount) || 0)
+  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' FCFA'
 }
 
 export const fraisProducts   = products.filter(p => p.category === 'frais')

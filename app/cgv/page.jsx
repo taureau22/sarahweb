@@ -26,8 +26,8 @@ const articles = [
     title: 'Produits',
     content: (
       <p>
-        Les produits proposés sont des pastels artisanaux faits main (pastels frits, surgelés) et des jus de
-        fruits frais, préparés à Abidjan. Les produits sont disponibles dans la limite des stocks. En cas
+        Les produits proposés sont des pastels artisanaux faits main (frais ou surgelés),
+        préparés à Abidjan. Les produits sont disponibles dans la limite des stocks. En cas
         d'indisponibilité, le client est contacté par WhatsApp dans les meilleurs délais.
       </p>
     ),

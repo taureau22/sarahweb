@@ -31,18 +31,18 @@ export const viewport = {
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://lepanierdelif.ci'),
   title: {
-    default: "Le Panier d'Elif — Pastels artisanaux & Jus frais | Livraison à Abidjan",
+    default: "Le Panier d'Elif — Pastels artisanaux faits main | Livraison à Abidjan",
     template: "%s | Le Panier d'Elif",
   },
-  description: "Pastels artisanaux faits main livrés à Abidjan, Côte d'Ivoire. Poulet, viande, poisson, jambon. Jus frais bissap, passion, ananas. Paiement Orange Money, Wave.",
+  description: "Pastels artisanaux faits main livrés à Abidjan, Côte d'Ivoire. Poulet, viande hachée, poisson, jambon de dinde — frais ou surgelés. Paiement Orange Money, Wave.",
   keywords: [
     'pastels artisanaux Abidjan', 'pastels faits main Côte d\'Ivoire', 'livraison pastels',
-    'jus frais Abidjan', 'Le Panier d\'Elif', 'commande pastels en ligne',
+    'pastels surgelés Abidjan', 'Le Panier d\'Elif', 'commande pastels en ligne',
   ],
   manifest: '/manifest.json',
   openGraph: {
-    title: "Le Panier d'Elif — Pastels artisanaux & Jus frais",
-    description: "Pastels faits main livrés à Abidjan. Paiement Orange Money · Wave.",
+    title: "Le Panier d'Elif — Pastels artisanaux faits main",
+    description: "Pastels artisanaux faits main, frais ou surgelés, livrés à Abidjan. Paiement Orange Money · Wave.",
     type: 'website',
     locale: 'fr_CI',
     siteName: "Le Panier d'Elif",
@@ -50,7 +50,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Le Panier d'Elif — Pastels artisanaux & Jus frais",
+    title: "Le Panier d'Elif — Pastels artisanaux faits main",
     images: ['/images/cover.jpeg'],
   },
   robots: {
@@ -89,12 +89,12 @@ export default function RootLayout({ children }) {
             "@context": "https://schema.org",
             "@type": "FoodEstablishment",
             "name": "Le Panier d'Elif",
-            "description": "Pastels artisanaux faits main et jus frais, livrés à Abidjan, Côte d'Ivoire.",
+            "description": "Pastels artisanaux faits main, frais ou surgelés, livrés à Abidjan, Côte d'Ivoire.",
             "url": process.env.NEXT_PUBLIC_SITE_URL || "https://lepanierdelif.ci",
             "telephone": "+2250710669990",
             "image": "/images/cover.jpeg",
             "servesCuisine": "Ivoirienne, Street food",
-            "priceRange": "1000–3500 FCFA",
+            "priceRange": "3500 FCFA",
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Abidjan",

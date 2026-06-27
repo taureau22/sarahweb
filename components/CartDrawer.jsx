@@ -73,7 +73,7 @@ export default function CartDrawer() {
             </div>
             <p className="font-display font-semibold text-ink text-xl">Votre panier est vide</p>
             <p className="text-muted text-sm leading-relaxed">
-              Ajoutez des pastels ou jus frais pour démarrer votre commande.
+              Ajoutez des pastels pour démarrer votre commande.
             </p>
             <Link
               href="/boutique"

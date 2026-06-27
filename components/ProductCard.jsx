@@ -66,32 +66,34 @@ export default function ProductCard({ product }) {
         </h3>
         <p className="text-muted text-xs mt-1 line-clamp-1">{product.unit}</p>
 
-        <div className="mt-3 flex items-center justify-between gap-2">
-          <p className="font-display font-semibold text-ink text-lg leading-none tabular-nums">
-            {formatPrice(product.price)}
-          </p>
+        <p className="mt-2 font-display font-semibold text-ink text-xl leading-none tabular-nums">
+          {formatPrice(product.price)}
+        </p>
 
-          {/* Quick add / stepper */}
+        {/* Add / stepper — pleine largeur, en bas de carte */}
+        <div className="mt-auto pt-3.5">
           {qty === 0 ? (
             <button
               onClick={add}
-              aria-label={`Ajouter ${product.name}`}
-              className="w-10 h-10 rounded-full bg-ink text-white inline-flex items-center justify-center hover:bg-terracotta transition-colors active:scale-90 shrink-0"
+              aria-label={`Ajouter ${product.name} au panier`}
+              className="w-full h-11 rounded-full bg-ink text-white text-sm font-semibold inline-flex items-center justify-center gap-2 hover:bg-terracotta transition-colors active:scale-[.98]"
             >
-              <Icon.Plus className="w-5 h-5" strokeWidth={2.25} />
+              <Icon.Plus className="w-[18px] h-[18px]" strokeWidth={2.5} /> Ajouter
             </button>
           ) : (
             <div
-              className="inline-flex items-center bg-terracotta text-white rounded-full h-10 shadow-terra"
+              className="w-full h-11 pl-1.5 pr-1.5 flex items-center justify-between bg-terracotta text-white rounded-full shadow-terra"
               role="group"
               aria-label={`Quantité de ${product.name}`}
             >
-              <button onClick={dec} aria-label="Retirer un" className="w-10 h-10 inline-flex items-center justify-center active:scale-90 transition-transform">
-                <Icon.Minus className="w-4 h-4" strokeWidth={2.25} />
+              <button onClick={dec} aria-label="Retirer un" className="w-9 h-9 rounded-full inline-flex items-center justify-center hover:bg-white/15 active:scale-90 transition">
+                <Icon.Minus className="w-[18px] h-[18px]" strokeWidth={2.5} />
               </button>
-              <span className="min-w-[18px] text-center text-sm font-bold tabular-nums" aria-live="polite">{qty}</span>
-              <button onClick={add} aria-label="Ajouter un" className="w-10 h-10 inline-flex items-center justify-center active:scale-90 transition-transform">
-                <Icon.Plus className="w-4 h-4" strokeWidth={2.25} />
+              <span className="text-sm font-bold tabular-nums" aria-live="polite">
+                {qty} <span className="font-normal opacity-80">au panier</span>
+              </span>
+              <button onClick={add} aria-label="Ajouter un" className="w-9 h-9 rounded-full inline-flex items-center justify-center hover:bg-white/15 active:scale-90 transition">
+                <Icon.Plus className="w-[18px] h-[18px]" strokeWidth={2.5} />
               </button>
             </div>
           )}

@@ -1,8 +1,8 @@
 import MenuBrowser from '@/components/MenuBrowser'
 
 export const metadata = {
-  title: 'Le menu — Pastels & Jus frais',
-  description: "Commandez nos pastels artisanaux et jus frais, livrés à Abidjan. Paiement Orange Money & Wave.",
+  title: 'Le menu — Pastels artisanaux',
+  description: "Commandez nos pastels artisanaux faits main, frais ou surgelés, livrés à Abidjan. Paiement Orange Money & Wave.",
 }
 
 export default function BoutiquePage() {

@@ -8,7 +8,10 @@
     "price": 3500,
     "unit": "10 pièces / paquet",
     "image": "/images/03_pastels-frits.png",
-    "badges": ["Fait main", "10 pièces"],
+    "badges": [
+      "Fait main",
+      "10 pièces"
+    ],
     "bestseller": true
   },
   {
@@ -20,7 +23,10 @@
     "price": 3500,
     "unit": "10 pièces / paquet",
     "image": "/images/06_pastel-viande-coupe.png",
-    "badges": ["Fait main", "10 pièces"],
+    "badges": [
+      "Fait main",
+      "10 pièces"
+    ],
     "bestseller": false
   },
   {
@@ -32,7 +38,10 @@
     "price": 3500,
     "unit": "10 pièces / paquet",
     "image": "/images/01_pastel-jambon-dinde-creme-fromage.jpg",
-    "badges": ["Fait main", "10 pièces"],
+    "badges": [
+      "Fait main",
+      "10 pièces"
+    ],
     "bestseller": false
   },
   {
@@ -44,7 +53,10 @@
     "price": 3500,
     "unit": "10 pièces / paquet",
     "image": "/images/04_pastels-handmade.png",
-    "badges": ["Fait main", "10 pièces"],
+    "badges": [
+      "Fait main",
+      "10 pièces"
+    ],
     "bestseller": false
   },
   {
@@ -56,7 +68,10 @@
     "price": 3500,
     "unit": "10 pièces / paquet",
     "image": "/images/02_pastel-poisson-nature.jpg",
-    "badges": ["Fait main", "10 pièces"],
+    "badges": [
+      "Fait main",
+      "10 pièces"
+    ],
     "bestseller": true
   },
   {
@@ -68,7 +83,10 @@
     "price": 3500,
     "unit": "Paquet à congeler",
     "image": "/images/05_pastel-surgeles-mix.png",
-    "badges": ["À congeler", "Assortiment"],
+    "badges": [
+      "À congeler",
+      "Assortiment"
+    ],
     "bestseller": false
   }
 ]

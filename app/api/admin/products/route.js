@@ -39,16 +39,23 @@ export async function POST(request) {
     const products = await readProducts()
 
     let imagePath = null
+    let warning = null
     const file = form.get('image')
     if (file && typeof file === 'object' && file.size > 0) {
-      imagePath = await saveImage(file, fields.name || 'produit')
+      try {
+        imagePath = await saveImage(file, fields.name || 'produit')
+      } catch (err) {
+        warning = err?.message || 'Impossible d’enregistrer l’image.'
+      }
     }
 
     const product = buildProduct(fields, imagePath, products)
     products.push(product)
     await writeProducts(products)
 
-    return NextResponse.json({ success: true, product }, { status: 201 })
+    const response = { success: true, product }
+    if (warning) response.warning = warning
+    return NextResponse.json(response, { status: 201 })
   } catch (err) {
     return NextResponse.json(
       { error: err?.message || 'Création impossible' },

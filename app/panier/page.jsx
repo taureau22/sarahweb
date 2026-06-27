@@ -123,7 +123,7 @@ export default function PanierPage() {
           <Icon.Bag className="w-9 h-9" strokeWidth={1.5} />
         </div>
         <h1 className="font-display font-semibold text-ink text-3xl mb-3">Votre panier est vide</h1>
-        <p className="text-ink-2 mb-8">Ajoutez des pastels ou jus frais pour démarrer votre commande.</p>
+        <p className="text-ink-2 mb-8">Ajoutez des pastels pour démarrer votre commande.</p>
         <Link
           href="/boutique"
           className="inline-flex items-center gap-2 h-13 px-7 py-4 rounded-full bg-terracotta text-white font-medium hover:bg-[#D2761C] transition-colors"

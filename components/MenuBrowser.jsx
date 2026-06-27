@@ -36,7 +36,7 @@ export default function MenuBrowser() {
             type="search"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder="Rechercher un pastel, un jus…"
+            placeholder="Rechercher un pastel…"
             aria-label="Rechercher un produit"
             className="w-full h-12 pl-11 pr-4 rounded-full bg-surface border border-border text-[15px] text-ink placeholder:text-muted focus:outline-none focus:border-terracotta transition-colors"
           />
@@ -72,7 +72,7 @@ export default function MenuBrowser() {
             <p className="text-muted text-sm">Essayez un autre mot ou changez de catégorie.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {filtered.map(p => <ProductCard key={p.id} product={p} />)}
           </div>
         )}
