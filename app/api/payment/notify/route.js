@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { verifyPayment } from '@/lib/orders-store'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -9,7 +10,7 @@ export async function GET() {
 }
 
 // CinetPay notifie le paiement en POST (cpm_trans_id, cpm_site_id…).
-// On vérifie l'état réel via l'API /v2/payment/check, puis on répond 200.
+// On vérifie l'état réel via /v2/payment/check et on met à jour la commande, puis 200.
 export async function POST(request) {
   try {
     let transactionId
@@ -26,20 +27,14 @@ export async function POST(request) {
       return NextResponse.json({ error: 'transaction_id manquant' }, { status: 400 })
     }
 
-    const res = await fetch('https://api-checkout.cinetpay.com/v2/payment/check', {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({
-        apikey:         process.env.CINETPAY_API_KEY,
-        site_id:        process.env.CINETPAY_SITE_ID,
-        transaction_id: transactionId,
-      }),
-    })
-    const data = await res.json().catch(() => ({}))
+    try {
+      const { updated, cinetpay } = await verifyPayment(transactionId)
+      console.log('[notify]', transactionId, '→', cinetpay?.data?.status, '| commande:', updated?.status || 'introuvable')
+    } catch (e) {
+      console.error('[notify] vérification impossible:', e?.message)
+    }
 
-    console.log('[notify] Transaction', transactionId, '→', data?.code, data?.data?.status)
-    // Ici on pourrait enregistrer la commande / envoyer un message si status === 'ACCEPTED'.
-
+    // Toujours répondre 200 à CinetPay pour acquitter la notification.
     return NextResponse.json({ received: true })
   } catch (err) {
     console.error('[notify] Erreur:', err?.message)

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { products } from '@/data/products'
+import { products as seedProducts } from '@/data/products'
 import ProductCard from '@/components/ProductCard'
 import { Icon } from '@/components/icons'
 
@@ -11,18 +11,19 @@ const CATEGORIES = [
   { id: 'surgele', label: 'Surgelés', Ico: Icon.Snowflake },
 ]
 
-export default function MenuBrowser() {
+export default function MenuBrowser({ products: productsProp }) {
+  const allProducts = productsProp?.length ? productsProp : seedProducts
   const [cat, setCat]       = useState('all')
   const [query, setQuery]   = useState('')
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    return products.filter(p => {
+    return allProducts.filter(p => {
       const okCat = cat === 'all' || p.category === cat
       const okQ = !q || (p.name + ' ' + (p.description || '')).toLowerCase().includes(q)
       return okCat && okQ
     })
-  }, [cat, query])
+  }, [cat, query, allProducts])
 
   return (
     <section id="menu" className="max-w-[1100px] mx-auto px-4 sm:px-6">

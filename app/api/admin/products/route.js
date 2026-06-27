@@ -1,10 +1,17 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import {
   isAuthorized, readProducts, writeProducts, saveImage, buildProduct,
 } from '@/lib/products-store'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
+
+// Rafraîchit le catalogue public après une modification admin.
+function revalidateCatalog() {
+  revalidatePath('/')
+  revalidatePath('/boutique')
+}
 
 // GET — liste des produits (admin)
 export async function GET(request) {
@@ -52,6 +59,7 @@ export async function POST(request) {
     const product = buildProduct(fields, imagePath, products)
     products.push(product)
     await writeProducts(products)
+    revalidateCatalog()
 
     const response = { success: true, product }
     if (warning) response.warning = warning

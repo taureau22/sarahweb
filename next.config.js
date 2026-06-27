@@ -30,6 +30,8 @@ const securityHeaders = [
 ]
 
 const nextConfig = {
+  // @netlify/blobs est résolu au runtime (pas bundlé) — évite tout souci de build.
+  serverExternalPackages: ['@netlify/blobs'],
   images: {
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [375, 640, 750, 828, 1080, 1200, 1920],

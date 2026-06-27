@@ -7,6 +7,9 @@
 .next/
 out/
 
+# Stockage local (repli Netlify Blobs en dev) — commandes, produits, médias
+.data/
+
 # Node
 node_modules/
 npm-debug.log*

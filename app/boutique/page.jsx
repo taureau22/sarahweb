@@ -1,11 +1,15 @@
 import MenuBrowser from '@/components/MenuBrowser'
+import { readProducts } from '@/lib/products-store'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Le menu — Pastels artisanaux',
   description: "Commandez nos pastels artisanaux faits main, frais ou surgelés, livrés à Abidjan. Paiement Orange Money & Wave.",
 }
 
-export default function BoutiquePage() {
+export default async function BoutiquePage() {
+  const products = await readProducts()
   return (
     <div className="pt-16">
       <div className="max-w-[1100px] mx-auto px-4 sm:px-6 pt-6 pb-1">
@@ -16,7 +20,7 @@ export default function BoutiquePage() {
           Choisissez, ajoutez, on s&apos;occupe du reste.
         </p>
       </div>
-      <MenuBrowser />
+      <MenuBrowser products={products} />
     </div>
   )
 }

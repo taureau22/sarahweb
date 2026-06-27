@@ -2,6 +2,10 @@ import Hero from '@/components/Hero'
 import Marquee from '@/components/Marquee'
 import MenuBrowser from '@/components/MenuBrowser'
 import { Icon } from '@/components/icons'
+import { readProducts } from '@/lib/products-store'
+
+// Catalogue live : lu depuis le stockage à chaque requête (admin → visible aussitôt).
+export const dynamic = 'force-dynamic'
 
 const STEPS = [
   { n: '1', Ico: Icon.Bag,        t: 'Composez',  s: 'Ajoutez vos pastels au panier.' },
@@ -9,7 +13,8 @@ const STEPS = [
   { n: '3', Ico: Icon.Truck,      t: 'Recevez',   s: 'On livre, encore croustillant.' },
 ]
 
-export default function HomePage() {
+export default async function HomePage() {
+  const products = await readProducts()
   return (
     <>
       {/* Hero typographique animé */}
@@ -25,7 +30,7 @@ export default function HomePage() {
       </div>
 
       {/* Menu (recherche + onglets + grille) */}
-      <MenuBrowser />
+      <MenuBrowser products={products} />
 
       {/* Comment ça marche */}
       <section className="bg-surface border-t border-border">

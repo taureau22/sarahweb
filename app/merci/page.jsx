@@ -11,16 +11,38 @@ function MerciContent() {
   const params = useSearchParams()
   const { clearCart } = useCart()
   const [order, setOrder] = useState(null)
+  const txParam = params.get('tx')
 
   useEffect(() => {
     clearCart()
+    // Affichage immédiat depuis la session (récap local)
+    let sess = null
     try {
       const saved = sessionStorage.getItem('elif_last_order')
-      if (saved) setOrder(JSON.parse(saved))
+      if (saved) { sess = JSON.parse(saved); setOrder(sess) }
     } catch {}
+    // Puis statut réel depuis le serveur (paiement confirmé via webhook)
+    const id = txParam || sess?.transactionId
+    if (id) {
+      fetch(`/api/orders/${id}`)
+        .then(r => (r.ok ? r.json() : null))
+        .then(d => {
+          if (d?.order) {
+            setOrder(o => ({
+              ...(o || {}),
+              transactionId: d.order.id,
+              items: d.order.items?.length ? d.order.items : o?.items,
+              total: d.order.amount ?? o?.total,
+              status: d.order.status,
+            }))
+          }
+        })
+        .catch(() => {})
+    }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const txId = params.get('tx') || order?.transactionId
+  const txId = txParam || order?.transactionId
+  const paid = order?.status === 'paid'
 
   return (
     <div className="pt-24 sm:pt-32 min-h-screen bg-bg flex items-center justify-center px-5 py-16">
@@ -32,10 +54,13 @@ function MerciContent() {
           </div>
 
           <h1 className="font-display font-semibold text-ink text-4xl mb-3">
-            Commande <span className="italic text-terracotta">confirmée</span>
+            Commande <span className="italic text-terracotta">{paid ? 'confirmée' : 'reçue'}</span>
           </h1>
           <p className="text-ink-2 text-[15px] mb-8 leading-relaxed">
-            Merci pour votre confiance. Nous préparons votre commande et vous contacterons pour la livraison.
+            Merci pour votre confiance.{' '}
+            {paid
+              ? 'Votre paiement est confirmé. Nous vous contactons pour organiser la livraison.'
+              : 'Nous vous contactons pour confirmer votre commande et organiser la livraison.'}
           </p>
 
           {order && (
@@ -94,8 +119,7 @@ function MerciContent() {
           <div>
             <p className="font-medium text-ink text-sm mb-1">Et maintenant ?</p>
             <p className="text-ink-2 text-sm leading-relaxed">
-              Notre équipe vous contactera dans les{' '}
-              <strong>30 minutes</strong> pour confirmer la livraison.
+              Notre équipe vous contactera pour confirmer votre commande et organiser la livraison.
             </p>
           </div>
         </div>

@@ -81,6 +81,25 @@ export default function PanierPage() {
   // Précharge le SDK dès l'arrivée sur la page (popup instantanée au clic).
   useEffect(() => { loadCinetPay().catch(() => {}) }, [])
 
+  const orderAmount = () => Math.round(totalPrice / 5) * 5 // entier multiple de 5 (XOF)
+
+  // Enregistre la commande (best-effort) pour qu'elle apparaisse dans l'admin.
+  const saveOrder = async (transactionId, channel) => {
+    try {
+      await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          transactionId,
+          channel,
+          amount: orderAmount(),
+          items: items.map(i => ({ id: i.id, name: i.shortName || i.name, price: i.price, quantity: i.quantity })),
+          customer: form,
+        }),
+      })
+    } catch { /* la commande sera de toute façon confirmée via le webhook / WhatsApp */ }
+  }
+
   const handleChange = e => {
     const { name, value } = e.target
     setForm(f => ({ ...f, [name]: value }))
@@ -118,9 +137,11 @@ export default function PanierPage() {
     try {
       const CinetPay = await loadCinetPay()
 
-      // Montant entier, multiple de 5 (exigence CinetPay XOF)
-      const amount = Math.round(totalPrice / 5) * 5
+      const amount = orderAmount()
       const transactionId = `ELIF-${Date.now()}`
+
+      // Enregistre la commande (pending) AVANT d'ouvrir le paiement
+      await saveOrder(transactionId, 'cinetpay')
 
       // Pour la page de confirmation
       sessionStorage.setItem('elif_last_order', JSON.stringify({
@@ -177,12 +198,38 @@ export default function PanierPage() {
     }
   }
 
-  const handleWhatsApp = () => {
-    const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
+  // Repli WhatsApp tracé : valide les coordonnées, enregistre la commande,
+  // puis ouvre WhatsApp avec un récap complet (paiement à convenir).
+  const handleWhatsApp = async () => {
+    setApiError('')
+    const errs = validate()
+    if (Object.keys(errs).length) {
+      setErrors(errs)
+      document.getElementById('form-start')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
+
+    const transactionId = `ELIF-${Date.now()}`
+    await saveOrder(transactionId, 'whatsapp')
+
+    const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'
     const lines = items.map(i =>
       `• ${i.shortName || i.name} × ${i.quantity} = ${formatPrice(i.price * i.quantity)}`
     ).join('\n')
-    const msg = `Bonjour Le Panier d'Elif !\n\nJe souhaite commander :\n\n${lines}\n\n*Total : ${formatPrice(totalPrice)}*\n\nMerci`
+    const livraison = [
+      `${form.prenom} ${form.nom}`,
+      `Tél : ${form.telephone}`,
+      `${form.adresse}${form.quartier ? `, ${form.quartier}` : ''}`,
+      form.note ? `Note : ${form.note}` : '',
+    ].filter(Boolean).join('\n')
+
+    const msg =
+      `Bonjour Le Panier d'Elif !\n\n` +
+      `Nouvelle commande (réf. ${transactionId}) :\n\n${lines}\n\n` +
+      `*Total : ${formatPrice(totalPrice)}*\n\n` +
+      `*Livraison*\n${livraison}\n\n` +
+      `Paiement à convenir : Orange Money · Wave · carte · espèces.\n\nMerci !`
+
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
   }
 
