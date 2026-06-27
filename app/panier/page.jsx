@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCart } from '@/context/CartContext'
-import { formatPrice } from '@/data/products'
+import { formatPrice, products as allProducts } from '@/data/products'
 import { Icon } from '@/components/icons'
 
 const INITIAL = { prenom: '', nom: '', telephone: '', adresse: '', quartier: '', note: '' }
@@ -293,6 +293,25 @@ export default function PanierPage() {
 
             {/* Items */}
             <section aria-label="Articles" className="bg-surface rounded-3xl border border-border overflow-hidden">
+              {/* Warning: missing references for some frozen items */}
+              {items.some(i => i.category === 'surgele' && !i.option) && (
+                <div className="p-4 border-b border-terracotta/20 bg-terra-bg text-terracotta text-sm">
+                  <div className="font-semibold">Produits surgelés sans référence</div>
+                  <div className="mt-2 space-y-1">
+                    {items.filter(i => i.category === 'surgele' && !i.option).map(i => (
+                      <div key={i.id} className="flex items-center justify-between">
+                        <span>{i.shortName || i.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => document.getElementById(`cart-option-${String(i.id).replace(/[^a-zA-Z0-9-_]/g,'')}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+                          className="text-terracotta underline text-sm"
+                        >Choisir référence</button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {items.map((item, idx) => (
                 <div
                   key={item.id}
@@ -320,6 +339,45 @@ export default function PanierPage() {
                       <div>
                         <p className="font-medium text-ink leading-snug">{item.shortName || item.name}</p>
                         <p className="text-muted text-xs mt-0.5">{item.unit}</p>
+                        {(() => {
+                          const baseId = String(item.id).split('-')[0]
+                          const prod = allProducts.find(p => String(p.id) === String(baseId))
+                          if (prod && Array.isArray(prod.options) && prod.options.length > 0) {
+                            const parts = String(item.id).split('-')
+                            const selIdFromId = parts.length > 1 ? parts.slice(1).join('-') : null
+                            const selOpt = prod.options.find(o => String(o.id) === String(selIdFromId)) || prod.options.find(o => o.label === item.option) || null
+                            return (
+                              <div id={`cart-option-${String(item.id).replace(/[^a-zA-Z0-9-_]/g,'')}`} className="mt-3">
+                                <label className="text-xs font-semibold uppercase tracking-wider text-muted">Référence</label>
+                                <select
+                                  value={selOpt ? selOpt.id : ''}
+                                  onChange={(e) => {
+                                    const optId = e.target.value
+                                    const option = prod.options.find(o => String(o.id) === optId)
+                                    if (!option) return
+                                    const qty = item.quantity || 1
+                                    removeFromCart(item.id)
+                                    const newItem = {
+                                      ...prod,
+                                      id: `${prod.id}-${option.id}`,
+                                      price: option.price ?? prod.price,
+                                      name: `${prod.name} — ${option.label}`,
+                                      shortName: option.shortName || `${prod.shortName} ${option.label}`,
+                                      option: option.label,
+                                      image: prod.image || item.image,
+                                    }
+                                    addToCart(newItem, qty)
+                                  }}
+                                  className="mt-1 w-full h-10 rounded-2xl bg-bg border border-border px-3 text-sm"
+                                >
+                                  <option value="">Choisir...</option>
+                                  {prod.options.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}
+                                </select>
+                              </div>
+                            )
+                          }
+                          return null
+                        })()}
                       </div>
                       <button
                         onClick={() => removeFromCart(item.id)}
