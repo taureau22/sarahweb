@@ -10,7 +10,9 @@ import { Icon } from '@/components/icons'
 export default function ProductCard({ product }) {
   const { items, addToCart, updateQuantity, atLimit } = useCart()
   const { addToast } = useToast()
-  const [selectedOption, setSelectedOption] = useState(product.options?.[0] || null)
+  const [selectedOption, setSelectedOption] = useState(
+    product.category === 'surgele' ? null : (product.options?.[0] || null)
+  )
 
   const itemId = selectedOption ? `${product.id}-${selectedOption.id}` : product.id
   const inCart = items.find(i => i.id === itemId)
@@ -18,6 +20,10 @@ export default function ProductCard({ product }) {
   const selectedPrice = selectedOption?.price ?? product.price
 
   const add = () => {
+    if (product.category === 'surgele' && !selectedOption) {
+      return addToast('Veuillez choisir une référence pour les produits surgelés.', 'error')
+    }
+
     const itemToAdd = selectedOption ? {
       ...product,
       id: itemId,
@@ -83,13 +89,16 @@ export default function ProductCard({ product }) {
           <label className="mt-3 block text-sm text-ink-2">
             <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Choix</span>
             <select
-              value={selectedOption?.id}
+              value={selectedOption?.id || ''}
               onChange={(e) => {
                 const option = product.options.find(o => o.id === e.target.value)
                 setSelectedOption(option || null)
               }}
               className="mt-2 w-full h-12 rounded-2xl bg-bg border border-border px-4 text-sm text-ink focus:outline-none focus:border-terracotta transition-colors"
             >
+              {product.category === 'surgele' && (
+                <option value="">Choisir une référence...</option>
+              )}
               {product.options.map(option => (
                 <option key={option.id} value={option.id}>{option.label}</option>
               ))}
@@ -107,7 +116,8 @@ export default function ProductCard({ product }) {
             <button
               onClick={add}
               aria-label={`Ajouter ${product.name} au panier`}
-              className="w-full h-11 rounded-full bg-ink text-white text-sm font-semibold inline-flex items-center justify-center gap-2 hover:bg-terracotta transition-colors active:scale-[.98]"
+              disabled={product.category === 'surgele' && !selectedOption}
+              className={`w-full h-11 rounded-full text-white text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors active:scale-[.98] ${product.category === 'surgele' && !selectedOption ? 'bg-muted/40 cursor-not-allowed' : 'bg-ink hover:bg-terracotta'}`}
             >
               <Icon.Plus className="w-[18px] h-[18px]" strokeWidth={2.5} /> Ajouter
             </button>
