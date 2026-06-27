@@ -12,6 +12,7 @@ export default function AdminPage() {
   const [pw, setPw]             = useState('')
   const [authed, setAuthed]     = useState(false)
   const [authError, setAuthError] = useState('')
+  const [loginMessage, setLoginMessage] = useState('')
   const [products, setProducts] = useState([])
   const [loading, setLoading]   = useState(false)
 
@@ -49,18 +50,22 @@ export default function AdminPage() {
     setAuthError('')
     try {
       const res = await fetch('/api/admin/products', { headers: { 'x-admin-password': pw } })
+      const data = await res.json().catch(() => ({}))
       if (res.ok) {
         sessionStorage.setItem(PW_KEY, pw)
         setAuthed(true)
+        setLoginMessage('Connexion réussie. Chargement des produits...')
       } else {
-        setAuthError('Mot de passe incorrect.')
+        setAuthError(data.error || 'Mot de passe incorrect.')
+        setLoginMessage('Échec de la connexion. Vérifiez vos identifiants.')
       }
     } catch {
       setAuthError('Serveur injoignable.')
+      setLoginMessage('Impossible de joindre le serveur. Vérifiez que le backend est en route.')
     }
   }
 
-  const logout = () => { sessionStorage.removeItem(PW_KEY); setAuthed(false); setPw('') }
+  const logout = () => { sessionStorage.removeItem(PW_KEY); setAuthed(false); setPw(''); setLoginMessage('') }
 
   const onImage = (e) => {
     const file = e.target.files?.[0] || null
@@ -135,6 +140,7 @@ export default function AdminPage() {
             autoFocus
             className="w-full h-12 px-4 rounded-2xl bg-bg border border-border text-ink focus:outline-none focus:border-terracotta transition-colors"
           />
+          {loginMessage && <p className="text-ink text-sm mt-2">{loginMessage}</p>}
           {authError && <p className="text-terracotta text-sm mt-2">{authError}</p>}
           <button className="mt-4 w-full h-12 rounded-full bg-terracotta text-white font-medium hover:bg-[#D2761C] transition-colors">
             Se connecter
