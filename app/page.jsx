@@ -29,19 +29,25 @@ export default function HomePage() {
 
       {/* Comment ça marche */}
       <section className="bg-surface border-t border-border">
-        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 py-12 sm:py-16">
-          <h2 className="font-display font-semibold text-ink text-2xl sm:text-3xl text-center mb-10 reveal">
+        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 py-10 sm:py-12">
+          <h2 className="font-display font-semibold text-ink text-2xl sm:text-3xl text-center mb-8 reveal">
             Comment ça marche
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {STEPS.map(({ n, Ico, t, s }, idx) => (
-              <div key={n} className={`relative bg-bg border border-border rounded-3xl p-6 reveal reveal-delay-${idx + 1}`}>
-                <span className="absolute top-5 right-5 font-display text-4xl text-border leading-none">{n}</span>
-                <span className="w-12 h-12 rounded-2xl bg-terracotta text-white flex items-center justify-center mb-4 shadow-terra">
-                  <Ico className="w-6 h-6" />
-                </span>
-                <h3 className="font-display font-semibold text-ink text-lg mb-1">{t}</h3>
-                <p className="text-muted text-sm leading-relaxed">{s}</p>
+              <div key={n} className={`bg-bg border border-border rounded-[28px] p-4 sm:p-5 shadow-soft hover:shadow-card transition-shadow reveal reveal-delay-${idx + 1}`}>
+                <div className="flex items-start gap-3">
+                  <span className="w-11 h-11 rounded-2xl bg-terracotta text-white grid place-items-center flex-shrink-0">
+                    <Ico className="w-5 h-5" />
+                  </span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-display font-semibold text-ink text-base leading-tight">{t}</h3>
+                      <span className="text-sm font-semibold text-border">{n}</span>
+                    </div>
+                    <p className="text-muted text-sm leading-relaxed">{s}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

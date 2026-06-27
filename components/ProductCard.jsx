@@ -82,17 +82,25 @@ export default function ProductCard({ product }) {
             </button>
           ) : (
             <div
-              className="w-full h-11 pl-1.5 pr-1.5 flex items-center justify-between bg-terracotta text-white rounded-full shadow-terra"
+              className="w-full h-11 p-1 flex items-center justify-between bg-terracotta text-white rounded-full shadow-terra"
               role="group"
               aria-label={`Quantité de ${product.name}`}
             >
-              <button onClick={dec} aria-label="Retirer un" className="w-9 h-9 rounded-full inline-flex items-center justify-center hover:bg-white/15 active:scale-90 transition">
+              <button
+                onClick={dec}
+                aria-label="Retirer un"
+                className="w-9 h-9 rounded-full bg-white/20 inline-flex items-center justify-center hover:bg-white/30 active:scale-90 transition"
+              >
                 <Icon.Minus className="w-[18px] h-[18px]" strokeWidth={2.5} />
               </button>
-              <span className="text-sm font-bold tabular-nums" aria-live="polite">
-                {qty} <span className="font-normal opacity-80">au panier</span>
+              <span className="text-base font-bold tabular-nums leading-none" aria-live="polite">
+                {qty}
               </span>
-              <button onClick={add} aria-label="Ajouter un" className="w-9 h-9 rounded-full inline-flex items-center justify-center hover:bg-white/15 active:scale-90 transition">
+              <button
+                onClick={add}
+                aria-label="Ajouter un"
+                className="w-9 h-9 rounded-full bg-white/20 inline-flex items-center justify-center hover:bg-white/30 active:scale-90 transition"
+              >
                 <Icon.Plus className="w-[18px] h-[18px]" strokeWidth={2.5} />
               </button>
             </div>

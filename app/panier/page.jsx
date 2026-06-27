@@ -1,13 +1,36 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useCart } from '@/context/CartContext'
 import { formatPrice } from '@/data/products'
 import { Icon } from '@/components/icons'
 
 const INITIAL = { prenom: '', nom: '', telephone: '', adresse: '', quartier: '', note: '' }
+
+const SDK_SRC = 'https://cdn.cinetpay.com/seamless/main.js'
+
+// Charge le SDK Seamless une seule fois et résout quand window.CinetPay est prêt.
+function loadCinetPay() {
+  return new Promise((resolve, reject) => {
+    if (typeof window === 'undefined') return reject(new Error('no window'))
+    if (window.CinetPay) return resolve(window.CinetPay)
+
+    let script = document.querySelector(`script[src="${SDK_SRC}"]`)
+    if (!script) {
+      script = document.createElement('script')
+      script.src = SDK_SRC
+      script.async = true
+      document.body.appendChild(script)
+    }
+    script.addEventListener('load', () => {
+      window.CinetPay ? resolve(window.CinetPay) : reject(new Error('SDK chargé mais CinetPay indisponible'))
+    })
+    script.addEventListener('error', () => reject(new Error('Impossible de charger le module de paiement')))
+  })
+}
 
 function Field({ id, name, type = 'text', label, value, onChange, error, autoComplete, required, textarea, rows = 3 }) {
   const base = `peer w-full bg-surface border rounded-2xl px-4 pt-6 pb-2.5 text-[15px] text-ink focus:outline-none transition-colors ${
@@ -49,10 +72,14 @@ function Field({ id, name, type = 'text', label, value, onChange, error, autoCom
 
 export default function PanierPage() {
   const { items, totalPrice, totalItems, removeFromCart, updateQuantity, clearCart } = useCart()
+  const router = useRouter()
   const [form, setForm]         = useState(INITIAL)
   const [errors, setErrors]     = useState({})
   const [loading, setLoading]   = useState(false)
   const [apiError, setApiError] = useState('')
+
+  // Précharge le SDK dès l'arrivée sur la page (popup instantanée au clic).
+  useEffect(() => { loadCinetPay().catch(() => {}) }, [])
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -79,29 +106,73 @@ export default function PanierPage() {
       document.getElementById('form-start')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
       return
     }
+
+    const apikey  = process.env.NEXT_PUBLIC_CINETPAY_APIKEY
+    const siteId  = process.env.NEXT_PUBLIC_CINETPAY_SITE_ID
+    if (!apikey || !siteId) {
+      setApiError('Paiement indisponible (configuration manquante). Commandez via WhatsApp.')
+      return
+    }
+
     setLoading(true)
     try {
-      const res = await fetch('/api/payment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: items.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity })),
-          customer: form,
-          totalAmount: totalPrice,
-        }),
+      const CinetPay = await loadCinetPay()
+
+      // Montant entier, multiple de 5 (exigence CinetPay XOF)
+      const amount = Math.round(totalPrice / 5) * 5
+      const transactionId = `ELIF-${Date.now()}`
+
+      // Pour la page de confirmation
+      sessionStorage.setItem('elif_last_order', JSON.stringify({
+        transactionId, items, total: amount, customer: form,
+      }))
+
+      CinetPay.setConfig({
+        apikey,
+        site_id: siteId,
+        notify_url: `${window.location.origin}/api/payment/notify`,
+        mode: 'PRODUCTION',
       })
-      const data = await res.json()
-      if (data.success && data.paymentUrl) {
-        sessionStorage.setItem('elif_last_order', JSON.stringify({
-          transactionId: data.transactionId, items, total: totalPrice, customer: form,
-        }))
-        window.location.href = data.paymentUrl
-      } else {
-        setApiError(data.error || 'Erreur de paiement. Réessayez ou commandez via WhatsApp.')
+
+      CinetPay.getCheckout({
+        transaction_id: transactionId,
+        amount,
+        currency: 'XOF',
+        channels: 'ALL',
+        description: `Commande Le Panier d'Elif — ${totalItems} article${totalItems > 1 ? 's' : ''}`,
+        customer_name: form.nom,
+        customer_surname: form.prenom,
+        customer_phone_number: form.telephone,
+        customer_email: 'client@lepanierdelif.ci',
+        customer_address: form.adresse,
+        customer_city: form.quartier,
+        customer_country: 'CI',
+        customer_state: 'CI',
+        customer_zip_code: '00225',
+      })
+
+      CinetPay.waitResponse(data => {
+        if (data.status === 'ACCEPTED') {
+          clearCart()
+          router.push('/merci')
+        } else if (data.status === 'REFUSED') {
+          setApiError('Paiement refusé. Vérifiez votre solde ou réessayez.')
+          setLoading(false)
+        } else {
+          // PENDING / autres : on laisse l'utilisateur réessayer
+          setLoading(false)
+        }
+      })
+
+      CinetPay.onError(err => {
+        setApiError(`Erreur de paiement${err?.message ? ' : ' + err.message : ''}. Réessayez ou commandez via WhatsApp.`)
         setLoading(false)
-      }
-    } catch {
-      setApiError('Erreur réseau. Vérifiez votre connexion.')
+      })
+
+      // La popup est ouverte ; si l'utilisateur la ferme sans payer, on réactive le bouton.
+      CinetPay.onClose?.(() => setLoading(false))
+    } catch (err) {
+      setApiError(err?.message || 'Erreur de chargement du paiement. Réessayez ou commandez via WhatsApp.')
       setLoading(false)
     }
   }
@@ -136,7 +207,7 @@ export default function PanierPage() {
 
   return (
     <div className="pt-24 sm:pt-32 min-h-screen bg-bg pb-20">
-      <div className="max-w-8xl mx-auto px-5 sm:px-8">
+      <div className="max-w-[1120px] mx-auto px-5 sm:px-8">
 
         {/* Breadcrumb */}
         <nav aria-label="Fil d'Ariane" className="flex items-center gap-2 text-muted text-sm mb-3">

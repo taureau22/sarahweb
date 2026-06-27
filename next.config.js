@@ -16,13 +16,15 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // En dev, Next.js (Fast Refresh) a besoin de 'unsafe-eval'.
-      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
+      // cdn.cinetpay.com sert le SDK Seamless (guichet de paiement).
+      `script-src 'self' 'unsafe-inline' https://cdn.cinetpay.com${isDev ? " 'unsafe-eval'" : ''}`,
       "style-src 'self' 'unsafe-inline'",
       "font-src 'self'",
-      "img-src 'self' data: blob:",
+      "img-src 'self' data: blob: https://*.cinetpay.com",
       // En dev, HMR utilise un websocket (ws/wss).
-      `connect-src 'self' https://api-checkout.cinetpay.com${isDev ? ' ws: wss:' : ''}`,
-      "frame-src https://api-checkout.cinetpay.com",
+      `connect-src 'self' https://api-checkout.cinetpay.com https://*.cinetpay.com${isDev ? ' ws: wss:' : ''}`,
+      // La popup Seamless est une iframe servie par CinetPay.
+      "frame-src https://*.cinetpay.com",
     ].join('; '),
   },
 ]

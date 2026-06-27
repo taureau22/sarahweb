@@ -242,7 +242,7 @@ export default function AdminPage() {
 
           <button
             disabled={submitting}
-            className="mt-5 w-full h-12 rounded-full bg-ink text-white font-medium hover:bg-terracotta transition-colors disabled:opacity-60 inline-flex items-center justify-center gap-2"
+            className="mt-5 w-full h-12 rounded-3xl bg-gradient-to-r from-terracotta to-terra-2 text-white font-semibold shadow-terra hover:from-[#d8701d] hover:to-[#f1a35f] transition-all disabled:opacity-60 inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta"
           >
             {submitting ? 'Ajout…' : <><Icon.Plus className="w-5 h-5" /> Ajouter le produit</>}
           </button>

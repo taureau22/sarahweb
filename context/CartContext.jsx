@@ -65,19 +65,25 @@ function cartReducer(state, action) {
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, { items: [] })
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [loaded, setLoaded] = useState(false)
 
+  // Charge le panier sauvegardé au montage
   useEffect(() => {
     try {
       const saved = localStorage.getItem('elif_cart')
       if (saved) dispatch({ type: 'LOAD_CART', payload: JSON.parse(saved) })
     } catch {}
+    setLoaded(true)
   }, [])
 
+  // Ne sauvegarde qu'APRÈS le chargement initial,
+  // sinon l'état vide écrase le panier stocké à chaque montage/navigation.
   useEffect(() => {
+    if (!loaded) return
     try {
       localStorage.setItem('elif_cart', JSON.stringify(state.items))
     } catch {}
-  }, [state.items])
+  }, [state.items, loaded])
 
   const totalItems = state.items.reduce((sum, i) => sum + i.quantity, 0)
   const totalPrice = state.items.reduce((sum, i) => sum + i.price * i.quantity, 0)
