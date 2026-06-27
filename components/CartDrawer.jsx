@@ -41,17 +41,23 @@ export default function CartDrawer() {
         }`}
       />
 
-      {/* Drawer */}
+      {/* Drawer — bottom-sheet sur mobile (ne prend pas tout l'écran), tiroir latéral sur desktop */}
       <aside
         role="dialog"
         aria-modal="true"
         aria-label="Votre panier"
-        className={`fixed top-0 right-0 bottom-0 z-[70] w-full max-w-[420px] bg-bg flex flex-col shadow-lift transition-transform duration-300 ease-out ${
-          drawerOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed z-[70] bg-bg flex flex-col shadow-lift transition-transform duration-300 ease-out
+          inset-x-0 bottom-0 max-h-[85vh] rounded-t-3xl
+          sm:inset-x-auto sm:top-0 sm:right-0 sm:bottom-0 sm:max-h-none sm:rounded-none sm:w-full sm:max-w-[420px]
+          ${drawerOpen ? 'translate-y-0 sm:translate-x-0' : 'translate-y-full sm:translate-y-0 sm:translate-x-full'}`}
       >
+        {/* Poignée (mobile uniquement) */}
+        <div className="sm:hidden pt-2.5 pb-1 flex justify-center flex-shrink-0" aria-hidden="true">
+          <span className="h-1.5 w-10 rounded-full bg-border" />
+        </div>
+
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-border flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 sm:py-5 border-b border-border flex-shrink-0">
           <div>
             <h2 className="font-display font-semibold text-ink text-2xl leading-none">Panier</h2>
             <p className="text-xs text-muted mt-1.5">
