@@ -70,6 +70,7 @@ export default function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/40">
           <span>&copy; {new Date().getFullYear()} Le Panier d&apos;Elif</span>
           <span className="flex items-center gap-3">
+            <Link href="/suivi" className="hover:text-white transition-colors">Suivi de commande</Link>
             <Link href="/cgv" className="hover:text-white transition-colors">CGV</Link>
             <Link href="/annulation" className="hover:text-white transition-colors">Annulation</Link>
           </span>

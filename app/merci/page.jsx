@@ -105,6 +105,14 @@ function MerciContent() {
             >
               Nouvelle commande <Icon.ArrowRight className="w-4 h-4" />
             </Link>
+            {txId && (
+              <Link
+                href={`/suivi?tx=${encodeURIComponent(txId)}`}
+                className="w-full h-12 rounded-full border border-border text-ink font-medium inline-flex items-center justify-center hover:border-terracotta hover:text-terracotta transition-colors"
+              >
+                Suivi de cette commande
+              </Link>
+            )}
             <Link
               href="/"
               className="w-full h-12 rounded-full border border-border text-ink font-medium inline-flex items-center justify-center hover:border-terracotta hover:text-terracotta transition-colors"
