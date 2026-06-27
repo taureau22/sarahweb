@@ -95,6 +95,15 @@ export default function RootLayout({ children }) {
             "image": "/images/cover.jpeg",
             "servesCuisine": "Ivoirienne, Street food",
             "priceRange": "3500 FCFA",
+            "currenciesAccepted": "XOF",
+            "paymentAccepted": "Orange Money, Wave, Carte bancaire, Espèces",
+            "acceptsReservations": false,
+            "areaServed": { "@type": "City", "name": "Abidjan" },
+            "hasMenu": `${process.env.NEXT_PUBLIC_SITE_URL || "https://lepanierdelif.ci"}/boutique`,
+            "sameAs": [
+              "https://www.instagram.com/le_panierdelif",
+              "https://www.facebook.com/profile.php?id=61566931681957"
+            ],
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Abidjan",

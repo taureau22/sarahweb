@@ -7,6 +7,17 @@ import { useToast } from '@/context/ToastContext'
 import { formatPrice } from '@/data/products'
 import { Icon } from '@/components/icons'
 
+// Décrit la composition d'une variante à partir de ses attributs (crème / fromage).
+function composition(attrs) {
+  if (!attrs) return null
+  const { hasCream, hasCheese } = attrs
+  if (hasCream && hasCheese) return 'Crème & fromage'
+  if (!hasCream && !hasCheese) return 'Nature — sans crème ni fromage'
+  if (hasCheese) return 'Fromage'
+  if (hasCream) return 'Crème'
+  return null
+}
+
 export default function ProductCard({ product }) {
   const { items, addToCart, updateQuantity, atLimit } = useCart()
   const { addToast } = useToast()
@@ -105,6 +116,12 @@ export default function ProductCard({ product }) {
               ))}
             </select>
           </label>
+        )}
+
+        {selectedOption?.attrs && composition(selectedOption.attrs) && (
+          <p className="mt-2 inline-flex w-fit items-center gap-1.5 text-[11px] font-medium text-ink-2 bg-terra-bg border border-terracotta/15 rounded-full px-2.5 py-1">
+            <Icon.Leaf className="w-3 h-3 text-olive" /> {composition(selectedOption.attrs)}
+          </p>
         )}
 
         <p className="mt-2 font-display font-semibold text-ink text-xl leading-none tabular-nums">

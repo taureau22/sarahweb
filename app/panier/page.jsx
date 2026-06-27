@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -77,9 +77,15 @@ export default function PanierPage() {
   const [errors, setErrors]     = useState({})
   const [loading, setLoading]   = useState(false)
   const [apiError, setApiError] = useState('')
+  const [preferWhatsapp, setPreferWhatsapp] = useState(false)
+  const paymentTimer = useRef(null)
+  const responded    = useRef(false)
 
   // Précharge le SDK dès l'arrivée sur la page (popup instantanée au clic).
-  useEffect(() => { loadCinetPay().catch(() => {}) }, [])
+  useEffect(() => {
+    loadCinetPay().catch(() => {})
+    return () => clearTimeout(paymentTimer.current)
+  }, [])
 
   const orderAmount = () => Math.round(totalPrice / 5) * 5 // entier multiple de 5 (XOF)
 
@@ -141,6 +147,21 @@ export default function PanierPage() {
     }
 
     setLoading(true)
+    setPreferWhatsapp(false)
+    responded.current = false
+
+    // Si le guichet CinetPay n'est pas ouvert sous 10 s (réseau, SDK bloqué…),
+    // on privilégie le paiement via WhatsApp.
+    clearTimeout(paymentTimer.current)
+    paymentTimer.current = setTimeout(() => {
+      if (responded.current) return
+      responded.current = true
+      setLoading(false)
+      setPreferWhatsapp(true)
+      setApiError('Le service de paiement met trop de temps à répondre. Nous vous recommandons de commander via WhatsApp (paiement à convenir).')
+      document.getElementById('wa-fallback')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 10000)
+
     try {
       const CinetPay = await loadCinetPay()
 
@@ -179,12 +200,17 @@ export default function PanierPage() {
         customer_zip_code: '00225',
       })
 
+      // Guichet lancé : on a bien atteint CinetPay → on annule le repli automatique.
+      responded.current = true
+      clearTimeout(paymentTimer.current)
+
       CinetPay.waitResponse(data => {
         if (data.status === 'ACCEPTED') {
           clearCart()
           router.push('/merci')
         } else if (data.status === 'REFUSED') {
-          setApiError('Paiement refusé. Vérifiez votre solde ou réessayez.')
+          setApiError('Paiement refusé. Vérifiez votre solde, réessayez, ou commandez via WhatsApp.')
+          setPreferWhatsapp(true)
           setLoading(false)
         } else {
           // PENDING / autres : on laisse l'utilisateur réessayer
@@ -194,13 +220,18 @@ export default function PanierPage() {
 
       CinetPay.onError(err => {
         setApiError(`Erreur de paiement${err?.message ? ' : ' + err.message : ''}. Réessayez ou commandez via WhatsApp.`)
+        setPreferWhatsapp(true)
         setLoading(false)
       })
 
       // La popup est ouverte ; si l'utilisateur la ferme sans payer, on réactive le bouton.
       CinetPay.onClose?.(() => setLoading(false))
     } catch (err) {
-      setApiError(err?.message || 'Erreur de chargement du paiement. Réessayez ou commandez via WhatsApp.')
+      clearTimeout(paymentTimer.current)
+      if (responded.current) return // le repli 10 s a déjà pris la main
+      responded.current = true
+      setApiError(err?.message || 'Erreur de chargement du paiement. Commandez via WhatsApp.')
+      setPreferWhatsapp(true)
       setLoading(false)
     }
   }
@@ -531,12 +562,23 @@ export default function PanierPage() {
                 </button>
 
                 <button
+                  id="wa-fallback"
                   type="button"
                   onClick={handleWhatsApp}
-                  className="w-full h-12 rounded-full border border-border text-ink font-medium inline-flex items-center justify-center gap-2 hover:border-whatsapp hover:text-whatsapp transition-colors"
+                  className={`w-full rounded-full font-medium inline-flex items-center justify-center gap-2 transition-colors ${
+                    preferWhatsapp
+                      ? 'h-14 bg-whatsapp text-white shadow-lift ring-2 ring-whatsapp/40 hover:bg-[#1fbd5a]'
+                      : 'h-12 border border-border text-ink hover:border-whatsapp hover:text-whatsapp'
+                  }`}
                 >
-                  <Icon.WhatsApp className="w-4 h-4" /> Commander via WhatsApp
+                  <Icon.WhatsApp className={preferWhatsapp ? 'w-5 h-5' : 'w-4 h-4'} />
+                  {preferWhatsapp ? 'Commander via WhatsApp (recommandé)' : 'Commander via WhatsApp'}
                 </button>
+                {preferWhatsapp && (
+                  <p className="text-center text-xs text-muted -mt-1">
+                    Le paiement en ligne n&apos;a pas répondu. Via WhatsApp, on confirme votre commande et le paiement (Orange Money · Wave · espèces).
+                  </p>
+                )}
 
                 <p className="text-center text-xs text-muted">
                   En commandant, vous acceptez nos{' '}

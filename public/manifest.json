@@ -1,11 +1,11 @@
 {
   "name": "Le Panier d'Elif",
   "short_name": "Panier d'Elif",
-  "description": "Pastels artisanales & Jus frais — Livraison partout en Côte d'Ivoire",
+  "description": "Pastels artisanaux faits main — frits ou surgelés, livrés à Abidjan. Paiement Orange Money, Wave.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FBF5EC",
-  "theme_color": "#B0512E",
+  "background_color": "#F8F3EB",
+  "theme_color": "#EA8A2E",
   "orientation": "portrait-primary",
   "categories": ["food", "shopping"],
   "lang": "fr",
@@ -14,6 +14,12 @@
       "src": "/favicon.ico",
       "sizes": "any",
       "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
