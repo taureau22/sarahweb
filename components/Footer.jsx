@@ -4,8 +4,8 @@ import { Icon } from '@/components/icons'
 const WA = '2250710669990'
 
 const social = [
-  { label: 'Instagram', href: '#',                      icon: Icon.Instagram },
-  { label: 'Facebook',  href: '#',                      icon: Icon.Facebook },
+  { label: 'Instagram', href: 'https://www.instagram.com/le_panierdelif', icon: Icon.Instagram },
+  { label: 'Facebook',  href: 'https://www.facebook.com/profile.php?id=61566931681957', icon: Icon.Facebook },
   { label: 'WhatsApp',  href: `https://wa.me/${WA}`,    icon: Icon.WhatsApp },
 ]
 
