@@ -30,9 +30,21 @@ export default function ProductCard({ product }) {
   const qty = inCart?.quantity || 0
   const selectedPrice = selectedOption?.price ?? product.price
 
+  // Stock de la sélection courante (null = illimité / non géré).
+  const rawStock = selectedOption ? selectedOption.stock : product.stock
+  const stock = Number.isFinite(rawStock) ? rawStock : null
+  const soldOut = stock !== null && stock <= 0
+  const reachedStock = stock !== null && qty >= stock
+
   const add = () => {
     if (product.category === 'surgele' && !selectedOption) {
       return addToast('Veuillez choisir une référence pour les produits surgelés.', 'error')
+    }
+    if (soldOut) {
+      return addToast('Rupture de stock pour cette sélection.', 'error')
+    }
+    if (reachedStock) {
+      return addToast(`Stock limité : ${stock} disponible${stock > 1 ? 's' : ''}.`, 'error')
     }
 
     const itemToAdd = selectedOption ? {
@@ -128,16 +140,26 @@ export default function ProductCard({ product }) {
           {formatPrice(selectedPrice)}
         </p>
 
+        {stock !== null && (
+          soldOut ? (
+            <p className="mt-1.5 text-xs font-semibold text-rose-600">Rupture de stock</p>
+          ) : stock <= 5 ? (
+            <p className="mt-1.5 text-xs font-medium text-gold">Plus que {stock} en stock</p>
+          ) : null
+        )}
+
         {/* Add / stepper — pleine largeur, en bas de carte */}
         <div className="mt-auto pt-3.5">
           {qty === 0 ? (
             <button
               onClick={add}
-              aria-label={`Ajouter ${product.name} au panier`}
-              disabled={product.category === 'surgele' && !selectedOption}
-              className={`w-full h-11 rounded-full text-white text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors active:scale-[.98] ${product.category === 'surgele' && !selectedOption ? 'bg-muted/40 cursor-not-allowed' : 'bg-ink hover:bg-terracotta'}`}
+              aria-label={soldOut ? `${product.name} en rupture de stock` : `Ajouter ${product.name} au panier`}
+              disabled={(product.category === 'surgele' && !selectedOption) || soldOut}
+              className={`w-full h-11 rounded-full text-white text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors active:scale-[.98] ${((product.category === 'surgele' && !selectedOption) || soldOut) ? 'bg-muted/40 cursor-not-allowed' : 'bg-ink hover:bg-terracotta'}`}
             >
-              <Icon.Plus className="w-[18px] h-[18px]" strokeWidth={2.5} /> Ajouter
+              {soldOut
+                ? <>Rupture de stock</>
+                : <><Icon.Plus className="w-[18px] h-[18px]" strokeWidth={2.5} /> Ajouter</>}
             </button>
           ) : (
             <div

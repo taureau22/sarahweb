@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { formatPrice } from '@/data/products'
 import { Icon } from '@/components/icons'
 
-const EMPTY = { name: '', shortName: '', price: '', unit: '', category: 'frais', description: '', bestseller: false, options: [] }
+const EMPTY = { name: '', shortName: '', price: '', unit: '', category: 'frais', description: '', bestseller: false, stock: '', options: [] }
 
 export default function ProductsAdmin({ authHeader, onUnauthorized }) {
   const [products, setProducts] = useState([])
@@ -60,6 +60,7 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
       name: p.name || '', shortName: p.shortName || '', price: String(p.price ?? ''),
       unit: p.unit || '', category: p.category || 'frais',
       description: p.description || '', bestseller: !!p.bestseller,
+      stock: p.stock === 0 ? '0' : (p.stock ? String(p.stock) : ''),
       options: Array.isArray(p.options) ? p.options : [],
     })
     setImageFile(null)
@@ -180,6 +181,11 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
                         <div className="flex items-center gap-2 flex-wrap">
                           <p className="font-medium text-ink truncate">{p.shortName || p.name}</p>
                           {p.bestseller && <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">Best-seller</span>}
+                          {!(p.options?.length) && Number.isFinite(p.stock) && (
+                            <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${p.stock <= 0 ? 'bg-rose-100 text-rose-600' : p.stock <= 5 ? 'bg-gold/15 text-gold' : 'bg-olive/15 text-olive'}`}>
+                              {p.stock <= 0 ? 'Rupture' : `Stock ${p.stock}`}
+                            </span>
+                          )}
                         </div>
                         <p className="text-muted text-xs truncate mt-1">{p.name}</p>
                         {p.options && p.options.length > 0 && (
@@ -189,6 +195,11 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
                                 <span className="truncate max-w-[10rem]">{o.label}</span>
                                 {o.attrs && o.attrs.hasCheese === false && (
                                   <span className="ml-1 text-rose-600 text-[11px] font-semibold">Nature</span>
+                                )}
+                                {Number.isFinite(o.stock) && (
+                                  <span className={`text-[11px] font-semibold ${o.stock <= 0 ? 'text-rose-600' : o.stock <= 5 ? 'text-gold' : 'text-olive'}`}>
+                                    {o.stock <= 0 ? 'Rupture' : o.stock}
+                                  </span>
                                 )}
                               </span>
                             ))}
@@ -290,7 +301,15 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
               </div>
             </div>
 
-            <Input label="Unité" value={form.unit} onChange={(v) => setForm(f => ({ ...f, unit: v }))} placeholder="10 pièces / paquet" />
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <Input label="Unité" value={form.unit} onChange={(v) => setForm(f => ({ ...f, unit: v }))} placeholder="10 pièces / paquet" />
+              <div>
+                <Input label="Stock" type="number" value={form.stock} onChange={(v) => setForm(f => ({ ...f, stock: v }))} placeholder="Illimité" />
+                <span className="block text-[11px] text-muted mt-1">
+                  Vide = illimité · 0 = rupture.{form.options?.length > 0 ? ' Pour les variantes, gérez le stock par référence ci-dessous.' : ''}
+                </span>
+              </div>
+            </div>
 
             <div>
               <label className="text-xs font-semibold uppercase tracking-wider text-muted">Description</label>
@@ -339,10 +358,16 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
                     })} placeholder="Pastel Poulet" />
                   </div>
 
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto] items-end mt-3">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_1fr_auto] items-end mt-3">
                       <Input label="Prix" type="number" value={option.price} onChange={(v) => setForm(f => {
                         const options = [...(f.options || [])]
                         options[index] = { ...options[index], price: Number(v) }
+                        return { ...f, options }
+                      })} />
+
+                      <Input label="Stock" type="number" value={option.stock === 0 ? '0' : (option.stock ?? '')} placeholder="Illimité" onChange={(v) => setForm(f => {
+                        const options = [...(f.options || [])]
+                        options[index] = { ...options[index], stock: v === '' ? '' : v }
                         return { ...f, options }
                       })} />
 

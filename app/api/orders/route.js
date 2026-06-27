@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
+import { revalidatePath } from 'next/cache'
 import { createOrder } from '@/lib/orders-store'
-import { readProducts } from '@/lib/products-store'
+import { readProducts, applyStockForOrder } from '@/lib/products-store'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -124,6 +125,14 @@ export async function POST(request) {
       amount: amt,
       channel,
     })
+
+    // Décrément automatique du stock (best-effort, catalogue rafraîchi).
+    try {
+      await applyStockForOrder(cleanItems)
+      revalidatePath('/')
+      revalidatePath('/boutique')
+    } catch {}
+
     return NextResponse.json({ success: true, transactionId: order.id })
   } catch {
     return NextResponse.json({ error: 'Création de commande impossible' }, { status: 500 })
