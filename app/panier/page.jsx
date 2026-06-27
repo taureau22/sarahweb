@@ -126,6 +126,13 @@ export default function PanierPage() {
       return
     }
 
+    // Vérifier que les produits surgelés ont une référence choisie
+    const missingRef = items.find(i => i.category === 'surgele' && !i.option)
+    if (missingRef) {
+      setApiError('Veuillez choisir la référence pour vos produits surgelés avant de payer.')
+      return
+    }
+
     const apikey  = process.env.NEXT_PUBLIC_CINETPAY_APIKEY
     const siteId  = process.env.NEXT_PUBLIC_CINETPAY_SITE_ID
     if (!apikey || !siteId) {
@@ -206,6 +213,13 @@ export default function PanierPage() {
     if (Object.keys(errs).length) {
       setErrors(errs)
       document.getElementById('form-start')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
+
+    // Vérifier que les produits surgelés ont une référence choisie
+    const missingRef = items.find(i => i.category === 'surgele' && !i.option)
+    if (missingRef) {
+      setApiError('Veuillez choisir la référence pour vos produits surgelés avant d’envoyer la commande via WhatsApp.')
       return
     }
 
