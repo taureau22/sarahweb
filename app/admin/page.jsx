@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { Icon } from '@/components/icons'
+import DashboardAdmin from '@/components/admin/DashboardAdmin'
 import OrdersAdmin from '@/components/admin/OrdersAdmin'
 import ProductsAdmin from '@/components/admin/ProductsAdmin'
 
@@ -11,7 +12,7 @@ export default function AdminPage() {
   const [pw, setPw]             = useState('')
   const [authed, setAuthed]     = useState(false)
   const [authError, setAuthError] = useState('')
-  const [tab, setTab]           = useState('products')
+  const [tab, setTab]           = useState('dashboard')
 
   const authHeader = useCallback(() => ({ 'x-admin-password': sessionStorage.getItem(PW_KEY) || '' }), [])
   const onUnauthorized = useCallback(() => { sessionStorage.removeItem(PW_KEY); setAuthed(false) }, [])
@@ -66,8 +67,9 @@ export default function AdminPage() {
 
   /* ---------- Dashboard ---------- */
   const TABS = [
-    { id: 'orders',   label: 'Commandes', Ico: Icon.Package },
-    { id: 'products', label: 'Produits',  Ico: Icon.ChefHat },
+    { id: 'dashboard', label: 'Tableau de bord', Ico: Icon.ShieldCheck },
+    { id: 'orders',    label: 'Commandes',       Ico: Icon.Package },
+    { id: 'products',  label: 'Produits',        Ico: Icon.ChefHat },
   ]
 
   return (
@@ -90,7 +92,7 @@ export default function AdminPage() {
                   tab === id ? 'bg-ink text-white' : 'text-ink-2 hover:text-terracotta'
                 }`}
               >
-                <Ico className="w-4 h-4" /> <span className="hidden xs:inline">{label}</span>
+                <Ico className="w-4 h-4" /> <span className={tab === id ? 'inline' : 'hidden sm:inline'}>{label}</span>
               </button>
             ))}
           </nav>
@@ -102,9 +104,15 @@ export default function AdminPage() {
       </header>
 
       <div className="max-w-[1100px] mx-auto px-4 sm:px-6 py-8">
-        {tab === 'orders'
-          ? <OrdersAdmin authHeader={authHeader} onUnauthorized={onUnauthorized} />
-          : <ProductsAdmin authHeader={authHeader} onUnauthorized={onUnauthorized} />}
+        {tab === 'dashboard' && (
+          <DashboardAdmin authHeader={authHeader} onUnauthorized={onUnauthorized} onGoToOrders={() => setTab('orders')} />
+        )}
+        {tab === 'orders' && (
+          <OrdersAdmin authHeader={authHeader} onUnauthorized={onUnauthorized} />
+        )}
+        {tab === 'products' && (
+          <ProductsAdmin authHeader={authHeader} onUnauthorized={onUnauthorized} />
+        )}
       </div>
     </div>
   )

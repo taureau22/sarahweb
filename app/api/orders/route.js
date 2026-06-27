@@ -93,7 +93,7 @@ export async function POST(request) {
           id: `${prod.id}-${option.id}`,
           name: `${prod.name} — ${option.label}`.slice(0, 120),
           price: Number(option.price ?? prod.price) || 0,
-          quantity: Math.max(1, Math.min(99, Number(rawItem.quantity) || 1)),
+          quantity: Math.max(1, Math.min(999, Number(rawItem.quantity) || 1)),
           option: String(option.label).slice(0, 80),
           category: String(prod.category).slice(0, 30),
         }
@@ -102,7 +102,7 @@ export async function POST(request) {
           id: String(prod.id),
           name: String(prod.name).slice(0, 120),
           price: Number(prod.price) || 0,
-          quantity: Math.max(1, Math.min(99, Number(rawItem.quantity) || 1)),
+          quantity: Math.max(1, Math.min(999, Number(rawItem.quantity) || 1)),
           option: null,
           category: String(prod.category).slice(0, 30),
         }
