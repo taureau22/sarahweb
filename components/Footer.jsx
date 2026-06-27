@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { Icon } from '@/components/icons'
-
-const WA = '2250710669990'
+import { WHATSAPP_NUMBER as WA } from '@/lib/site'
 
 const social = [
   { label: 'Instagram', href: 'https://www.instagram.com/le_panierdelif', icon: Icon.Instagram },

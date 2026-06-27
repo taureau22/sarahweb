@@ -1,5 +1,6 @@
 import { readProducts } from '@/lib/products-store'
 import { formatPrice } from '@/data/products'
+import { WHATSAPP_NUMBER } from '@/lib/site'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -7,7 +8,7 @@ export const dynamic = 'force-dynamic'
 // /llms.txt — résumé structuré du site pour les IA / agents (convention llmstxt.org).
 export async function GET() {
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://lepanierdelif.ci'
-  const wa = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
+  const wa = WHATSAPP_NUMBER
   const products = await readProducts()
 
   const productLines = products.map(p => {

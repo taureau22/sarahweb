@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
 import { formatPrice } from '@/data/products'
 import { Icon } from '@/components/icons'
+import { WHATSAPP_NUMBER } from '@/lib/site'
 
 export default function CartDrawer() {
   const {
@@ -20,7 +21,7 @@ export default function CartDrawer() {
   }, [drawerOpen])
 
   const handleWhatsApp = () => {
-    const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
+    const WA = WHATSAPP_NUMBER
     const lines = items.map(i =>
       `• ${i.shortName || i.name} × ${i.quantity} = ${formatPrice(i.price * i.quantity)}`
     ).join('\n')

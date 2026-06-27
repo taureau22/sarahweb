@@ -2,10 +2,11 @@
 
 import Link from 'next/link'
 import { Icon } from '@/components/icons'
+import { WHATSAPP_NUMBER } from '@/lib/site'
 
 export default function AnnulationPage() {
   const handleWhatsApp = () => {
-    const WA  = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
+    const WA  = WHATSAPP_NUMBER
     const msg = "Bonjour ! Mon paiement en ligne n'a pas abouti. Je voudrais finaliser ma commande via WhatsApp."
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
   }

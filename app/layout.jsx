@@ -4,6 +4,7 @@ import { Providers } from './providers'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
+import { WHATSAPP_NUMBER } from '@/lib/site'
 
 const fraunces = localFont({
   variable: '--font-fraunces',
@@ -91,7 +92,7 @@ export default function RootLayout({ children }) {
             "name": "Le Panier d'Elif",
             "description": "Pastels artisanaux faits main, frais ou surgelés, livrés à Abidjan, Côte d'Ivoire.",
             "url": process.env.NEXT_PUBLIC_SITE_URL || "https://lepanierdelif.ci",
-            "telephone": `+${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'}`,
+            "telephone": `+${WHATSAPP_NUMBER}`,
             "image": "/images/cover.jpeg",
             "servesCuisine": "Ivoirienne, Street food",
             "priceRange": "3500 FCFA",

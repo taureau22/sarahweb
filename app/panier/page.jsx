@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useCart } from '@/context/CartContext'
 import { formatPrice, products as allProducts } from '@/data/products'
 import { Icon } from '@/components/icons'
+import { WHATSAPP_NUMBER } from '@/lib/site'
 
 const INITIAL = { prenom: '', nom: '', telephone: '', adresse: '', quartier: '', note: '' }
 
@@ -257,7 +258,7 @@ export default function PanierPage() {
     const transactionId = `ELIF-${Date.now()}`
     await saveOrder(transactionId, 'whatsapp')
 
-    const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
+    const WA = WHATSAPP_NUMBER
     const lines = items.map(i =>
       `• ${i.shortName || i.name} × ${i.quantity} = ${formatPrice(i.price * i.quantity)}`
     ).join('\n')
