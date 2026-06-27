@@ -7,7 +7,7 @@ import { Icon } from '@/components/icons'
 
 const CATEGORIES = [
   { id: 'all',     label: 'Tout',     Ico: Icon.Sparkles },
-  { id: 'frais',   label: 'Frais',    Ico: Icon.ChefHat },
+  { id: 'frais',   label: 'Frits',    Ico: Icon.ChefHat },
   { id: 'surgele', label: 'Surgelés', Ico: Icon.Snowflake },
 ]
 

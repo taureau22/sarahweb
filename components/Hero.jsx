@@ -42,7 +42,7 @@ export default function Hero() {
         <h1 className="mt-6 font-display font-semibold tracking-tight">
           <span className="block text-white/85 text-[clamp(1.4rem,4.5vw,2.4rem)] leading-tight"
                 style={{ animation: 'fadeUp .6s .05s ease both' }}>
-            Le pastel
+            Pastels au Fromage
           </span>
 
           {/* Mot qui défile */}
@@ -64,8 +64,7 @@ export default function Hero() {
 
         <p className="mt-5 max-w-md text-white/70 text-sm sm:text-base leading-relaxed"
            style={{ animation: 'fadeUp .6s .15s ease both' }}>
-          Pâte maison, garnitures généreuses, frits du jour ou surgelés à frire.
-          Composez votre panier et payez en Mobile Money.
+          Pâte maison, Là où crousti et fondant se rejoignent le goût demeure toujours .
         </p>
 
         {/* CTA */}
