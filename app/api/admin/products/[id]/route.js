@@ -36,6 +36,7 @@ export async function PUT(request, { params }) {
       unit:        form.get('unit'),
       category:    form.get('category'),
       bestseller:  form.get('bestseller'),
+      options:     form.get('options'),
     }
 
     let imagePath

@@ -41,6 +41,7 @@ export async function POST(request) {
       unit:        form.get('unit'),
       category:    form.get('category'),
       bestseller:  form.get('bestseller'),
+      options:     form.get('options'),
     }
 
     const products = await readProducts()

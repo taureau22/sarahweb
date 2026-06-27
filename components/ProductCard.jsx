@@ -56,6 +56,7 @@ export default function ProductCard({ product }) {
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
             sizes="(max-width: 640px) 50vw, 280px"
+            unoptimized={product.image.startsWith('/api/media')}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
