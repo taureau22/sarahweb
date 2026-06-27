@@ -64,7 +64,7 @@ export default function Hero() {
 
         <p className="mt-5 max-w-md text-white/70 text-sm sm:text-base leading-relaxed"
            style={{ animation: 'fadeUp .6s .15s ease both' }}>
-          Pâte maison, Là où crousti et fondant se rejoignent le goût demeure toujours .
+          Là où crousti et fondant se rejoignent le goût demeure toujours.
         </p>
 
         {/* CTA */}

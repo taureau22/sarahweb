@@ -11,7 +11,7 @@ export default function AdminPage() {
   const [pw, setPw]             = useState('')
   const [authed, setAuthed]     = useState(false)
   const [authError, setAuthError] = useState('')
-  const [tab, setTab]           = useState('orders')
+  const [tab, setTab]           = useState('products')
 
   const authHeader = useCallback(() => ({ 'x-admin-password': sessionStorage.getItem(PW_KEY) || '' }), [])
   const onUnauthorized = useCallback(() => { sessionStorage.removeItem(PW_KEY); setAuthed(false) }, [])
