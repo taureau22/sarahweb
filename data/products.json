@@ -2,8 +2,8 @@
   {
     "id": 1,
     "category": "frais",
-    "name": "Pastel au poulet, crème et fromage",
-    "shortName": "Pastel Poulet",
+    "name": "Pastel Fromage — Poulet (crème et fromage)",
+    "shortName": "Pastel Fromage Poulet",
     "description": "Poulet tendre assaisonné, crème onctueuse et fromage fondu dans notre pâte maison dorée.",
     "price": 3500,
     "unit": "10 pièces / paquet",
@@ -17,8 +17,8 @@
   {
     "id": 2,
     "category": "frais",
-    "name": "Pastel à la viande hachée, crème et fromage",
-    "shortName": "Pastel Viande",
+    "name": "Pastel Fromage — Viande (crème et fromage)",
+    "shortName": "Pastel Fromage Viande",
     "description": "Viande hachée généreusement assaisonnée, crème fraîche et fromage fondant.",
     "price": 3500,
     "unit": "10 pièces / paquet",
@@ -32,8 +32,8 @@
   {
     "id": 3,
     "category": "frais",
-    "name": "Pastel au jambon de dinde, crème et fromage",
-    "shortName": "Pastel Jambon",
+    "name": "Pastel Fromage — Jambon (crème et fromage)",
+    "shortName": "Pastel Fromage Jambon",
     "description": "Jambon de dinde délicat, crème fraîche et fromage — une alliance raffinée dans une pâte croustillante.",
     "price": 3500,
     "unit": "10 pièces / paquet",
@@ -44,21 +44,7 @@
     ],
     "bestseller": false
   },
-  {
-    "id": 4,
-    "category": "frais",
-    "name": "Pastel au poisson, crème et fromage",
-    "shortName": "Pastel Poisson Crème",
-    "description": "Poisson frais assaisonné avec soin, crème et fromage fondant — un régal de la mer.",
-    "price": 3500,
-    "unit": "10 pièces / paquet",
-    "image": "/images/04_pastels-handmade.png",
-    "badges": [
-      "Fait main",
-      "10 pièces"
-    ],
-    "bestseller": false
-  },
+  /* removed poisson crème variant — only Pastel Poisson Nature remains for fish */
   {
     "id": 5,
     "category": "frais",
