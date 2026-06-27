@@ -165,6 +165,18 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
                         {p.bestseller && <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">Best-seller</span>}
                       </div>
                       <p className="text-muted text-xs truncate mt-1">{p.name}</p>
+                      {p.options && p.options.length > 0 && (
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {p.options.map(o => (
+                            <span key={o.id} className="inline-flex items-center gap-2 bg-bg border border-border rounded-full px-2 py-1 text-xs text-ink-2">
+                              <span className="truncate max-w-[10rem]">{o.label}</span>
+                              {o.attrs && o.attrs.hasCheese === false && (
+                                <span className="ml-1 text-rose-600 text-[11px] font-semibold">Nature</span>
+                              )}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                       <p className="text-ink-2 text-xs mt-2">
                         <span className="font-semibold tabular-nums">{formatPrice(p.price)}</span>
                         {' · '}{p.category === 'surgele' ? 'Surgelé' : 'Frits'}
