@@ -524,6 +524,7 @@ export default function PanierPage() {
                     {[
                       { Ico: Icon.Wallet,     l: 'Orange Money' },
                       { Ico: Icon.Smartphone, l: 'Wave' },
+                      { Ico: Icon.CreditCard, l: 'Carte bancaire' },
                     ].map(({ Ico, l }) => (
                       <span
                         key={l}
