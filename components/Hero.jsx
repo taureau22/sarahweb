@@ -87,8 +87,8 @@ export default function Hero() {
         <div className="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/65"
              style={{ animation: 'fadeUp .6s .25s ease both' }}>
           <span className="inline-flex items-center gap-2"><Icon.ChefHat className="w-4 h-4 text-terra-2" /> Fait main</span>
-          <span className="inline-flex items-center gap-2"><Icon.Snowflake className="w-4 h-4 text-terra-2" /> Frais & surgelés</span>
-          <span className="inline-flex items-center gap-2"><Icon.Wallet className="w-4 h-4 text-terra-2" /> Orange Money · Wave</span>
+          <span className="inline-flex items-center gap-2"><Icon.Snowflake className="w-4 h-4 text-terra-2" /> Frits & surgelés</span>
+          <span className="inline-flex items-center gap-2"><Icon.Wallet className="w-4 h-4 text-terra-2" /> Orange Money · Wave · Carte Bancaire</span>
         </div>
       </div>
     </section>

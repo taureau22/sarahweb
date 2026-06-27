@@ -1,6 +1,6 @@
 const ITEMS = [
   'Pastel poulet', 'Pastel poisson', 'Pastel viande', 'Jambon de dinde',
-  'Fait main', 'Frais & surgelés', 'Livré à Abidjan', 'Orange Money · Wave',
+  'Fait main', 'Frits & surgelés', 'Livré partout', 'Orange Money · Wave · Carte Bancaire',
 ]
 
 export default function Marquee() {

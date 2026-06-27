@@ -265,12 +265,12 @@ export default function PanierPage() {
           <span className="text-ink" aria-current="page">Panier</span>
         </nav>
 
-        <h1 className="font-display font-semibold text-ink text-[clamp(2.2rem,5vw,3.5rem)] leading-none tracking-tightest mb-10">
-          Votre panier
-          <span className="ml-3 text-lg font-sans font-normal text-muted align-middle">
-            {totalItems} article{totalItems > 1 ? 's' : ''}
-          </span>
-        </h1>
+        <div className="mb-10">
+          <h1 className="font-display font-semibold text-ink text-[clamp(2.2rem,5vw,3.5rem)] leading-none tracking-tightest">
+            Votre panier
+          </h1>
+          <p className="mt-3 text-lg text-muted">{totalItems} article{totalItems > 1 ? 's' : ''}</p>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 

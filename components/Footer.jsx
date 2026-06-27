@@ -30,7 +30,7 @@ export default function Footer() {
               <span className="font-display font-semibold text-white text-xl">Le Panier d&apos;Elif</span>
             </span>
             <p className="text-white/55 text-sm leading-relaxed">
-              Pastels artisanaux faits main, frais ou surgelés, livrés à Abidjan.
+              Pastels artisanaux faits main, frits ou surgelés, livrés partout.
             </p>
           </div>
           <div className="flex gap-2.5">

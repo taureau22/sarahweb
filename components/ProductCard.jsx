@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { useCart } from '@/context/CartContext'
 import { useToast } from '@/context/ToastContext'
@@ -9,21 +10,33 @@ import { Icon } from '@/components/icons'
 export default function ProductCard({ product }) {
   const { items, addToCart, updateQuantity, atLimit } = useCart()
   const { addToast } = useToast()
+  const [selectedOption, setSelectedOption] = useState(product.options?.[0] || null)
 
-  const inCart = items.find(i => i.id === product.id)
+  const itemId = selectedOption ? `${product.id}-${selectedOption.id}` : product.id
+  const inCart = items.find(i => i.id === itemId)
   const qty = inCart?.quantity || 0
+  const selectedPrice = selectedOption?.price ?? product.price
 
   const add = () => {
+    const itemToAdd = selectedOption ? {
+      ...product,
+      id: itemId,
+      price: selectedPrice,
+      name: `${product.name} — ${selectedOption.label}`,
+      shortName: selectedOption.shortName || `${product.shortName} ${selectedOption.label}`,
+      option: selectedOption.label,
+    } : product
+
     if (qty === 0) {
       if (atLimit) return addToast('Limite atteinte (20 articles / 100 000 FCFA)', 'error')
-      addToCart(product, 1)
-      addToast(`${product.shortName || product.name} ajouté`)
+      addToCart(itemToAdd, 1)
+      addToast(`${itemToAdd.shortName || itemToAdd.name} ajouté`)
     } else {
       if (atLimit) return addToast('Limite atteinte (20 articles / 100 000 FCFA)', 'error')
-      updateQuantity(product.id, qty + 1)
+      updateQuantity(itemId, qty + 1)
     }
   }
-  const dec = () => updateQuantity(product.id, qty - 1)
+  const dec = () => updateQuantity(itemId, qty - 1)
 
   return (
     <article className="group relative bg-surface rounded-4xl overflow-hidden border border-border shadow-soft hover:shadow-card transition-all duration-300 flex flex-col">
@@ -66,8 +79,26 @@ export default function ProductCard({ product }) {
         </h3>
         <p className="text-muted text-xs mt-1 line-clamp-1">{product.unit}</p>
 
+        {product.options?.length > 0 && (
+          <label className="mt-3 block text-sm text-ink-2">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Choix</span>
+            <select
+              value={selectedOption?.id}
+              onChange={(e) => {
+                const option = product.options.find(o => o.id === e.target.value)
+                setSelectedOption(option || null)
+              }}
+              className="mt-2 w-full h-12 rounded-2xl bg-bg border border-border px-4 text-sm text-ink focus:outline-none focus:border-terracotta transition-colors"
+            >
+              {product.options.map(option => (
+                <option key={option.id} value={option.id}>{option.label}</option>
+              ))}
+            </select>
+          </label>
+        )}
+
         <p className="mt-2 font-display font-semibold text-ink text-xl leading-none tabular-nums">
-          {formatPrice(product.price)}
+          {formatPrice(selectedPrice)}
         </p>
 
         {/* Add / stepper — pleine largeur, en bas de carte */}

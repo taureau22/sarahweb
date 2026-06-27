@@ -77,15 +77,22 @@
   {
     "id": 6,
     "category": "surgele",
-    "name": "Pastels surgelés — assortiment",
-    "shortName": "Assortiment surgelé",
-    "description": "Un mélange de nos pastels prêts à frire, à garder au congélateur. Croustillants en quelques minutes, à toute heure.",
+    "name": "Pastels surgelés",
+    "shortName": "Pastels surgelés",
+    "description": "Choisissez votre assortiment surgelé, à cuire rapidement pour un encas croustillant.",
     "price": 3500,
     "unit": "Paquet à congeler",
     "image": "/images/05_pastel-surgeles-mix.png",
     "badges": [
       "À congeler",
       "Assortiment"
+    ],
+    "options": [
+      { "id": "poulet", "label": "Poulet", "shortName": "Pastel Poulet", "price": 3500 },
+      { "id": "viande", "label": "Viande", "shortName": "Pastel Viande", "price": 3500 },
+      { "id": "jambon", "label": "Jambon", "shortName": "Pastel Jambon", "price": 3500 },
+      { "id": "poisson-creme", "label": "Poisson Crème", "shortName": "Pastel Poisson Crème", "price": 3500 },
+      { "id": "poisson-nature", "label": "Poisson Nature", "shortName": "Pastel Poisson Nature", "price": 3500 }
     ],
     "bestseller": false
   }
