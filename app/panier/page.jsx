@@ -356,7 +356,6 @@ export default function PanierPage() {
                                     const option = prod.options.find(o => String(o.id) === optId)
                                     if (!option) return
                                     const qty = item.quantity || 1
-                                    removeFromCart(item.id)
                                     const newItem = {
                                       ...prod,
                                       id: `${prod.id}-${option.id}`,
@@ -366,7 +365,7 @@ export default function PanierPage() {
                                       option: option.label,
                                       image: prod.image || item.image,
                                     }
-                                    addToCart(newItem, qty)
+                                    replaceItem(item.id, newItem, qty)
                                   }}
                                   className="mt-1 w-full h-10 rounded-2xl bg-bg border border-border px-3 text-sm"
                                 >

@@ -57,6 +57,29 @@ function cartReducer(state, action) {
       return { ...state, items: [] }
     case 'LOAD_CART':
       return { ...state, items: action.payload }
+    case 'REPLACE_ITEM': {
+      const { oldId, newItem, quantity } = action.payload
+      const old = state.items.find(i => i.id === oldId)
+      if (!old) return state
+      const qty = Number(quantity ?? old.quantity ?? 1)
+      const otherItems = state.items.filter(i => i.id !== oldId)
+      const otherTotal = otherItems.reduce((s, i) => s + i.price * i.quantity, 0)
+      const otherCount = otherItems.reduce((s, i) => s + i.quantity, 0)
+
+      if (otherCount + qty > MAX_ITEMS) return state
+      if (otherTotal + (newItem.price ?? old.price) * qty > MAX_TOTAL) return state
+
+      const exists = otherItems.find(i => i.id === newItem.id)
+      let items
+      if (exists) {
+        items = otherItems.map(i =>
+          i.id === newItem.id ? { ...i, quantity: i.quantity + qty } : i
+        )
+      } else {
+        items = [...otherItems, { ...newItem, quantity: qty }]
+      }
+      return { ...state, items }
+    }
     default:
       return state
   }
@@ -93,13 +116,14 @@ export function CartProvider({ children }) {
   const removeFromCart = (productId)             => dispatch({ type: 'REMOVE_ITEM',     payload: productId })
   const updateQuantity = (productId, quantity)   => dispatch({ type: 'UPDATE_QUANTITY', payload: { id: productId, quantity } })
   const clearCart      = ()                      => dispatch({ type: 'CLEAR_CART' })
+  const replaceItem    = (oldId, newItem, quantity) => dispatch({ type: 'REPLACE_ITEM', payload: { oldId, newItem, quantity } })
   const openDrawer     = () => setDrawerOpen(true)
   const closeDrawer    = () => setDrawerOpen(false)
 
   return (
     <CartContext.Provider value={{
       items: state.items, totalItems, totalPrice, atLimit,
-      addToCart, removeFromCart, updateQuantity, clearCart,
+      addToCart, removeFromCart, updateQuantity, clearCart, replaceItem,
       drawerOpen, openDrawer, closeDrawer,
     }}>
       {children}
