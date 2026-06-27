@@ -87,16 +87,16 @@ export default function PanierPage() {
   const saveOrder = async (transactionId, channel) => {
     try {
       await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          transactionId,
-          channel,
-          amount: orderAmount(),
-          items: items.map(i => ({ id: i.id, name: i.shortName || i.name, price: i.price, quantity: i.quantity })),
-          customer: form,
-        }),
-      })
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            transactionId,
+            channel,
+            amount: orderAmount(),
+            items: items.map(i => ({ id: i.id, name: i.shortName || i.name, price: i.price, quantity: i.quantity, option: i.option || null, category: i.category || null })),
+            customer: form,
+          }),
+        })
     } catch { /* la commande sera de toute façon confirmée via le webhook / WhatsApp */ }
   }
 

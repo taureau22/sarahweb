@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createOrder } from '@/lib/orders-store'
+import { readProducts } from '@/lib/products-store'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -24,11 +25,26 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Montant invalide' }, { status: 400 })
     }
 
+    // Validate items: for 'surgele' products require a selected option/reference.
+    const products = await readProducts()
+    for (const i of items.slice(0, 20)) {
+      const baseId = String(i.id).split('-')[0]
+      const prod = products.find(p => String(p.id) === String(baseId))
+      if (prod && prod.category === 'surgele' && Array.isArray(prod.options) && prod.options.length > 0) {
+        const hasOption = (i.option && String(i.option).trim()) || String(i.id).includes('-') || (i.name && String(i.name).includes('—'))
+        if (!hasOption) {
+          return NextResponse.json({ error: `Référence manquante pour le produit ${String(i.name || i.id)}` }, { status: 400 })
+        }
+      }
+    }
+
     const cleanItems = items.slice(0, 20).map(i => ({
       id: i.id,
       name: String(i.name || '').slice(0, 120),
       price: Number(i.price) || 0,
       quantity: Math.max(1, Math.min(99, Number(i.quantity) || 1)),
+      option: i.option ? String(i.option).slice(0, 80) : null,
+      category: i.category ? String(i.category).slice(0, 30) : null,
     }))
     const cleanCustomer = {
       prenom:    String(customer.prenom).slice(0, 50),
