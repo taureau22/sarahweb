@@ -167,7 +167,7 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
                       <p className="text-muted text-xs truncate mt-1">{p.name}</p>
                       <p className="text-ink-2 text-xs mt-2">
                         <span className="font-semibold tabular-nums">{formatPrice(p.price)}</span>
-                        {' · '}{p.category === 'surgele' ? 'Surgelé' : 'Frais'}
+                        {' · '}{p.category === 'surgele' ? 'Surgelé' : 'Frits'}
                       </p>
                     </div>
                   </div>
@@ -235,7 +235,7 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
                   onChange={(e) => setForm(f => ({ ...f, category: e.target.value }))}
                   className="mt-1.5 w-full h-12 px-3 rounded-2xl bg-bg border border-border text-ink focus:outline-none focus:border-terracotta"
                 >
-                  <option value="frais">Frais</option>
+                  <option value="frais">Frits</option>
                   <option value="surgele">Surgelés</option>
                 </select>
               </div>
