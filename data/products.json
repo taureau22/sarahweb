@@ -88,11 +88,11 @@
       "Assortiment"
     ],
     "options": [
-      { "id": "poulet", "label": "Poulet", "shortName": "Pastel Poulet", "price": 3500 },
-      { "id": "viande", "label": "Viande", "shortName": "Pastel Viande", "price": 3500 },
-      { "id": "jambon", "label": "Jambon", "shortName": "Pastel Jambon", "price": 3500 },
-      { "id": "poisson-creme", "label": "Poisson Crème", "shortName": "Pastel Poisson Crème", "price": 3500 },
-      { "id": "poisson-nature", "label": "Poisson Nature", "shortName": "Pastel Poisson Nature", "price": 3500 }
+      { "id": "poulet", "label": "Poulet", "shortName": "Pastel Poulet", "price": 3500, "attrs": { "hasCream": true, "hasCheese": true } },
+      { "id": "viande", "label": "Viande", "shortName": "Pastel Viande", "price": 3500, "attrs": { "hasCream": true, "hasCheese": true } },
+      { "id": "jambon", "label": "Jambon", "shortName": "Pastel Jambon", "price": 3500, "attrs": { "hasCream": true, "hasCheese": true } },
+      { "id": "poisson-creme", "label": "Poisson Crème", "shortName": "Pastel Poisson Crème", "price": 3500, "attrs": { "hasCream": true, "hasCheese": true } },
+      { "id": "poisson-nature", "label": "Poisson Nature", "shortName": "Pastel Poisson Nature", "price": 3500, "attrs": { "hasCream": false, "hasCheese": false } }
     ],
     "bestseller": false
   }
