@@ -265,11 +265,11 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
             </label>
 
             <div className="space-y-4">
-              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center justify-between gap-3">
                 <span className="text-xs font-semibold uppercase tracking-wider text-muted">Options de saveurs</span>
                 <button
                   type="button"
-                  onClick={() => setForm(f => ({ ...f, options: [...(f.options || []), { id: '', label: '', price: form.price || 0, shortName: '' }] }))}
+                  onClick={() => setForm(f => ({ ...f, options: [...(f.options || []), { id: '', label: '', price: form.price || 0, shortName: '', attrs: { hasCream: true, hasCheese: true } }] }))}
                   className="text-sm text-ink underline-offset-4 hover:text-terracotta"
                 >
                   + Ajouter une option
@@ -291,35 +291,58 @@ export default function ProductsAdmin({ authHeader, onUnauthorized }) {
                   </div>
 
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto] items-end mt-3">
-                    <Input label="Prix" type="number" value={option.price} onChange={(v) => setForm(f => {
-                      const options = [...(f.options || [])]
-                      options[index] = { ...options[index], price: Number(v) }
-                      return { ...f, options }
-                    })} />
+                      <Input label="Prix" type="number" value={option.price} onChange={(v) => setForm(f => {
+                        const options = [...(f.options || [])]
+                        options[index] = { ...options[index], price: Number(v) }
+                        return { ...f, options }
+                      })} />
 
-                    <div className="flex items-center justify-between gap-3">
-                      <label className="flex items-center gap-2 text-sm text-ink-2">
-                        <input
-                          type="checkbox"
-                          checked={option.includesCreamFromage !== false}
-                          onChange={(e) => setForm(f => {
-                            const options = [...(f.options || [])]
-                            options[index] = { ...options[index], includesCreamFromage: e.target.checked }
-                            return { ...f, options }
-                          })}
-                          className="w-4 h-4 accent-terracotta"
-                        />
-                        Crème & fromage
-                      </label>
-                      <button
-                        type="button"
-                        onClick={() => setForm(f => ({ ...f, options: (f.options || []).filter((_, i) => i !== index) }))}
-                        className="h-11 rounded-2xl bg-terracotta/10 text-terracotta text-sm font-semibold hover:bg-terracotta/15"
-                      >
-                        Supprimer
-                      </button>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex gap-3">
+                          <label className="flex items-center gap-2 text-sm text-ink-2">
+                            <input
+                              type="checkbox"
+                              checked={option.attrs ? option.attrs.hasCream !== false : true}
+                              onChange={(e) => setForm(f => {
+                                const options = [...(f.options || [])]
+                                const opt = { ...options[index] }
+                                const attrs = { ...(opt.attrs || {}) }
+                                attrs.hasCream = e.target.checked
+                                opt.attrs = attrs
+                                options[index] = opt
+                                return { ...f, options }
+                              })}
+                              className="w-4 h-4 accent-terracotta"
+                            />
+                            Crème
+                          </label>
+                          <label className="flex items-center gap-2 text-sm text-ink-2">
+                            <input
+                              type="checkbox"
+                              checked={option.attrs ? option.attrs.hasCheese !== false : true}
+                              onChange={(e) => setForm(f => {
+                                const options = [...(f.options || [])]
+                                const opt = { ...options[index] }
+                                const attrs = { ...(opt.attrs || {}) }
+                                attrs.hasCheese = e.target.checked
+                                opt.attrs = attrs
+                                options[index] = opt
+                                return { ...f, options }
+                              })}
+                              className="w-4 h-4 accent-terracotta"
+                            />
+                            Fromage
+                          </label>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setForm(f => ({ ...f, options: (f.options || []).filter((_, i) => i !== index) }))}
+                          className="h-11 rounded-2xl bg-terracotta/10 text-terracotta text-sm font-semibold hover:bg-terracotta/15"
+                        >
+                          Supprimer
+                        </button>
+                      </div>
                     </div>
-                  </div>
                 </div>
               ))}
               <p className="text-xs text-muted">La première option sera sélectionnée par défaut en boutique.</p>
