@@ -20,7 +20,7 @@ export default function CartDrawer() {
   }, [drawerOpen])
 
   const handleWhatsApp = () => {
-    const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'
+    const WA = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
     const lines = items.map(i =>
       `• ${i.shortName || i.name} × ${i.quantity} = ${formatPrice(i.price * i.quantity)}`
     ).join('\n')

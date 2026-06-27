@@ -7,7 +7,7 @@ import { Icon } from '@/components/icons'
 export default function WhatsAppButton() {
   const pathname = usePathname()
   const { totalItems } = useCart()
-  const WA  = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'
+  const WA  = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'
   const msg = encodeURIComponent("Bonjour Le Panier d'Elif ! Je souhaite passer une commande.")
 
   // Hidden on checkout & admin pages

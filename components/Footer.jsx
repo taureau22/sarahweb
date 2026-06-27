@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Icon } from '@/components/icons'
 
-const WA = '2250758440009'
+const WA = '2250710669990'
 
 const social = [
   { label: 'Instagram', href: '#',                      icon: Icon.Instagram },
@@ -12,7 +12,7 @@ const social = [
 const infos = [
   { Ico: Icon.MapPin, t: 'Abidjan, Côte d’Ivoire', s: 'Livraison locale' },
   { Ico: Icon.Clock,  t: 'Lun — Sam · 8h–20h',     s: 'Orange Money · Wave' },
-  { Ico: Icon.Phone,  t: '+225 07 58 44 00 09',    s: 'Commande & infos', href: `tel:+${WA}` },
+  { Ico: Icon.Phone,  t: '+225 07 10 66 99 90',    s: 'Commande & infos', href: `tel:+${WA}` },
 ]
 
 export default function Footer() {

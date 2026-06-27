@@ -91,7 +91,7 @@ export default function RootLayout({ children }) {
             "name": "Le Panier d'Elif",
             "description": "Pastels artisanaux faits main, frais ou surgelés, livrés à Abidjan, Côte d'Ivoire.",
             "url": process.env.NEXT_PUBLIC_SITE_URL || "https://lepanierdelif.ci",
-            "telephone": `+${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250758440009'}`,
+            "telephone": `+${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '2250710669990'}`,
             "image": "/images/cover.jpeg",
             "servesCuisine": "Ivoirienne, Street food",
             "priceRange": "3500 FCFA",
