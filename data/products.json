@@ -2,8 +2,8 @@
   {
     "id": 1,
     "category": "frais",
-    "name": "Pastel Fromage — Poulet (crème et fromage)",
-    "shortName": "Pastel Fromage Poulet",
+    "name": "Pastel Poulet Fromage",
+    "shortName": "Pastel Poulet Fromage",
     "description": "Poulet tendre assaisonné, crème onctueuse et fromage fondu dans notre pâte maison dorée.",
     "price": 3500,
     "unit": "10 pièces / paquet",
@@ -17,8 +17,8 @@
   {
     "id": 2,
     "category": "frais",
-    "name": "Pastel Fromage — Viande (crème et fromage)",
-    "shortName": "Pastel Fromage Viande",
+    "name": "Pastel Viande Fromage",
+    "shortName": "Pastel Viande Fromage",
     "description": "Viande hachée généreusement assaisonnée, crème fraîche et fromage fondant.",
     "price": 3500,
     "unit": "10 pièces / paquet",
@@ -32,8 +32,8 @@
   {
     "id": 3,
     "category": "frais",
-    "name": "Pastel Fromage — Jambon (crème et fromage)",
-    "shortName": "Pastel Fromage Jambon",
+    "name": "Pastel Jambon Fromage",
+    "shortName": "Pastel Jambon Fromage",
     "description": "Jambon de dinde délicat, crème fraîche et fromage — une alliance raffinée dans une pâte croustillante.",
     "price": 3500,
     "unit": "10 pièces / paquet",
